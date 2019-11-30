@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="SistemaFacturacionPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>DAO.Facturacion.Bodega</class>
+    <class>DAO.Facturacion.Devolucion</class>
+    <class>DAO.Facturacion.Categoria</class>
+    <class>DAO.Facturacion.Consumidorfinal</class>
+    <class>DAO.Facturacion.Producto</class>
+    <class>DAO.Facturacion.Detallefactura</class>
+    <class>DAO.Facturacion.Provedor</class>
+    <class>DAO.Facturacion.Documentopago</class>
+    <class>DAO.Facturacion.Rol</class>
+    <class>DAO.Facturacion.Cliente</class>
+    <class>DAO.Facturacion.Usuario</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/facturacion?useTimezone=true&amp;serverTimezone=UTC"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value=""/>
+    </properties>
+  </persistence-unit>
+</persistence>
