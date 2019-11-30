@@ -27,7 +27,7 @@ import javax.persistence.Persistence;
 public class RolJpaController implements Serializable {
 
     public RolJpaController() {
-        this.emf = this.emf = Persistence.createEntityManagerFactory("SistemaFacturacionPU");
+        this.emf = Persistence.createEntityManagerFactory("SistemaFacturacionPU");
     }
     private EntityManagerFactory emf = null;
 
@@ -45,7 +45,7 @@ public class RolJpaController implements Serializable {
             em.getTransaction().begin();
             List<Usuario> attachedUsuarioList = new ArrayList<Usuario>();
             for (Usuario usuarioListUsuarioToAttach : rol.getUsuarioList()) {
-                usuarioListUsuarioToAttach = em.getReference(usuarioListUsuarioToAttach.getClass(), usuarioListUsuarioToAttach.getUsuarioPK());
+                usuarioListUsuarioToAttach = em.getReference(usuarioListUsuarioToAttach.getClass(), usuarioListUsuarioToAttach.getCedula());
                 attachedUsuarioList.add(usuarioListUsuarioToAttach);
             }
             rol.setUsuarioList(attachedUsuarioList);
@@ -89,7 +89,7 @@ public class RolJpaController implements Serializable {
             }
             List<Usuario> attachedUsuarioListNew = new ArrayList<Usuario>();
             for (Usuario usuarioListNewUsuarioToAttach : usuarioListNew) {
-                usuarioListNewUsuarioToAttach = em.getReference(usuarioListNewUsuarioToAttach.getClass(), usuarioListNewUsuarioToAttach.getUsuarioPK());
+                usuarioListNewUsuarioToAttach = em.getReference(usuarioListNewUsuarioToAttach.getClass(), usuarioListNewUsuarioToAttach.getCedula());
                 attachedUsuarioListNew.add(usuarioListNewUsuarioToAttach);
             }
             usuarioListNew = attachedUsuarioListNew;

@@ -17,7 +17,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -37,7 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Documentopago.findAll", query = "SELECT d FROM Documentopago d")
-    , @NamedQuery(name = "Documentopago.findByIdFactura", query = "SELECT d FROM Documentopago d WHERE d.idFactura = :idFactura")
+    , @NamedQuery(name = "Documentopago.findByIdDocumento", query = "SELECT d FROM Documentopago d WHERE d.idDocumento = :idDocumento")
     , @NamedQuery(name = "Documentopago.findByFecha", query = "SELECT d FROM Documentopago d WHERE d.fecha = :fecha")
     , @NamedQuery(name = "Documentopago.findBySubtotal", query = "SELECT d FROM Documentopago d WHERE d.subtotal = :subtotal")
     , @NamedQuery(name = "Documentopago.findByTotal", query = "SELECT d FROM Documentopago d WHERE d.total = :total")
@@ -49,8 +48,8 @@ public class Documentopago implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "idFactura")
-    private Integer idFactura;
+    @Column(name = "idDocumento")
+    private Integer idDocumento;
     @Column(name = "Fecha")
     @Temporal(TemporalType.DATE)
     private Date fecha;
@@ -63,36 +62,34 @@ public class Documentopago implements Serializable {
     private BigDecimal iva;
     @Column(name = "Estado")
     private Integer estado;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "facturaidFactura")
-    private List<Devolucion> devolucionList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idFactura")
+    private List<Devolucion> devolucionList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDocumento")
+    private List<Factura> facturaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDocumento")
     private List<Consumidorfinal> consumidorfinalList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "documentopago")
     private List<Detallefactura> detallefacturaList;
-    @JoinColumns({
-        @JoinColumn(name = "idCliente", referencedColumnName = "idCliente")
-        , @JoinColumn(name = "Cedula", referencedColumnName = "Cedula")})
+    @JoinColumn(name = "Cedula", referencedColumnName = "Cedula")
     @ManyToOne(optional = false)
-    private Cliente cliente;
-    @JoinColumns({
-        @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario")
-        , @JoinColumn(name = "UsuarioCedula", referencedColumnName = "Cedula")})
+    private Cliente cedula;
+    @JoinColumn(name = "UsuarioCedula", referencedColumnName = "Cedula")
     @ManyToOne(optional = false)
-    private Usuario usuario;
+    private Usuario usuarioCedula;
 
     public Documentopago() {
     }
 
-    public Documentopago(Integer idFactura) {
-        this.idFactura = idFactura;
+    public Documentopago(Integer idDocumento) {
+        this.idDocumento = idDocumento;
     }
 
-    public Integer getIdFactura() {
-        return idFactura;
+    public Integer getIdDocumento() {
+        return idDocumento;
     }
 
-    public void setIdFactura(Integer idFactura) {
-        this.idFactura = idFactura;
+    public void setIdDocumento(Integer idDocumento) {
+        this.idDocumento = idDocumento;
     }
 
     public Date getFecha() {
@@ -145,6 +142,15 @@ public class Documentopago implements Serializable {
     }
 
     @XmlTransient
+    public List<Factura> getFacturaList() {
+        return facturaList;
+    }
+
+    public void setFacturaList(List<Factura> facturaList) {
+        this.facturaList = facturaList;
+    }
+
+    @XmlTransient
     public List<Consumidorfinal> getConsumidorfinalList() {
         return consumidorfinalList;
     }
@@ -162,26 +168,26 @@ public class Documentopago implements Serializable {
         this.detallefacturaList = detallefacturaList;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public Cliente getCedula() {
+        return cedula;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setCedula(Cliente cedula) {
+        this.cedula = cedula;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Usuario getUsuarioCedula() {
+        return usuarioCedula;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUsuarioCedula(Usuario usuarioCedula) {
+        this.usuarioCedula = usuarioCedula;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idFactura != null ? idFactura.hashCode() : 0);
+        hash += (idDocumento != null ? idDocumento.hashCode() : 0);
         return hash;
     }
 
@@ -192,7 +198,7 @@ public class Documentopago implements Serializable {
             return false;
         }
         Documentopago other = (Documentopago) object;
-        if ((this.idFactura == null && other.idFactura != null) || (this.idFactura != null && !this.idFactura.equals(other.idFactura))) {
+        if ((this.idDocumento == null && other.idDocumento != null) || (this.idDocumento != null && !this.idDocumento.equals(other.idDocumento))) {
             return false;
         }
         return true;
@@ -200,7 +206,7 @@ public class Documentopago implements Serializable {
 
     @Override
     public String toString() {
-        return "DAO.Facturacion.Documentopago[ idFactura=" + idFactura + " ]";
+        return "DAO.Facturacion.Documentopago[ idDocumento=" + idDocumento + " ]";
     }
     
 }

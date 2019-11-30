@@ -6,15 +6,19 @@
 package DAO.Facturacion;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -27,8 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Cliente.findAll", query = "SELECT c FROM Cliente c")
-    , @NamedQuery(name = "Cliente.findByIdCliente", query = "SELECT c FROM Cliente c WHERE c.clientePK.idCliente = :idCliente")
-    , @NamedQuery(name = "Cliente.findByCedula", query = "SELECT c FROM Cliente c WHERE c.clientePK.cedula = :cedula")
+    , @NamedQuery(name = "Cliente.findByCedula", query = "SELECT c FROM Cliente c WHERE c.cedula = :cedula")
     , @NamedQuery(name = "Cliente.findByPrimerNombre", query = "SELECT c FROM Cliente c WHERE c.primerNombre = :primerNombre")
     , @NamedQuery(name = "Cliente.findBySegudoNombre", query = "SELECT c FROM Cliente c WHERE c.segudoNombre = :segudoNombre")
     , @NamedQuery(name = "Cliente.findByPrimerApellido", query = "SELECT c FROM Cliente c WHERE c.primerApellido = :primerApellido")
@@ -36,12 +39,15 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Cliente.findByTelefono", query = "SELECT c FROM Cliente c WHERE c.telefono = :telefono")
     , @NamedQuery(name = "Cliente.findByEmail", query = "SELECT c FROM Cliente c WHERE c.email = :email")
     , @NamedQuery(name = "Cliente.findByEstado", query = "SELECT c FROM Cliente c WHERE c.estado = :estado")
-    , @NamedQuery(name = "Cliente.findByClientecol", query = "SELECT c FROM Cliente c WHERE c.clientecol = :clientecol")})
+    , @NamedQuery(name = "Cliente.findByClientecol", query = "SELECT c FROM Cliente c WHERE c.clientecol = :clientecol")
+    , @NamedQuery(name = "Cliente.findByFechaIngreso", query = "SELECT c FROM Cliente c WHERE c.fechaIngreso = :fechaIngreso")})
 public class Cliente implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected ClientePK clientePK;
+    @Id
+    @Basic(optional = false)
+    @Column(name = "Cedula")
+    private String cedula;
     @Column(name = "Primer Nombre")
     private String primerNombre;
     @Column(name = "SegudoNombre")
@@ -58,26 +64,25 @@ public class Cliente implements Serializable {
     private String estado;
     @Column(name = "Clientecol")
     private String clientecol;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
+    @Column(name = "FechaIngreso")
+    @Temporal(TemporalType.DATE)
+    private Date fechaIngreso;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cedula")
     private List<Documentopago> documentopagoList;
 
     public Cliente() {
     }
 
-    public Cliente(ClientePK clientePK) {
-        this.clientePK = clientePK;
+    public Cliente(String cedula) {
+        this.cedula = cedula;
     }
 
-    public Cliente(int idCliente, String cedula) {
-        this.clientePK = new ClientePK(idCliente, cedula);
+    public String getCedula() {
+        return cedula;
     }
 
-    public ClientePK getClientePK() {
-        return clientePK;
-    }
-
-    public void setClientePK(ClientePK clientePK) {
-        this.clientePK = clientePK;
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
     }
 
     public String getPrimerNombre() {
@@ -144,6 +149,14 @@ public class Cliente implements Serializable {
         this.clientecol = clientecol;
     }
 
+    public Date getFechaIngreso() {
+        return fechaIngreso;
+    }
+
+    public void setFechaIngreso(Date fechaIngreso) {
+        this.fechaIngreso = fechaIngreso;
+    }
+
     @XmlTransient
     public List<Documentopago> getDocumentopagoList() {
         return documentopagoList;
@@ -156,7 +169,7 @@ public class Cliente implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (clientePK != null ? clientePK.hashCode() : 0);
+        hash += (cedula != null ? cedula.hashCode() : 0);
         return hash;
     }
 
@@ -167,7 +180,7 @@ public class Cliente implements Serializable {
             return false;
         }
         Cliente other = (Cliente) object;
-        if ((this.clientePK == null && other.clientePK != null) || (this.clientePK != null && !this.clientePK.equals(other.clientePK))) {
+        if ((this.cedula == null && other.cedula != null) || (this.cedula != null && !this.cedula.equals(other.cedula))) {
             return false;
         }
         return true;
@@ -175,7 +188,7 @@ public class Cliente implements Serializable {
 
     @Override
     public String toString() {
-        return "DAO.Facturacion.Cliente[ clientePK=" + clientePK + " ]";
+        return "DAO.Facturacion.Cliente[ cedula=" + cedula + " ]";
     }
     
 }

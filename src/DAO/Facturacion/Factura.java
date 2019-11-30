@@ -24,36 +24,36 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author sanch
  */
 @Entity
-@Table(name = "consumidorfinal")
+@Table(name = "factura")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Consumidorfinal.findAll", query = "SELECT c FROM Consumidorfinal c")
-    , @NamedQuery(name = "Consumidorfinal.findByIdConsumidorFinal", query = "SELECT c FROM Consumidorfinal c WHERE c.idConsumidorFinal = :idConsumidorFinal")})
-public class Consumidorfinal implements Serializable {
+    @NamedQuery(name = "Factura.findAll", query = "SELECT f FROM Factura f")
+    , @NamedQuery(name = "Factura.findByIdFactura", query = "SELECT f FROM Factura f WHERE f.idFactura = :idFactura")})
+public class Factura implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "IdConsumidorFinal")
-    private Integer idConsumidorFinal;
+    @Column(name = "idFactura")
+    private Integer idFactura;
     @JoinColumn(name = "idDocumento", referencedColumnName = "idDocumento")
     @ManyToOne(optional = false)
     private Documentopago idDocumento;
 
-    public Consumidorfinal() {
+    public Factura() {
     }
 
-    public Consumidorfinal(Integer idConsumidorFinal) {
-        this.idConsumidorFinal = idConsumidorFinal;
+    public Factura(Integer idFactura) {
+        this.idFactura = idFactura;
     }
 
-    public Integer getIdConsumidorFinal() {
-        return idConsumidorFinal;
+    public Integer getIdFactura() {
+        return idFactura;
     }
 
-    public void setIdConsumidorFinal(Integer idConsumidorFinal) {
-        this.idConsumidorFinal = idConsumidorFinal;
+    public void setIdFactura(Integer idFactura) {
+        this.idFactura = idFactura;
     }
 
     public Documentopago getIdDocumento() {
@@ -67,18 +67,18 @@ public class Consumidorfinal implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idConsumidorFinal != null ? idConsumidorFinal.hashCode() : 0);
+        hash += (idFactura != null ? idFactura.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Consumidorfinal)) {
+        if (!(object instanceof Factura)) {
             return false;
         }
-        Consumidorfinal other = (Consumidorfinal) object;
-        if ((this.idConsumidorFinal == null && other.idConsumidorFinal != null) || (this.idConsumidorFinal != null && !this.idConsumidorFinal.equals(other.idConsumidorFinal))) {
+        Factura other = (Factura) object;
+        if ((this.idFactura == null && other.idFactura != null) || (this.idFactura != null && !this.idFactura.equals(other.idFactura))) {
             return false;
         }
         return true;
@@ -86,7 +86,7 @@ public class Consumidorfinal implements Serializable {
 
     @Override
     public String toString() {
-        return "DAO.Facturacion.Consumidorfinal[ idConsumidorFinal=" + idConsumidorFinal + " ]";
+        return "DAO.Facturacion.Factura[ idFactura=" + idFactura + " ]";
     }
     
 }

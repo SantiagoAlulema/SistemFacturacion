@@ -6,13 +6,13 @@
 package Controller.Facturacion;
 
 import Controller.Facturacion.exceptions.NonexistentEntityException;
-import DAO.Facturacion.Consumidorfinal;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import DAO.Facturacion.Documentopago;
+import DAO.Facturacion.Factura;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -22,9 +22,9 @@ import javax.persistence.Persistence;
  *
  * @author sanch
  */
-public class ConsumidorfinalJpaController implements Serializable {
+public class FacturaJpaController implements Serializable {
 
-    public ConsumidorfinalJpaController() {
+    public FacturaJpaController() {
         this.emf = Persistence.createEntityManagerFactory("SistemaFacturacionPU");
     }
     private EntityManagerFactory emf = null;
@@ -33,19 +33,19 @@ public class ConsumidorfinalJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Consumidorfinal consumidorfinal) {
+    public void create(Factura factura) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Documentopago idDocumento = consumidorfinal.getIdDocumento();
+            Documentopago idDocumento = factura.getIdDocumento();
             if (idDocumento != null) {
                 idDocumento = em.getReference(idDocumento.getClass(), idDocumento.getIdDocumento());
-                consumidorfinal.setIdDocumento(idDocumento);
+                factura.setIdDocumento(idDocumento);
             }
-            em.persist(consumidorfinal);
+            em.persist(factura);
             if (idDocumento != null) {
-                idDocumento.getConsumidorfinalList().add(consumidorfinal);
+                idDocumento.getFacturaList().add(factura);
                 idDocumento = em.merge(idDocumento);
             }
             em.getTransaction().commit();
@@ -56,34 +56,34 @@ public class ConsumidorfinalJpaController implements Serializable {
         }
     }
 
-    public void edit(Consumidorfinal consumidorfinal) throws NonexistentEntityException, Exception {
+    public void edit(Factura factura) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Consumidorfinal persistentConsumidorfinal = em.find(Consumidorfinal.class, consumidorfinal.getIdConsumidorFinal());
-            Documentopago idDocumentoOld = persistentConsumidorfinal.getIdDocumento();
-            Documentopago idDocumentoNew = consumidorfinal.getIdDocumento();
+            Factura persistentFactura = em.find(Factura.class, factura.getIdFactura());
+            Documentopago idDocumentoOld = persistentFactura.getIdDocumento();
+            Documentopago idDocumentoNew = factura.getIdDocumento();
             if (idDocumentoNew != null) {
                 idDocumentoNew = em.getReference(idDocumentoNew.getClass(), idDocumentoNew.getIdDocumento());
-                consumidorfinal.setIdDocumento(idDocumentoNew);
+                factura.setIdDocumento(idDocumentoNew);
             }
-            consumidorfinal = em.merge(consumidorfinal);
+            factura = em.merge(factura);
             if (idDocumentoOld != null && !idDocumentoOld.equals(idDocumentoNew)) {
-                idDocumentoOld.getConsumidorfinalList().remove(consumidorfinal);
+                idDocumentoOld.getFacturaList().remove(factura);
                 idDocumentoOld = em.merge(idDocumentoOld);
             }
             if (idDocumentoNew != null && !idDocumentoNew.equals(idDocumentoOld)) {
-                idDocumentoNew.getConsumidorfinalList().add(consumidorfinal);
+                idDocumentoNew.getFacturaList().add(factura);
                 idDocumentoNew = em.merge(idDocumentoNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = consumidorfinal.getIdConsumidorFinal();
-                if (findConsumidorfinal(id) == null) {
-                    throw new NonexistentEntityException("The consumidorfinal with id " + id + " no longer exists.");
+                Integer id = factura.getIdFactura();
+                if (findFactura(id) == null) {
+                    throw new NonexistentEntityException("The factura with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -99,19 +99,19 @@ public class ConsumidorfinalJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Consumidorfinal consumidorfinal;
+            Factura factura;
             try {
-                consumidorfinal = em.getReference(Consumidorfinal.class, id);
-                consumidorfinal.getIdConsumidorFinal();
+                factura = em.getReference(Factura.class, id);
+                factura.getIdFactura();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The consumidorfinal with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The factura with id " + id + " no longer exists.", enfe);
             }
-            Documentopago idDocumento = consumidorfinal.getIdDocumento();
+            Documentopago idDocumento = factura.getIdDocumento();
             if (idDocumento != null) {
-                idDocumento.getConsumidorfinalList().remove(consumidorfinal);
+                idDocumento.getFacturaList().remove(factura);
                 idDocumento = em.merge(idDocumento);
             }
-            em.remove(consumidorfinal);
+            em.remove(factura);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -120,19 +120,19 @@ public class ConsumidorfinalJpaController implements Serializable {
         }
     }
 
-    public List<Consumidorfinal> findConsumidorfinalEntities() {
-        return findConsumidorfinalEntities(true, -1, -1);
+    public List<Factura> findFacturaEntities() {
+        return findFacturaEntities(true, -1, -1);
     }
 
-    public List<Consumidorfinal> findConsumidorfinalEntities(int maxResults, int firstResult) {
-        return findConsumidorfinalEntities(false, maxResults, firstResult);
+    public List<Factura> findFacturaEntities(int maxResults, int firstResult) {
+        return findFacturaEntities(false, maxResults, firstResult);
     }
 
-    private List<Consumidorfinal> findConsumidorfinalEntities(boolean all, int maxResults, int firstResult) {
+    private List<Factura> findFacturaEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Consumidorfinal.class));
+            cq.select(cq.from(Factura.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -144,20 +144,20 @@ public class ConsumidorfinalJpaController implements Serializable {
         }
     }
 
-    public Consumidorfinal findConsumidorfinal(Integer id) {
+    public Factura findFactura(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Consumidorfinal.class, id);
+            return em.find(Factura.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getConsumidorfinalCount() {
+    public int getFacturaCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Consumidorfinal> rt = cq.from(Consumidorfinal.class);
+            Root<Factura> rt = cq.from(Factura.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

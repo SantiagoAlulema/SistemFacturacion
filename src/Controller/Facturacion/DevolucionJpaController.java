@@ -26,7 +26,7 @@ import javax.persistence.Persistence;
 public class DevolucionJpaController implements Serializable {
 
     public DevolucionJpaController() {
-        this.emf = this.emf = Persistence.createEntityManagerFactory("SistemaFacturacionPU");
+        this.emf = Persistence.createEntityManagerFactory("SistemaFacturacionPU");
     }
     private EntityManagerFactory emf = null;
 
@@ -39,15 +39,15 @@ public class DevolucionJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Documentopago facturaidFactura = devolucion.getFacturaidFactura();
-            if (facturaidFactura != null) {
-                facturaidFactura = em.getReference(facturaidFactura.getClass(), facturaidFactura.getIdFactura());
-                devolucion.setFacturaidFactura(facturaidFactura);
+            Documentopago idFactura = devolucion.getIdFactura();
+            if (idFactura != null) {
+                idFactura = em.getReference(idFactura.getClass(), idFactura.getIdDocumento());
+                devolucion.setIdFactura(idFactura);
             }
             em.persist(devolucion);
-            if (facturaidFactura != null) {
-                facturaidFactura.getDevolucionList().add(devolucion);
-                facturaidFactura = em.merge(facturaidFactura);
+            if (idFactura != null) {
+                idFactura.getDevolucionList().add(devolucion);
+                idFactura = em.merge(idFactura);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -68,20 +68,20 @@ public class DevolucionJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Devolucion persistentDevolucion = em.find(Devolucion.class, devolucion.getIdDevolucion());
-            Documentopago facturaidFacturaOld = persistentDevolucion.getFacturaidFactura();
-            Documentopago facturaidFacturaNew = devolucion.getFacturaidFactura();
-            if (facturaidFacturaNew != null) {
-                facturaidFacturaNew = em.getReference(facturaidFacturaNew.getClass(), facturaidFacturaNew.getIdFactura());
-                devolucion.setFacturaidFactura(facturaidFacturaNew);
+            Documentopago idFacturaOld = persistentDevolucion.getIdFactura();
+            Documentopago idFacturaNew = devolucion.getIdFactura();
+            if (idFacturaNew != null) {
+                idFacturaNew = em.getReference(idFacturaNew.getClass(), idFacturaNew.getIdDocumento());
+                devolucion.setIdFactura(idFacturaNew);
             }
             devolucion = em.merge(devolucion);
-            if (facturaidFacturaOld != null && !facturaidFacturaOld.equals(facturaidFacturaNew)) {
-                facturaidFacturaOld.getDevolucionList().remove(devolucion);
-                facturaidFacturaOld = em.merge(facturaidFacturaOld);
+            if (idFacturaOld != null && !idFacturaOld.equals(idFacturaNew)) {
+                idFacturaOld.getDevolucionList().remove(devolucion);
+                idFacturaOld = em.merge(idFacturaOld);
             }
-            if (facturaidFacturaNew != null && !facturaidFacturaNew.equals(facturaidFacturaOld)) {
-                facturaidFacturaNew.getDevolucionList().add(devolucion);
-                facturaidFacturaNew = em.merge(facturaidFacturaNew);
+            if (idFacturaNew != null && !idFacturaNew.equals(idFacturaOld)) {
+                idFacturaNew.getDevolucionList().add(devolucion);
+                idFacturaNew = em.merge(idFacturaNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -112,10 +112,10 @@ public class DevolucionJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The devolucion with id " + id + " no longer exists.", enfe);
             }
-            Documentopago facturaidFactura = devolucion.getFacturaidFactura();
-            if (facturaidFactura != null) {
-                facturaidFactura.getDevolucionList().remove(devolucion);
-                facturaidFactura = em.merge(facturaidFactura);
+            Documentopago idFactura = devolucion.getIdFactura();
+            if (idFactura != null) {
+                idFactura.getDevolucionList().remove(devolucion);
+                idFactura = em.merge(idFactura);
             }
             em.remove(devolucion);
             em.getTransaction().commit();

@@ -47,9 +47,9 @@ public class Devolucion implements Serializable {
     private Date fechaDevolucion;
     @Column(name = "Cantidad")
     private Integer cantidad;
-    @JoinColumn(name = "Factura_idFactura", referencedColumnName = "idFactura")
+    @JoinColumn(name = "idFactura", referencedColumnName = "idDocumento")
     @ManyToOne(optional = false)
-    private Documentopago facturaidFactura;
+    private Documentopago idFactura;
 
     public Devolucion() {
     }
@@ -90,12 +90,12 @@ public class Devolucion implements Serializable {
         this.cantidad = cantidad;
     }
 
-    public Documentopago getFacturaidFactura() {
-        return facturaidFactura;
+    public Documentopago getIdFactura() {
+        return idFactura;
     }
 
-    public void setFacturaidFactura(Documentopago facturaidFactura) {
-        this.facturaidFactura = facturaidFactura;
+    public void setIdFactura(Documentopago idFactura) {
+        this.idFactura = idFactura;
     }
 
     @Override

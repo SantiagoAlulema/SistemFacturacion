@@ -17,6 +17,7 @@ import DAO.Facturacion.Usuario;
 import DAO.Facturacion.Devolucion;
 import java.util.ArrayList;
 import java.util.List;
+import DAO.Facturacion.Factura;
 import DAO.Facturacion.Consumidorfinal;
 import DAO.Facturacion.Detallefactura;
 import DAO.Facturacion.Documentopago;
@@ -31,7 +32,7 @@ import javax.persistence.Persistence;
 public class DocumentopagoJpaController implements Serializable {
 
     public DocumentopagoJpaController() {
-        this.emf = this.emf = Persistence.createEntityManagerFactory("SistemaFacturacionPU");
+        this.emf = Persistence.createEntityManagerFactory("SistemaFacturacionPU");
     }
     private EntityManagerFactory emf = null;
 
@@ -43,6 +44,9 @@ public class DocumentopagoJpaController implements Serializable {
         if (documentopago.getDevolucionList() == null) {
             documentopago.setDevolucionList(new ArrayList<Devolucion>());
         }
+        if (documentopago.getFacturaList() == null) {
+            documentopago.setFacturaList(new ArrayList<Factura>());
+        }
         if (documentopago.getConsumidorfinalList() == null) {
             documentopago.setConsumidorfinalList(new ArrayList<Consumidorfinal>());
         }
@@ -53,15 +57,15 @@ public class DocumentopagoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Cliente cliente = documentopago.getCliente();
-            if (cliente != null) {
-                cliente = em.getReference(cliente.getClass(), cliente.getClientePK());
-                documentopago.setCliente(cliente);
+            Cliente cedula = documentopago.getCedula();
+            if (cedula != null) {
+                cedula = em.getReference(cedula.getClass(), cedula.getCedula());
+                documentopago.setCedula(cedula);
             }
-            Usuario usuario = documentopago.getUsuario();
-            if (usuario != null) {
-                usuario = em.getReference(usuario.getClass(), usuario.getUsuarioPK());
-                documentopago.setUsuario(usuario);
+            Usuario usuarioCedula = documentopago.getUsuarioCedula();
+            if (usuarioCedula != null) {
+                usuarioCedula = em.getReference(usuarioCedula.getClass(), usuarioCedula.getCedula());
+                documentopago.setUsuarioCedula(usuarioCedula);
             }
             List<Devolucion> attachedDevolucionList = new ArrayList<Devolucion>();
             for (Devolucion devolucionListDevolucionToAttach : documentopago.getDevolucionList()) {
@@ -69,6 +73,12 @@ public class DocumentopagoJpaController implements Serializable {
                 attachedDevolucionList.add(devolucionListDevolucionToAttach);
             }
             documentopago.setDevolucionList(attachedDevolucionList);
+            List<Factura> attachedFacturaList = new ArrayList<Factura>();
+            for (Factura facturaListFacturaToAttach : documentopago.getFacturaList()) {
+                facturaListFacturaToAttach = em.getReference(facturaListFacturaToAttach.getClass(), facturaListFacturaToAttach.getIdFactura());
+                attachedFacturaList.add(facturaListFacturaToAttach);
+            }
+            documentopago.setFacturaList(attachedFacturaList);
             List<Consumidorfinal> attachedConsumidorfinalList = new ArrayList<Consumidorfinal>();
             for (Consumidorfinal consumidorfinalListConsumidorfinalToAttach : documentopago.getConsumidorfinalList()) {
                 consumidorfinalListConsumidorfinalToAttach = em.getReference(consumidorfinalListConsumidorfinalToAttach.getClass(), consumidorfinalListConsumidorfinalToAttach.getIdConsumidorFinal());
@@ -82,30 +92,39 @@ public class DocumentopagoJpaController implements Serializable {
             }
             documentopago.setDetallefacturaList(attachedDetallefacturaList);
             em.persist(documentopago);
-            if (cliente != null) {
-                cliente.getDocumentopagoList().add(documentopago);
-                cliente = em.merge(cliente);
+            if (cedula != null) {
+                cedula.getDocumentopagoList().add(documentopago);
+                cedula = em.merge(cedula);
             }
-            if (usuario != null) {
-                usuario.getDocumentopagoList().add(documentopago);
-                usuario = em.merge(usuario);
+            if (usuarioCedula != null) {
+                usuarioCedula.getDocumentopagoList().add(documentopago);
+                usuarioCedula = em.merge(usuarioCedula);
             }
             for (Devolucion devolucionListDevolucion : documentopago.getDevolucionList()) {
-                Documentopago oldFacturaidFacturaOfDevolucionListDevolucion = devolucionListDevolucion.getFacturaidFactura();
-                devolucionListDevolucion.setFacturaidFactura(documentopago);
+                Documentopago oldIdFacturaOfDevolucionListDevolucion = devolucionListDevolucion.getIdFactura();
+                devolucionListDevolucion.setIdFactura(documentopago);
                 devolucionListDevolucion = em.merge(devolucionListDevolucion);
-                if (oldFacturaidFacturaOfDevolucionListDevolucion != null) {
-                    oldFacturaidFacturaOfDevolucionListDevolucion.getDevolucionList().remove(devolucionListDevolucion);
-                    oldFacturaidFacturaOfDevolucionListDevolucion = em.merge(oldFacturaidFacturaOfDevolucionListDevolucion);
+                if (oldIdFacturaOfDevolucionListDevolucion != null) {
+                    oldIdFacturaOfDevolucionListDevolucion.getDevolucionList().remove(devolucionListDevolucion);
+                    oldIdFacturaOfDevolucionListDevolucion = em.merge(oldIdFacturaOfDevolucionListDevolucion);
+                }
+            }
+            for (Factura facturaListFactura : documentopago.getFacturaList()) {
+                Documentopago oldIdDocumentoOfFacturaListFactura = facturaListFactura.getIdDocumento();
+                facturaListFactura.setIdDocumento(documentopago);
+                facturaListFactura = em.merge(facturaListFactura);
+                if (oldIdDocumentoOfFacturaListFactura != null) {
+                    oldIdDocumentoOfFacturaListFactura.getFacturaList().remove(facturaListFactura);
+                    oldIdDocumentoOfFacturaListFactura = em.merge(oldIdDocumentoOfFacturaListFactura);
                 }
             }
             for (Consumidorfinal consumidorfinalListConsumidorfinal : documentopago.getConsumidorfinalList()) {
-                Documentopago oldIdFacturaOfConsumidorfinalListConsumidorfinal = consumidorfinalListConsumidorfinal.getIdFactura();
-                consumidorfinalListConsumidorfinal.setIdFactura(documentopago);
+                Documentopago oldIdDocumentoOfConsumidorfinalListConsumidorfinal = consumidorfinalListConsumidorfinal.getIdDocumento();
+                consumidorfinalListConsumidorfinal.setIdDocumento(documentopago);
                 consumidorfinalListConsumidorfinal = em.merge(consumidorfinalListConsumidorfinal);
-                if (oldIdFacturaOfConsumidorfinalListConsumidorfinal != null) {
-                    oldIdFacturaOfConsumidorfinalListConsumidorfinal.getConsumidorfinalList().remove(consumidorfinalListConsumidorfinal);
-                    oldIdFacturaOfConsumidorfinalListConsumidorfinal = em.merge(oldIdFacturaOfConsumidorfinalListConsumidorfinal);
+                if (oldIdDocumentoOfConsumidorfinalListConsumidorfinal != null) {
+                    oldIdDocumentoOfConsumidorfinalListConsumidorfinal.getConsumidorfinalList().remove(consumidorfinalListConsumidorfinal);
+                    oldIdDocumentoOfConsumidorfinalListConsumidorfinal = em.merge(oldIdDocumentoOfConsumidorfinalListConsumidorfinal);
                 }
             }
             for (Detallefactura detallefacturaListDetallefactura : documentopago.getDetallefacturaList()) {
@@ -130,13 +149,15 @@ public class DocumentopagoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Documentopago persistentDocumentopago = em.find(Documentopago.class, documentopago.getIdFactura());
-            Cliente clienteOld = persistentDocumentopago.getCliente();
-            Cliente clienteNew = documentopago.getCliente();
-            Usuario usuarioOld = persistentDocumentopago.getUsuario();
-            Usuario usuarioNew = documentopago.getUsuario();
+            Documentopago persistentDocumentopago = em.find(Documentopago.class, documentopago.getIdDocumento());
+            Cliente cedulaOld = persistentDocumentopago.getCedula();
+            Cliente cedulaNew = documentopago.getCedula();
+            Usuario usuarioCedulaOld = persistentDocumentopago.getUsuarioCedula();
+            Usuario usuarioCedulaNew = documentopago.getUsuarioCedula();
             List<Devolucion> devolucionListOld = persistentDocumentopago.getDevolucionList();
             List<Devolucion> devolucionListNew = documentopago.getDevolucionList();
+            List<Factura> facturaListOld = persistentDocumentopago.getFacturaList();
+            List<Factura> facturaListNew = documentopago.getFacturaList();
             List<Consumidorfinal> consumidorfinalListOld = persistentDocumentopago.getConsumidorfinalList();
             List<Consumidorfinal> consumidorfinalListNew = documentopago.getConsumidorfinalList();
             List<Detallefactura> detallefacturaListOld = persistentDocumentopago.getDetallefacturaList();
@@ -147,7 +168,15 @@ public class DocumentopagoJpaController implements Serializable {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Devolucion " + devolucionListOldDevolucion + " since its facturaidFactura field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Devolucion " + devolucionListOldDevolucion + " since its idFactura field is not nullable.");
+                }
+            }
+            for (Factura facturaListOldFactura : facturaListOld) {
+                if (!facturaListNew.contains(facturaListOldFactura)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Factura " + facturaListOldFactura + " since its idDocumento field is not nullable.");
                 }
             }
             for (Consumidorfinal consumidorfinalListOldConsumidorfinal : consumidorfinalListOld) {
@@ -155,7 +184,7 @@ public class DocumentopagoJpaController implements Serializable {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Consumidorfinal " + consumidorfinalListOldConsumidorfinal + " since its idFactura field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Consumidorfinal " + consumidorfinalListOldConsumidorfinal + " since its idDocumento field is not nullable.");
                 }
             }
             for (Detallefactura detallefacturaListOldDetallefactura : detallefacturaListOld) {
@@ -169,13 +198,13 @@ public class DocumentopagoJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            if (clienteNew != null) {
-                clienteNew = em.getReference(clienteNew.getClass(), clienteNew.getClientePK());
-                documentopago.setCliente(clienteNew);
+            if (cedulaNew != null) {
+                cedulaNew = em.getReference(cedulaNew.getClass(), cedulaNew.getCedula());
+                documentopago.setCedula(cedulaNew);
             }
-            if (usuarioNew != null) {
-                usuarioNew = em.getReference(usuarioNew.getClass(), usuarioNew.getUsuarioPK());
-                documentopago.setUsuario(usuarioNew);
+            if (usuarioCedulaNew != null) {
+                usuarioCedulaNew = em.getReference(usuarioCedulaNew.getClass(), usuarioCedulaNew.getCedula());
+                documentopago.setUsuarioCedula(usuarioCedulaNew);
             }
             List<Devolucion> attachedDevolucionListNew = new ArrayList<Devolucion>();
             for (Devolucion devolucionListNewDevolucionToAttach : devolucionListNew) {
@@ -184,6 +213,13 @@ public class DocumentopagoJpaController implements Serializable {
             }
             devolucionListNew = attachedDevolucionListNew;
             documentopago.setDevolucionList(devolucionListNew);
+            List<Factura> attachedFacturaListNew = new ArrayList<Factura>();
+            for (Factura facturaListNewFacturaToAttach : facturaListNew) {
+                facturaListNewFacturaToAttach = em.getReference(facturaListNewFacturaToAttach.getClass(), facturaListNewFacturaToAttach.getIdFactura());
+                attachedFacturaListNew.add(facturaListNewFacturaToAttach);
+            }
+            facturaListNew = attachedFacturaListNew;
+            documentopago.setFacturaList(facturaListNew);
             List<Consumidorfinal> attachedConsumidorfinalListNew = new ArrayList<Consumidorfinal>();
             for (Consumidorfinal consumidorfinalListNewConsumidorfinalToAttach : consumidorfinalListNew) {
                 consumidorfinalListNewConsumidorfinalToAttach = em.getReference(consumidorfinalListNewConsumidorfinalToAttach.getClass(), consumidorfinalListNewConsumidorfinalToAttach.getIdConsumidorFinal());
@@ -199,41 +235,52 @@ public class DocumentopagoJpaController implements Serializable {
             detallefacturaListNew = attachedDetallefacturaListNew;
             documentopago.setDetallefacturaList(detallefacturaListNew);
             documentopago = em.merge(documentopago);
-            if (clienteOld != null && !clienteOld.equals(clienteNew)) {
-                clienteOld.getDocumentopagoList().remove(documentopago);
-                clienteOld = em.merge(clienteOld);
+            if (cedulaOld != null && !cedulaOld.equals(cedulaNew)) {
+                cedulaOld.getDocumentopagoList().remove(documentopago);
+                cedulaOld = em.merge(cedulaOld);
             }
-            if (clienteNew != null && !clienteNew.equals(clienteOld)) {
-                clienteNew.getDocumentopagoList().add(documentopago);
-                clienteNew = em.merge(clienteNew);
+            if (cedulaNew != null && !cedulaNew.equals(cedulaOld)) {
+                cedulaNew.getDocumentopagoList().add(documentopago);
+                cedulaNew = em.merge(cedulaNew);
             }
-            if (usuarioOld != null && !usuarioOld.equals(usuarioNew)) {
-                usuarioOld.getDocumentopagoList().remove(documentopago);
-                usuarioOld = em.merge(usuarioOld);
+            if (usuarioCedulaOld != null && !usuarioCedulaOld.equals(usuarioCedulaNew)) {
+                usuarioCedulaOld.getDocumentopagoList().remove(documentopago);
+                usuarioCedulaOld = em.merge(usuarioCedulaOld);
             }
-            if (usuarioNew != null && !usuarioNew.equals(usuarioOld)) {
-                usuarioNew.getDocumentopagoList().add(documentopago);
-                usuarioNew = em.merge(usuarioNew);
+            if (usuarioCedulaNew != null && !usuarioCedulaNew.equals(usuarioCedulaOld)) {
+                usuarioCedulaNew.getDocumentopagoList().add(documentopago);
+                usuarioCedulaNew = em.merge(usuarioCedulaNew);
             }
             for (Devolucion devolucionListNewDevolucion : devolucionListNew) {
                 if (!devolucionListOld.contains(devolucionListNewDevolucion)) {
-                    Documentopago oldFacturaidFacturaOfDevolucionListNewDevolucion = devolucionListNewDevolucion.getFacturaidFactura();
-                    devolucionListNewDevolucion.setFacturaidFactura(documentopago);
+                    Documentopago oldIdFacturaOfDevolucionListNewDevolucion = devolucionListNewDevolucion.getIdFactura();
+                    devolucionListNewDevolucion.setIdFactura(documentopago);
                     devolucionListNewDevolucion = em.merge(devolucionListNewDevolucion);
-                    if (oldFacturaidFacturaOfDevolucionListNewDevolucion != null && !oldFacturaidFacturaOfDevolucionListNewDevolucion.equals(documentopago)) {
-                        oldFacturaidFacturaOfDevolucionListNewDevolucion.getDevolucionList().remove(devolucionListNewDevolucion);
-                        oldFacturaidFacturaOfDevolucionListNewDevolucion = em.merge(oldFacturaidFacturaOfDevolucionListNewDevolucion);
+                    if (oldIdFacturaOfDevolucionListNewDevolucion != null && !oldIdFacturaOfDevolucionListNewDevolucion.equals(documentopago)) {
+                        oldIdFacturaOfDevolucionListNewDevolucion.getDevolucionList().remove(devolucionListNewDevolucion);
+                        oldIdFacturaOfDevolucionListNewDevolucion = em.merge(oldIdFacturaOfDevolucionListNewDevolucion);
+                    }
+                }
+            }
+            for (Factura facturaListNewFactura : facturaListNew) {
+                if (!facturaListOld.contains(facturaListNewFactura)) {
+                    Documentopago oldIdDocumentoOfFacturaListNewFactura = facturaListNewFactura.getIdDocumento();
+                    facturaListNewFactura.setIdDocumento(documentopago);
+                    facturaListNewFactura = em.merge(facturaListNewFactura);
+                    if (oldIdDocumentoOfFacturaListNewFactura != null && !oldIdDocumentoOfFacturaListNewFactura.equals(documentopago)) {
+                        oldIdDocumentoOfFacturaListNewFactura.getFacturaList().remove(facturaListNewFactura);
+                        oldIdDocumentoOfFacturaListNewFactura = em.merge(oldIdDocumentoOfFacturaListNewFactura);
                     }
                 }
             }
             for (Consumidorfinal consumidorfinalListNewConsumidorfinal : consumidorfinalListNew) {
                 if (!consumidorfinalListOld.contains(consumidorfinalListNewConsumidorfinal)) {
-                    Documentopago oldIdFacturaOfConsumidorfinalListNewConsumidorfinal = consumidorfinalListNewConsumidorfinal.getIdFactura();
-                    consumidorfinalListNewConsumidorfinal.setIdFactura(documentopago);
+                    Documentopago oldIdDocumentoOfConsumidorfinalListNewConsumidorfinal = consumidorfinalListNewConsumidorfinal.getIdDocumento();
+                    consumidorfinalListNewConsumidorfinal.setIdDocumento(documentopago);
                     consumidorfinalListNewConsumidorfinal = em.merge(consumidorfinalListNewConsumidorfinal);
-                    if (oldIdFacturaOfConsumidorfinalListNewConsumidorfinal != null && !oldIdFacturaOfConsumidorfinalListNewConsumidorfinal.equals(documentopago)) {
-                        oldIdFacturaOfConsumidorfinalListNewConsumidorfinal.getConsumidorfinalList().remove(consumidorfinalListNewConsumidorfinal);
-                        oldIdFacturaOfConsumidorfinalListNewConsumidorfinal = em.merge(oldIdFacturaOfConsumidorfinalListNewConsumidorfinal);
+                    if (oldIdDocumentoOfConsumidorfinalListNewConsumidorfinal != null && !oldIdDocumentoOfConsumidorfinalListNewConsumidorfinal.equals(documentopago)) {
+                        oldIdDocumentoOfConsumidorfinalListNewConsumidorfinal.getConsumidorfinalList().remove(consumidorfinalListNewConsumidorfinal);
+                        oldIdDocumentoOfConsumidorfinalListNewConsumidorfinal = em.merge(oldIdDocumentoOfConsumidorfinalListNewConsumidorfinal);
                     }
                 }
             }
@@ -252,7 +299,7 @@ public class DocumentopagoJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = documentopago.getIdFactura();
+                Integer id = documentopago.getIdDocumento();
                 if (findDocumentopago(id) == null) {
                     throw new NonexistentEntityException("The documentopago with id " + id + " no longer exists.");
                 }
@@ -273,7 +320,7 @@ public class DocumentopagoJpaController implements Serializable {
             Documentopago documentopago;
             try {
                 documentopago = em.getReference(Documentopago.class, id);
-                documentopago.getIdFactura();
+                documentopago.getIdDocumento();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The documentopago with id " + id + " no longer exists.", enfe);
             }
@@ -283,14 +330,21 @@ public class DocumentopagoJpaController implements Serializable {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Documentopago (" + documentopago + ") cannot be destroyed since the Devolucion " + devolucionListOrphanCheckDevolucion + " in its devolucionList field has a non-nullable facturaidFactura field.");
+                illegalOrphanMessages.add("This Documentopago (" + documentopago + ") cannot be destroyed since the Devolucion " + devolucionListOrphanCheckDevolucion + " in its devolucionList field has a non-nullable idFactura field.");
+            }
+            List<Factura> facturaListOrphanCheck = documentopago.getFacturaList();
+            for (Factura facturaListOrphanCheckFactura : facturaListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Documentopago (" + documentopago + ") cannot be destroyed since the Factura " + facturaListOrphanCheckFactura + " in its facturaList field has a non-nullable idDocumento field.");
             }
             List<Consumidorfinal> consumidorfinalListOrphanCheck = documentopago.getConsumidorfinalList();
             for (Consumidorfinal consumidorfinalListOrphanCheckConsumidorfinal : consumidorfinalListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Documentopago (" + documentopago + ") cannot be destroyed since the Consumidorfinal " + consumidorfinalListOrphanCheckConsumidorfinal + " in its consumidorfinalList field has a non-nullable idFactura field.");
+                illegalOrphanMessages.add("This Documentopago (" + documentopago + ") cannot be destroyed since the Consumidorfinal " + consumidorfinalListOrphanCheckConsumidorfinal + " in its consumidorfinalList field has a non-nullable idDocumento field.");
             }
             List<Detallefactura> detallefacturaListOrphanCheck = documentopago.getDetallefacturaList();
             for (Detallefactura detallefacturaListOrphanCheckDetallefactura : detallefacturaListOrphanCheck) {
@@ -302,15 +356,15 @@ public class DocumentopagoJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Cliente cliente = documentopago.getCliente();
-            if (cliente != null) {
-                cliente.getDocumentopagoList().remove(documentopago);
-                cliente = em.merge(cliente);
+            Cliente cedula = documentopago.getCedula();
+            if (cedula != null) {
+                cedula.getDocumentopagoList().remove(documentopago);
+                cedula = em.merge(cedula);
             }
-            Usuario usuario = documentopago.getUsuario();
-            if (usuario != null) {
-                usuario.getDocumentopagoList().remove(documentopago);
-                usuario = em.merge(usuario);
+            Usuario usuarioCedula = documentopago.getUsuarioCedula();
+            if (usuarioCedula != null) {
+                usuarioCedula.getDocumentopagoList().remove(documentopago);
+                usuarioCedula = em.merge(usuarioCedula);
             }
             em.remove(documentopago);
             em.getTransaction().commit();

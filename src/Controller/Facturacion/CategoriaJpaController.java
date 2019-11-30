@@ -28,7 +28,7 @@ import javax.persistence.Persistence;
 public class CategoriaJpaController implements Serializable {
 
     public CategoriaJpaController() {
-        this.emf = this.emf = Persistence.createEntityManagerFactory("SistemaFacturacionPU");
+        this.emf = Persistence.createEntityManagerFactory("SistemaFacturacionPU");
     }
     private EntityManagerFactory emf = null;
 
@@ -46,18 +46,18 @@ public class CategoriaJpaController implements Serializable {
             em.getTransaction().begin();
             List<Producto> attachedProductoList = new ArrayList<Producto>();
             for (Producto productoListProductoToAttach : categoria.getProductoList()) {
-                productoListProductoToAttach = em.getReference(productoListProductoToAttach.getClass(), productoListProductoToAttach.getProductoPK());
+                productoListProductoToAttach = em.getReference(productoListProductoToAttach.getClass(), productoListProductoToAttach.getIdProducto());
                 attachedProductoList.add(productoListProductoToAttach);
             }
             categoria.setProductoList(attachedProductoList);
             em.persist(categoria);
             for (Producto productoListProducto : categoria.getProductoList()) {
-                Categoria oldCategoriaidCategoriaOfProductoListProducto = productoListProducto.getCategoriaidCategoria();
-                productoListProducto.setCategoriaidCategoria(categoria);
+                Categoria oldIdCategoriaOfProductoListProducto = productoListProducto.getIdCategoria();
+                productoListProducto.setIdCategoria(categoria);
                 productoListProducto = em.merge(productoListProducto);
-                if (oldCategoriaidCategoriaOfProductoListProducto != null) {
-                    oldCategoriaidCategoriaOfProductoListProducto.getProductoList().remove(productoListProducto);
-                    oldCategoriaidCategoriaOfProductoListProducto = em.merge(oldCategoriaidCategoriaOfProductoListProducto);
+                if (oldIdCategoriaOfProductoListProducto != null) {
+                    oldIdCategoriaOfProductoListProducto.getProductoList().remove(productoListProducto);
+                    oldIdCategoriaOfProductoListProducto = em.merge(oldIdCategoriaOfProductoListProducto);
                 }
             }
             em.getTransaction().commit();
@@ -87,7 +87,7 @@ public class CategoriaJpaController implements Serializable {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Producto " + productoListOldProducto + " since its categoriaidCategoria field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Producto " + productoListOldProducto + " since its idCategoria field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -95,7 +95,7 @@ public class CategoriaJpaController implements Serializable {
             }
             List<Producto> attachedProductoListNew = new ArrayList<Producto>();
             for (Producto productoListNewProductoToAttach : productoListNew) {
-                productoListNewProductoToAttach = em.getReference(productoListNewProductoToAttach.getClass(), productoListNewProductoToAttach.getProductoPK());
+                productoListNewProductoToAttach = em.getReference(productoListNewProductoToAttach.getClass(), productoListNewProductoToAttach.getIdProducto());
                 attachedProductoListNew.add(productoListNewProductoToAttach);
             }
             productoListNew = attachedProductoListNew;
@@ -103,12 +103,12 @@ public class CategoriaJpaController implements Serializable {
             categoria = em.merge(categoria);
             for (Producto productoListNewProducto : productoListNew) {
                 if (!productoListOld.contains(productoListNewProducto)) {
-                    Categoria oldCategoriaidCategoriaOfProductoListNewProducto = productoListNewProducto.getCategoriaidCategoria();
-                    productoListNewProducto.setCategoriaidCategoria(categoria);
+                    Categoria oldIdCategoriaOfProductoListNewProducto = productoListNewProducto.getIdCategoria();
+                    productoListNewProducto.setIdCategoria(categoria);
                     productoListNewProducto = em.merge(productoListNewProducto);
-                    if (oldCategoriaidCategoriaOfProductoListNewProducto != null && !oldCategoriaidCategoriaOfProductoListNewProducto.equals(categoria)) {
-                        oldCategoriaidCategoriaOfProductoListNewProducto.getProductoList().remove(productoListNewProducto);
-                        oldCategoriaidCategoriaOfProductoListNewProducto = em.merge(oldCategoriaidCategoriaOfProductoListNewProducto);
+                    if (oldIdCategoriaOfProductoListNewProducto != null && !oldIdCategoriaOfProductoListNewProducto.equals(categoria)) {
+                        oldIdCategoriaOfProductoListNewProducto.getProductoList().remove(productoListNewProducto);
+                        oldIdCategoriaOfProductoListNewProducto = em.merge(oldIdCategoriaOfProductoListNewProducto);
                     }
                 }
             }
@@ -147,7 +147,7 @@ public class CategoriaJpaController implements Serializable {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Categoria (" + categoria + ") cannot be destroyed since the Producto " + productoListOrphanCheckProducto + " in its productoList field has a non-nullable categoriaidCategoria field.");
+                illegalOrphanMessages.add("This Categoria (" + categoria + ") cannot be destroyed since the Producto " + productoListOrphanCheckProducto + " in its productoList field has a non-nullable idCategoria field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);

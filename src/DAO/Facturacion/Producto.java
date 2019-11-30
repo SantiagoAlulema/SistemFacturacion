@@ -7,10 +7,13 @@ package DAO.Facturacion;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -29,9 +32,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Producto.findAll", query = "SELECT p FROM Producto p")
-    , @NamedQuery(name = "Producto.findByIdProducto", query = "SELECT p FROM Producto p WHERE p.productoPK.idProducto = :idProducto")
+    , @NamedQuery(name = "Producto.findByIdProducto", query = "SELECT p FROM Producto p WHERE p.idProducto = :idProducto")
     , @NamedQuery(name = "Producto.findByCodBarras", query = "SELECT p FROM Producto p WHERE p.codBarras = :codBarras")
-    , @NamedQuery(name = "Producto.findByCodProducto", query = "SELECT p FROM Producto p WHERE p.productoPK.codProducto = :codProducto")
+    , @NamedQuery(name = "Producto.findByCodProducto", query = "SELECT p FROM Producto p WHERE p.codProducto = :codProducto")
     , @NamedQuery(name = "Producto.findByNombre", query = "SELECT p FROM Producto p WHERE p.nombre = :nombre")
     , @NamedQuery(name = "Producto.findByDetalle", query = "SELECT p FROM Producto p WHERE p.detalle = :detalle")
     , @NamedQuery(name = "Producto.findByStock", query = "SELECT p FROM Producto p WHERE p.stock = :stock")
@@ -41,31 +44,43 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Producto implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected ProductoPK productoPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "idProducto")
+    private Integer idProducto;
+    @Basic(optional = false)
     @Column(name = "Cod_Barras")
     private String codBarras;
+    @Basic(optional = false)
+    @Column(name = "Cod_Producto")
+    private String codProducto;
+    @Basic(optional = false)
     @Column(name = "Nombre")
     private String nombre;
+    @Basic(optional = false)
     @Column(name = "Detalle")
     private String detalle;
+    @Basic(optional = false)
     @Column(name = "Stock")
-    private Integer stock;
+    private int stock;
+    @Basic(optional = false)
     @Column(name = "Estado")
     private String estado;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Basic(optional = false)
     @Column(name = "Precio_Compra")
-    private Double precioCompra;
+    private double precioCompra;
+    @Basic(optional = false)
     @Column(name = "Precio_Venta")
-    private Double precioVenta;
+    private double precioVenta;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "producto")
     private List<Detallefactura> detallefacturaList;
     @JoinColumn(name = "idBodega", referencedColumnName = "idBodega")
     @ManyToOne(optional = false)
     private Bodega idBodega;
-    @JoinColumn(name = "Categoria_idCategoria", referencedColumnName = "idCategoria")
+    @JoinColumn(name = "idCategoria", referencedColumnName = "idCategoria")
     @ManyToOne(optional = false)
-    private Categoria categoriaidCategoria;
+    private Categoria idCategoria;
     @JoinColumn(name = "idProvedor", referencedColumnName = "idProvedor")
     @ManyToOne(optional = false)
     private Provedor idProvedor;
@@ -73,20 +88,28 @@ public class Producto implements Serializable {
     public Producto() {
     }
 
-    public Producto(ProductoPK productoPK) {
-        this.productoPK = productoPK;
+    public Producto(Integer idProducto) {
+        this.idProducto = idProducto;
     }
 
-    public Producto(int idProducto, String codProducto) {
-        this.productoPK = new ProductoPK(idProducto, codProducto);
+    public Producto(Integer idProducto, String codBarras, String codProducto, String nombre, String detalle, int stock, String estado, double precioCompra, double precioVenta) {
+        this.idProducto = idProducto;
+        this.codBarras = codBarras;
+        this.codProducto = codProducto;
+        this.nombre = nombre;
+        this.detalle = detalle;
+        this.stock = stock;
+        this.estado = estado;
+        this.precioCompra = precioCompra;
+        this.precioVenta = precioVenta;
     }
 
-    public ProductoPK getProductoPK() {
-        return productoPK;
+    public Integer getIdProducto() {
+        return idProducto;
     }
 
-    public void setProductoPK(ProductoPK productoPK) {
-        this.productoPK = productoPK;
+    public void setIdProducto(Integer idProducto) {
+        this.idProducto = idProducto;
     }
 
     public String getCodBarras() {
@@ -95,6 +118,14 @@ public class Producto implements Serializable {
 
     public void setCodBarras(String codBarras) {
         this.codBarras = codBarras;
+    }
+
+    public String getCodProducto() {
+        return codProducto;
+    }
+
+    public void setCodProducto(String codProducto) {
+        this.codProducto = codProducto;
     }
 
     public String getNombre() {
@@ -113,11 +144,11 @@ public class Producto implements Serializable {
         this.detalle = detalle;
     }
 
-    public Integer getStock() {
+    public int getStock() {
         return stock;
     }
 
-    public void setStock(Integer stock) {
+    public void setStock(int stock) {
         this.stock = stock;
     }
 
@@ -129,19 +160,19 @@ public class Producto implements Serializable {
         this.estado = estado;
     }
 
-    public Double getPrecioCompra() {
+    public double getPrecioCompra() {
         return precioCompra;
     }
 
-    public void setPrecioCompra(Double precioCompra) {
+    public void setPrecioCompra(double precioCompra) {
         this.precioCompra = precioCompra;
     }
 
-    public Double getPrecioVenta() {
+    public double getPrecioVenta() {
         return precioVenta;
     }
 
-    public void setPrecioVenta(Double precioVenta) {
+    public void setPrecioVenta(double precioVenta) {
         this.precioVenta = precioVenta;
     }
 
@@ -162,12 +193,12 @@ public class Producto implements Serializable {
         this.idBodega = idBodega;
     }
 
-    public Categoria getCategoriaidCategoria() {
-        return categoriaidCategoria;
+    public Categoria getIdCategoria() {
+        return idCategoria;
     }
 
-    public void setCategoriaidCategoria(Categoria categoriaidCategoria) {
-        this.categoriaidCategoria = categoriaidCategoria;
+    public void setIdCategoria(Categoria idCategoria) {
+        this.idCategoria = idCategoria;
     }
 
     public Provedor getIdProvedor() {
@@ -181,7 +212,7 @@ public class Producto implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (productoPK != null ? productoPK.hashCode() : 0);
+        hash += (idProducto != null ? idProducto.hashCode() : 0);
         return hash;
     }
 
@@ -192,7 +223,7 @@ public class Producto implements Serializable {
             return false;
         }
         Producto other = (Producto) object;
-        if ((this.productoPK == null && other.productoPK != null) || (this.productoPK != null && !this.productoPK.equals(other.productoPK))) {
+        if ((this.idProducto == null && other.idProducto != null) || (this.idProducto != null && !this.idProducto.equals(other.idProducto))) {
             return false;
         }
         return true;
@@ -200,7 +231,7 @@ public class Producto implements Serializable {
 
     @Override
     public String toString() {
-        return "DAO.Facturacion.Producto[ productoPK=" + productoPK + " ]";
+        return "DAO.Facturacion.Producto[ idProducto=" + idProducto + " ]";
     }
     
 }

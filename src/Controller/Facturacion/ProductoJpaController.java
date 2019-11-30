@@ -7,7 +7,6 @@ package Controller.Facturacion;
 
 import Controller.Facturacion.exceptions.IllegalOrphanException;
 import Controller.Facturacion.exceptions.NonexistentEntityException;
-import Controller.Facturacion.exceptions.PreexistingEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -18,7 +17,6 @@ import DAO.Facturacion.Categoria;
 import DAO.Facturacion.Provedor;
 import DAO.Facturacion.Detallefactura;
 import DAO.Facturacion.Producto;
-import DAO.Facturacion.ProductoPK;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -32,7 +30,7 @@ import javax.persistence.Persistence;
 public class ProductoJpaController implements Serializable {
 
     public ProductoJpaController() {
-        this.emf = this.emf = Persistence.createEntityManagerFactory("SistemaFacturacionPU");
+        this.emf = Persistence.createEntityManagerFactory("SistemaFacturacionPU");
     }
     private EntityManagerFactory emf = null;
 
@@ -40,10 +38,7 @@ public class ProductoJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Producto producto) throws PreexistingEntityException, Exception {
-        if (producto.getProductoPK() == null) {
-            producto.setProductoPK(new ProductoPK());
-        }
+    public void create(Producto producto) {
         if (producto.getDetallefacturaList() == null) {
             producto.setDetallefacturaList(new ArrayList<Detallefactura>());
         }
@@ -56,10 +51,10 @@ public class ProductoJpaController implements Serializable {
                 idBodega = em.getReference(idBodega.getClass(), idBodega.getIdBodega());
                 producto.setIdBodega(idBodega);
             }
-            Categoria categoriaidCategoria = producto.getCategoriaidCategoria();
-            if (categoriaidCategoria != null) {
-                categoriaidCategoria = em.getReference(categoriaidCategoria.getClass(), categoriaidCategoria.getIdCategoria());
-                producto.setCategoriaidCategoria(categoriaidCategoria);
+            Categoria idCategoria = producto.getIdCategoria();
+            if (idCategoria != null) {
+                idCategoria = em.getReference(idCategoria.getClass(), idCategoria.getIdCategoria());
+                producto.setIdCategoria(idCategoria);
             }
             Provedor idProvedor = producto.getIdProvedor();
             if (idProvedor != null) {
@@ -77,9 +72,9 @@ public class ProductoJpaController implements Serializable {
                 idBodega.getProductoList().add(producto);
                 idBodega = em.merge(idBodega);
             }
-            if (categoriaidCategoria != null) {
-                categoriaidCategoria.getProductoList().add(producto);
-                categoriaidCategoria = em.merge(categoriaidCategoria);
+            if (idCategoria != null) {
+                idCategoria.getProductoList().add(producto);
+                idCategoria = em.merge(idCategoria);
             }
             if (idProvedor != null) {
                 idProvedor.getProductoList().add(producto);
@@ -95,11 +90,6 @@ public class ProductoJpaController implements Serializable {
                 }
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findProducto(producto.getProductoPK()) != null) {
-                throw new PreexistingEntityException("Producto " + producto + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -112,11 +102,11 @@ public class ProductoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Producto persistentProducto = em.find(Producto.class, producto.getProductoPK());
+            Producto persistentProducto = em.find(Producto.class, producto.getIdProducto());
             Bodega idBodegaOld = persistentProducto.getIdBodega();
             Bodega idBodegaNew = producto.getIdBodega();
-            Categoria categoriaidCategoriaOld = persistentProducto.getCategoriaidCategoria();
-            Categoria categoriaidCategoriaNew = producto.getCategoriaidCategoria();
+            Categoria idCategoriaOld = persistentProducto.getIdCategoria();
+            Categoria idCategoriaNew = producto.getIdCategoria();
             Provedor idProvedorOld = persistentProducto.getIdProvedor();
             Provedor idProvedorNew = producto.getIdProvedor();
             List<Detallefactura> detallefacturaListOld = persistentProducto.getDetallefacturaList();
@@ -137,9 +127,9 @@ public class ProductoJpaController implements Serializable {
                 idBodegaNew = em.getReference(idBodegaNew.getClass(), idBodegaNew.getIdBodega());
                 producto.setIdBodega(idBodegaNew);
             }
-            if (categoriaidCategoriaNew != null) {
-                categoriaidCategoriaNew = em.getReference(categoriaidCategoriaNew.getClass(), categoriaidCategoriaNew.getIdCategoria());
-                producto.setCategoriaidCategoria(categoriaidCategoriaNew);
+            if (idCategoriaNew != null) {
+                idCategoriaNew = em.getReference(idCategoriaNew.getClass(), idCategoriaNew.getIdCategoria());
+                producto.setIdCategoria(idCategoriaNew);
             }
             if (idProvedorNew != null) {
                 idProvedorNew = em.getReference(idProvedorNew.getClass(), idProvedorNew.getIdProvedor());
@@ -161,13 +151,13 @@ public class ProductoJpaController implements Serializable {
                 idBodegaNew.getProductoList().add(producto);
                 idBodegaNew = em.merge(idBodegaNew);
             }
-            if (categoriaidCategoriaOld != null && !categoriaidCategoriaOld.equals(categoriaidCategoriaNew)) {
-                categoriaidCategoriaOld.getProductoList().remove(producto);
-                categoriaidCategoriaOld = em.merge(categoriaidCategoriaOld);
+            if (idCategoriaOld != null && !idCategoriaOld.equals(idCategoriaNew)) {
+                idCategoriaOld.getProductoList().remove(producto);
+                idCategoriaOld = em.merge(idCategoriaOld);
             }
-            if (categoriaidCategoriaNew != null && !categoriaidCategoriaNew.equals(categoriaidCategoriaOld)) {
-                categoriaidCategoriaNew.getProductoList().add(producto);
-                categoriaidCategoriaNew = em.merge(categoriaidCategoriaNew);
+            if (idCategoriaNew != null && !idCategoriaNew.equals(idCategoriaOld)) {
+                idCategoriaNew.getProductoList().add(producto);
+                idCategoriaNew = em.merge(idCategoriaNew);
             }
             if (idProvedorOld != null && !idProvedorOld.equals(idProvedorNew)) {
                 idProvedorOld.getProductoList().remove(producto);
@@ -192,7 +182,7 @@ public class ProductoJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                ProductoPK id = producto.getProductoPK();
+                Integer id = producto.getIdProducto();
                 if (findProducto(id) == null) {
                     throw new NonexistentEntityException("The producto with id " + id + " no longer exists.");
                 }
@@ -205,7 +195,7 @@ public class ProductoJpaController implements Serializable {
         }
     }
 
-    public void destroy(ProductoPK id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -213,7 +203,7 @@ public class ProductoJpaController implements Serializable {
             Producto producto;
             try {
                 producto = em.getReference(Producto.class, id);
-                producto.getProductoPK();
+                producto.getIdProducto();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The producto with id " + id + " no longer exists.", enfe);
             }
@@ -233,10 +223,10 @@ public class ProductoJpaController implements Serializable {
                 idBodega.getProductoList().remove(producto);
                 idBodega = em.merge(idBodega);
             }
-            Categoria categoriaidCategoria = producto.getCategoriaidCategoria();
-            if (categoriaidCategoria != null) {
-                categoriaidCategoria.getProductoList().remove(producto);
-                categoriaidCategoria = em.merge(categoriaidCategoria);
+            Categoria idCategoria = producto.getIdCategoria();
+            if (idCategoria != null) {
+                idCategoria.getProductoList().remove(producto);
+                idCategoria = em.merge(idCategoria);
             }
             Provedor idProvedor = producto.getIdProvedor();
             if (idProvedor != null) {
@@ -276,7 +266,7 @@ public class ProductoJpaController implements Serializable {
         }
     }
 
-    public Producto findProducto(ProductoPK id) {
+    public Producto findProducto(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Producto.class, id);

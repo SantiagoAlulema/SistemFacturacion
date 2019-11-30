@@ -28,7 +28,7 @@ import javax.persistence.Persistence;
 public class ProvedorJpaController implements Serializable {
 
     public ProvedorJpaController() {
-        this.emf = this.emf = Persistence.createEntityManagerFactory("SistemaFacturacionPU");
+        this.emf = Persistence.createEntityManagerFactory("SistemaFacturacionPU");
     }
     private EntityManagerFactory emf = null;
 
@@ -46,7 +46,7 @@ public class ProvedorJpaController implements Serializable {
             em.getTransaction().begin();
             List<Producto> attachedProductoList = new ArrayList<Producto>();
             for (Producto productoListProductoToAttach : provedor.getProductoList()) {
-                productoListProductoToAttach = em.getReference(productoListProductoToAttach.getClass(), productoListProductoToAttach.getProductoPK());
+                productoListProductoToAttach = em.getReference(productoListProductoToAttach.getClass(), productoListProductoToAttach.getIdProducto());
                 attachedProductoList.add(productoListProductoToAttach);
             }
             provedor.setProductoList(attachedProductoList);
@@ -95,7 +95,7 @@ public class ProvedorJpaController implements Serializable {
             }
             List<Producto> attachedProductoListNew = new ArrayList<Producto>();
             for (Producto productoListNewProductoToAttach : productoListNew) {
-                productoListNewProductoToAttach = em.getReference(productoListNewProductoToAttach.getClass(), productoListNewProductoToAttach.getProductoPK());
+                productoListNewProductoToAttach = em.getReference(productoListNewProductoToAttach.getClass(), productoListNewProductoToAttach.getIdProducto());
                 attachedProductoListNew.add(productoListNewProductoToAttach);
             }
             productoListNew = attachedProductoListNew;

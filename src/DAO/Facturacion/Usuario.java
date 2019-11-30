@@ -8,11 +8,13 @@ package DAO.Facturacion;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -32,8 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")
-    , @NamedQuery(name = "Usuario.findByIdUsuario", query = "SELECT u FROM Usuario u WHERE u.usuarioPK.idUsuario = :idUsuario")
-    , @NamedQuery(name = "Usuario.findByCedula", query = "SELECT u FROM Usuario u WHERE u.usuarioPK.cedula = :cedula")
+    , @NamedQuery(name = "Usuario.findByCedula", query = "SELECT u FROM Usuario u WHERE u.cedula = :cedula")
     , @NamedQuery(name = "Usuario.findByPrimerNombre", query = "SELECT u FROM Usuario u WHERE u.primerNombre = :primerNombre")
     , @NamedQuery(name = "Usuario.findBySegundoNombre", query = "SELECT u FROM Usuario u WHERE u.segundoNombre = :segundoNombre")
     , @NamedQuery(name = "Usuario.findByPrimerApellido", query = "SELECT u FROM Usuario u WHERE u.primerApellido = :primerApellido")
@@ -44,46 +45,67 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected UsuarioPK usuarioPK;
+    @Id
+    @Basic(optional = false)
+    @Column(name = "Cedula")
+    private String cedula;
+    @Basic(optional = false)
     @Column(name = "PrimerNombre")
     private String primerNombre;
+    @Basic(optional = false)
     @Column(name = "SegundoNombre")
     private String segundoNombre;
+    @Basic(optional = false)
     @Column(name = "PrimerApellido")
     private String primerApellido;
+    @Basic(optional = false)
     @Column(name = "SegundoApellido")
     private String segundoApellido;
+    @Basic(optional = false)
     @Column(name = "FechaNacimiento")
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
+    @Basic(optional = false)
     @Column(name = "Telefono")
     private String telefono;
+    @Basic(optional = false)
     @Column(name = "Estado")
     private String estado;
+    @Basic(optional = false)
+    @Lob
+    @Column(name = "password")
+    private byte[] password;
     @JoinColumn(name = "idRol", referencedColumnName = "idRol")
     @ManyToOne(optional = false)
     private Rol idRol;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioCedula")
     private List<Documentopago> documentopagoList;
 
     public Usuario() {
     }
 
-    public Usuario(UsuarioPK usuarioPK) {
-        this.usuarioPK = usuarioPK;
+    public Usuario(String cedula) {
+        this.cedula = cedula;
     }
 
-    public Usuario(int idUsuario, String cedula) {
-        this.usuarioPK = new UsuarioPK(idUsuario, cedula);
+    public Usuario(String cedula, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, Date fechaNacimiento, String telefono, String estado, byte[] password) {
+        this.cedula = cedula;
+        this.primerNombre = primerNombre;
+        this.segundoNombre = segundoNombre;
+        this.primerApellido = primerApellido;
+        this.segundoApellido = segundoApellido;
+        this.fechaNacimiento = fechaNacimiento;
+        this.telefono = telefono;
+        this.estado = estado;
+        this.password = password;
     }
 
-    public UsuarioPK getUsuarioPK() {
-        return usuarioPK;
+    public String getCedula() {
+        return cedula;
     }
 
-    public void setUsuarioPK(UsuarioPK usuarioPK) {
-        this.usuarioPK = usuarioPK;
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
     }
 
     public String getPrimerNombre() {
@@ -142,6 +164,14 @@ public class Usuario implements Serializable {
         this.estado = estado;
     }
 
+    public byte[] getPassword() {
+        return password;
+    }
+
+    public void setPassword(byte[] password) {
+        this.password = password;
+    }
+
     public Rol getIdRol() {
         return idRol;
     }
@@ -162,7 +192,7 @@ public class Usuario implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (usuarioPK != null ? usuarioPK.hashCode() : 0);
+        hash += (cedula != null ? cedula.hashCode() : 0);
         return hash;
     }
 
@@ -173,7 +203,7 @@ public class Usuario implements Serializable {
             return false;
         }
         Usuario other = (Usuario) object;
-        if ((this.usuarioPK == null && other.usuarioPK != null) || (this.usuarioPK != null && !this.usuarioPK.equals(other.usuarioPK))) {
+        if ((this.cedula == null && other.cedula != null) || (this.cedula != null && !this.cedula.equals(other.cedula))) {
             return false;
         }
         return true;
@@ -181,7 +211,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "DAO.Facturacion.Usuario[ usuarioPK=" + usuarioPK + " ]";
+        return "DAO.Facturacion.Usuario[ cedula=" + cedula + " ]";
     }
     
 }

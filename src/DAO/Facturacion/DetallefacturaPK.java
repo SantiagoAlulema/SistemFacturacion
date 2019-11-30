@@ -18,54 +18,41 @@ import javax.persistence.Embeddable;
 public class DetallefacturaPK implements Serializable {
 
     @Basic(optional = false)
-    @Column(name = "Factura_idFactura")
-    private int facturaidFactura;
+    @Column(name = "idFactura")
+    private int idFactura;
     @Basic(optional = false)
-    @Column(name = "Producto_idProducto")
-    private int productoidProducto;
-    @Basic(optional = false)
-    @Column(name = "Producto_Cod_Producto")
-    private String productoCodProducto;
+    @Column(name = "idProducto")
+    private int idProducto;
 
     public DetallefacturaPK() {
     }
 
-    public DetallefacturaPK(int facturaidFactura, int productoidProducto, String productoCodProducto) {
-        this.facturaidFactura = facturaidFactura;
-        this.productoidProducto = productoidProducto;
-        this.productoCodProducto = productoCodProducto;
+    public DetallefacturaPK(int idFactura, int idProducto) {
+        this.idFactura = idFactura;
+        this.idProducto = idProducto;
     }
 
-    public int getFacturaidFactura() {
-        return facturaidFactura;
+    public int getIdFactura() {
+        return idFactura;
     }
 
-    public void setFacturaidFactura(int facturaidFactura) {
-        this.facturaidFactura = facturaidFactura;
+    public void setIdFactura(int idFactura) {
+        this.idFactura = idFactura;
     }
 
-    public int getProductoidProducto() {
-        return productoidProducto;
+    public int getIdProducto() {
+        return idProducto;
     }
 
-    public void setProductoidProducto(int productoidProducto) {
-        this.productoidProducto = productoidProducto;
-    }
-
-    public String getProductoCodProducto() {
-        return productoCodProducto;
-    }
-
-    public void setProductoCodProducto(String productoCodProducto) {
-        this.productoCodProducto = productoCodProducto;
+    public void setIdProducto(int idProducto) {
+        this.idProducto = idProducto;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (int) facturaidFactura;
-        hash += (int) productoidProducto;
-        hash += (productoCodProducto != null ? productoCodProducto.hashCode() : 0);
+        hash += (int) idFactura;
+        hash += (int) idProducto;
         return hash;
     }
 
@@ -76,13 +63,10 @@ public class DetallefacturaPK implements Serializable {
             return false;
         }
         DetallefacturaPK other = (DetallefacturaPK) object;
-        if (this.facturaidFactura != other.facturaidFactura) {
+        if (this.idFactura != other.idFactura) {
             return false;
         }
-        if (this.productoidProducto != other.productoidProducto) {
-            return false;
-        }
-        if ((this.productoCodProducto == null && other.productoCodProducto != null) || (this.productoCodProducto != null && !this.productoCodProducto.equals(other.productoCodProducto))) {
+        if (this.idProducto != other.idProducto) {
             return false;
         }
         return true;
@@ -90,7 +74,7 @@ public class DetallefacturaPK implements Serializable {
 
     @Override
     public String toString() {
-        return "DAO.Facturacion.DetallefacturaPK[ facturaidFactura=" + facturaidFactura + ", productoidProducto=" + productoidProducto + ", productoCodProducto=" + productoCodProducto + " ]";
+        return "DAO.Facturacion.DetallefacturaPK[ idFactura=" + idFactura + ", idProducto=" + idProducto + " ]";
     }
     
 }

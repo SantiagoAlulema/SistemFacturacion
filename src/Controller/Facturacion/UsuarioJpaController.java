@@ -16,7 +16,6 @@ import javax.persistence.criteria.Root;
 import DAO.Facturacion.Rol;
 import DAO.Facturacion.Documentopago;
 import DAO.Facturacion.Usuario;
-import DAO.Facturacion.UsuarioPK;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -30,7 +29,7 @@ import javax.persistence.Persistence;
 public class UsuarioJpaController implements Serializable {
 
     public UsuarioJpaController() {
-        this.emf = this.emf = Persistence.createEntityManagerFactory("SistemaFacturacionPU");
+        this.emf = Persistence.createEntityManagerFactory("SistemaFacturacionPU");
     }
     private EntityManagerFactory emf = null;
 
@@ -39,9 +38,6 @@ public class UsuarioJpaController implements Serializable {
     }
 
     public void create(Usuario usuario) throws PreexistingEntityException, Exception {
-        if (usuario.getUsuarioPK() == null) {
-            usuario.setUsuarioPK(new UsuarioPK());
-        }
         if (usuario.getDocumentopagoList() == null) {
             usuario.setDocumentopagoList(new ArrayList<Documentopago>());
         }
@@ -56,7 +52,7 @@ public class UsuarioJpaController implements Serializable {
             }
             List<Documentopago> attachedDocumentopagoList = new ArrayList<Documentopago>();
             for (Documentopago documentopagoListDocumentopagoToAttach : usuario.getDocumentopagoList()) {
-                documentopagoListDocumentopagoToAttach = em.getReference(documentopagoListDocumentopagoToAttach.getClass(), documentopagoListDocumentopagoToAttach.getIdFactura());
+                documentopagoListDocumentopagoToAttach = em.getReference(documentopagoListDocumentopagoToAttach.getClass(), documentopagoListDocumentopagoToAttach.getIdDocumento());
                 attachedDocumentopagoList.add(documentopagoListDocumentopagoToAttach);
             }
             usuario.setDocumentopagoList(attachedDocumentopagoList);
@@ -66,17 +62,17 @@ public class UsuarioJpaController implements Serializable {
                 idRol = em.merge(idRol);
             }
             for (Documentopago documentopagoListDocumentopago : usuario.getDocumentopagoList()) {
-                Usuario oldUsuarioOfDocumentopagoListDocumentopago = documentopagoListDocumentopago.getUsuario();
-                documentopagoListDocumentopago.setUsuario(usuario);
+                Usuario oldUsuarioCedulaOfDocumentopagoListDocumentopago = documentopagoListDocumentopago.getUsuarioCedula();
+                documentopagoListDocumentopago.setUsuarioCedula(usuario);
                 documentopagoListDocumentopago = em.merge(documentopagoListDocumentopago);
-                if (oldUsuarioOfDocumentopagoListDocumentopago != null) {
-                    oldUsuarioOfDocumentopagoListDocumentopago.getDocumentopagoList().remove(documentopagoListDocumentopago);
-                    oldUsuarioOfDocumentopagoListDocumentopago = em.merge(oldUsuarioOfDocumentopagoListDocumentopago);
+                if (oldUsuarioCedulaOfDocumentopagoListDocumentopago != null) {
+                    oldUsuarioCedulaOfDocumentopagoListDocumentopago.getDocumentopagoList().remove(documentopagoListDocumentopago);
+                    oldUsuarioCedulaOfDocumentopagoListDocumentopago = em.merge(oldUsuarioCedulaOfDocumentopagoListDocumentopago);
                 }
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
-            if (findUsuario(usuario.getUsuarioPK()) != null) {
+            if (findUsuario(usuario.getCedula()) != null) {
                 throw new PreexistingEntityException("Usuario " + usuario + " already exists.", ex);
             }
             throw ex;
@@ -92,7 +88,7 @@ public class UsuarioJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Usuario persistentUsuario = em.find(Usuario.class, usuario.getUsuarioPK());
+            Usuario persistentUsuario = em.find(Usuario.class, usuario.getCedula());
             Rol idRolOld = persistentUsuario.getIdRol();
             Rol idRolNew = usuario.getIdRol();
             List<Documentopago> documentopagoListOld = persistentUsuario.getDocumentopagoList();
@@ -103,7 +99,7 @@ public class UsuarioJpaController implements Serializable {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Documentopago " + documentopagoListOldDocumentopago + " since its usuario field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Documentopago " + documentopagoListOldDocumentopago + " since its usuarioCedula field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -115,7 +111,7 @@ public class UsuarioJpaController implements Serializable {
             }
             List<Documentopago> attachedDocumentopagoListNew = new ArrayList<Documentopago>();
             for (Documentopago documentopagoListNewDocumentopagoToAttach : documentopagoListNew) {
-                documentopagoListNewDocumentopagoToAttach = em.getReference(documentopagoListNewDocumentopagoToAttach.getClass(), documentopagoListNewDocumentopagoToAttach.getIdFactura());
+                documentopagoListNewDocumentopagoToAttach = em.getReference(documentopagoListNewDocumentopagoToAttach.getClass(), documentopagoListNewDocumentopagoToAttach.getIdDocumento());
                 attachedDocumentopagoListNew.add(documentopagoListNewDocumentopagoToAttach);
             }
             documentopagoListNew = attachedDocumentopagoListNew;
@@ -131,12 +127,12 @@ public class UsuarioJpaController implements Serializable {
             }
             for (Documentopago documentopagoListNewDocumentopago : documentopagoListNew) {
                 if (!documentopagoListOld.contains(documentopagoListNewDocumentopago)) {
-                    Usuario oldUsuarioOfDocumentopagoListNewDocumentopago = documentopagoListNewDocumentopago.getUsuario();
-                    documentopagoListNewDocumentopago.setUsuario(usuario);
+                    Usuario oldUsuarioCedulaOfDocumentopagoListNewDocumentopago = documentopagoListNewDocumentopago.getUsuarioCedula();
+                    documentopagoListNewDocumentopago.setUsuarioCedula(usuario);
                     documentopagoListNewDocumentopago = em.merge(documentopagoListNewDocumentopago);
-                    if (oldUsuarioOfDocumentopagoListNewDocumentopago != null && !oldUsuarioOfDocumentopagoListNewDocumentopago.equals(usuario)) {
-                        oldUsuarioOfDocumentopagoListNewDocumentopago.getDocumentopagoList().remove(documentopagoListNewDocumentopago);
-                        oldUsuarioOfDocumentopagoListNewDocumentopago = em.merge(oldUsuarioOfDocumentopagoListNewDocumentopago);
+                    if (oldUsuarioCedulaOfDocumentopagoListNewDocumentopago != null && !oldUsuarioCedulaOfDocumentopagoListNewDocumentopago.equals(usuario)) {
+                        oldUsuarioCedulaOfDocumentopagoListNewDocumentopago.getDocumentopagoList().remove(documentopagoListNewDocumentopago);
+                        oldUsuarioCedulaOfDocumentopagoListNewDocumentopago = em.merge(oldUsuarioCedulaOfDocumentopagoListNewDocumentopago);
                     }
                 }
             }
@@ -144,7 +140,7 @@ public class UsuarioJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                UsuarioPK id = usuario.getUsuarioPK();
+                String id = usuario.getCedula();
                 if (findUsuario(id) == null) {
                     throw new NonexistentEntityException("The usuario with id " + id + " no longer exists.");
                 }
@@ -157,7 +153,7 @@ public class UsuarioJpaController implements Serializable {
         }
     }
 
-    public void destroy(UsuarioPK id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(String id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -165,7 +161,7 @@ public class UsuarioJpaController implements Serializable {
             Usuario usuario;
             try {
                 usuario = em.getReference(Usuario.class, id);
-                usuario.getUsuarioPK();
+                usuario.getCedula();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The usuario with id " + id + " no longer exists.", enfe);
             }
@@ -175,7 +171,7 @@ public class UsuarioJpaController implements Serializable {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Usuario (" + usuario + ") cannot be destroyed since the Documentopago " + documentopagoListOrphanCheckDocumentopago + " in its documentopagoList field has a non-nullable usuario field.");
+                illegalOrphanMessages.add("This Usuario (" + usuario + ") cannot be destroyed since the Documentopago " + documentopagoListOrphanCheckDocumentopago + " in its documentopagoList field has a non-nullable usuarioCedula field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
@@ -218,7 +214,7 @@ public class UsuarioJpaController implements Serializable {
         }
     }
 
-    public Usuario findUsuario(UsuarioPK id) {
+    public Usuario findUsuario(String id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Usuario.class, id);

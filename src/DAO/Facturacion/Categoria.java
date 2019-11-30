@@ -38,11 +38,13 @@ public class Categoria implements Serializable {
     @Basic(optional = false)
     @Column(name = "idCategoria")
     private Integer idCategoria;
+    @Basic(optional = false)
     @Column(name = "Nombre")
     private String nombre;
+    @Basic(optional = false)
     @Column(name = "Detalle")
     private String detalle;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoriaidCategoria")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCategoria")
     private List<Producto> productoList;
 
     public Categoria() {
@@ -50,6 +52,12 @@ public class Categoria implements Serializable {
 
     public Categoria(Integer idCategoria) {
         this.idCategoria = idCategoria;
+    }
+
+    public Categoria(Integer idCategoria, String nombre, String detalle) {
+        this.idCategoria = idCategoria;
+        this.nombre = nombre;
+        this.detalle = detalle;
     }
 
     public Integer getIdCategoria() {

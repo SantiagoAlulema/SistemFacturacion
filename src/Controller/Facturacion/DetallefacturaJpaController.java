@@ -28,7 +28,7 @@ import javax.persistence.Persistence;
 public class DetallefacturaJpaController implements Serializable {
 
     public DetallefacturaJpaController() {
-        this.emf = this.emf = Persistence.createEntityManagerFactory("SistemaFacturacionPU");
+        this.emf = Persistence.createEntityManagerFactory("SistemaFacturacionPU");
     }
     private EntityManagerFactory emf = null;
 
@@ -40,21 +40,20 @@ public class DetallefacturaJpaController implements Serializable {
         if (detallefactura.getDetallefacturaPK() == null) {
             detallefactura.setDetallefacturaPK(new DetallefacturaPK());
         }
-        detallefactura.getDetallefacturaPK().setProductoidProducto(detallefactura.getProducto().getProductoPK().getIdProducto());
-        detallefactura.getDetallefacturaPK().setFacturaidFactura(detallefactura.getDocumentopago().getIdFactura());
-        detallefactura.getDetallefacturaPK().setProductoCodProducto(detallefactura.getProducto().getProductoPK().getCodProducto());
+        detallefactura.getDetallefacturaPK().setIdFactura(detallefactura.getDocumentopago().getIdDocumento());
+        detallefactura.getDetallefacturaPK().setIdProducto(detallefactura.getProducto().getIdProducto());
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             Documentopago documentopago = detallefactura.getDocumentopago();
             if (documentopago != null) {
-                documentopago = em.getReference(documentopago.getClass(), documentopago.getIdFactura());
+                documentopago = em.getReference(documentopago.getClass(), documentopago.getIdDocumento());
                 detallefactura.setDocumentopago(documentopago);
             }
             Producto producto = detallefactura.getProducto();
             if (producto != null) {
-                producto = em.getReference(producto.getClass(), producto.getProductoPK());
+                producto = em.getReference(producto.getClass(), producto.getIdProducto());
                 detallefactura.setProducto(producto);
             }
             em.persist(detallefactura);
@@ -80,9 +79,8 @@ public class DetallefacturaJpaController implements Serializable {
     }
 
     public void edit(Detallefactura detallefactura) throws NonexistentEntityException, Exception {
-        detallefactura.getDetallefacturaPK().setProductoidProducto(detallefactura.getProducto().getProductoPK().getIdProducto());
-        detallefactura.getDetallefacturaPK().setFacturaidFactura(detallefactura.getDocumentopago().getIdFactura());
-        detallefactura.getDetallefacturaPK().setProductoCodProducto(detallefactura.getProducto().getProductoPK().getCodProducto());
+        detallefactura.getDetallefacturaPK().setIdFactura(detallefactura.getDocumentopago().getIdDocumento());
+        detallefactura.getDetallefacturaPK().setIdProducto(detallefactura.getProducto().getIdProducto());
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -93,11 +91,11 @@ public class DetallefacturaJpaController implements Serializable {
             Producto productoOld = persistentDetallefactura.getProducto();
             Producto productoNew = detallefactura.getProducto();
             if (documentopagoNew != null) {
-                documentopagoNew = em.getReference(documentopagoNew.getClass(), documentopagoNew.getIdFactura());
+                documentopagoNew = em.getReference(documentopagoNew.getClass(), documentopagoNew.getIdDocumento());
                 detallefactura.setDocumentopago(documentopagoNew);
             }
             if (productoNew != null) {
-                productoNew = em.getReference(productoNew.getClass(), productoNew.getProductoPK());
+                productoNew = em.getReference(productoNew.getClass(), productoNew.getIdProducto());
                 detallefactura.setProducto(productoNew);
             }
             detallefactura = em.merge(detallefactura);

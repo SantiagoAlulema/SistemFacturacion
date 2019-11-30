@@ -10,7 +10,6 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -26,9 +25,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Detallefactura.findAll", query = "SELECT d FROM Detallefactura d")
-    , @NamedQuery(name = "Detallefactura.findByFacturaidFactura", query = "SELECT d FROM Detallefactura d WHERE d.detallefacturaPK.facturaidFactura = :facturaidFactura")
-    , @NamedQuery(name = "Detallefactura.findByProductoidProducto", query = "SELECT d FROM Detallefactura d WHERE d.detallefacturaPK.productoidProducto = :productoidProducto")
-    , @NamedQuery(name = "Detallefactura.findByProductoCodProducto", query = "SELECT d FROM Detallefactura d WHERE d.detallefacturaPK.productoCodProducto = :productoCodProducto")
+    , @NamedQuery(name = "Detallefactura.findByIdFactura", query = "SELECT d FROM Detallefactura d WHERE d.detallefacturaPK.idFactura = :idFactura")
+    , @NamedQuery(name = "Detallefactura.findByIdProducto", query = "SELECT d FROM Detallefactura d WHERE d.detallefacturaPK.idProducto = :idProducto")
     , @NamedQuery(name = "Detallefactura.findByPrecioUnit", query = "SELECT d FROM Detallefactura d WHERE d.precioUnit = :precioUnit")
     , @NamedQuery(name = "Detallefactura.findByCantidad", query = "SELECT d FROM Detallefactura d WHERE d.cantidad = :cantidad")
     , @NamedQuery(name = "Detallefactura.findByTotalProducto", query = "SELECT d FROM Detallefactura d WHERE d.totalProducto = :totalProducto")})
@@ -44,12 +42,10 @@ public class Detallefactura implements Serializable {
     private Integer cantidad;
     @Column(name = "TotalProducto")
     private Double totalProducto;
-    @JoinColumn(name = "Factura_idFactura", referencedColumnName = "idFactura", insertable = false, updatable = false)
+    @JoinColumn(name = "idFactura", referencedColumnName = "idDocumento", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Documentopago documentopago;
-    @JoinColumns({
-        @JoinColumn(name = "Producto_idProducto", referencedColumnName = "idProducto", insertable = false, updatable = false)
-        , @JoinColumn(name = "Producto_Cod_Producto", referencedColumnName = "Cod_Producto", insertable = false, updatable = false)})
+    @JoinColumn(name = "idProducto", referencedColumnName = "idProducto", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Producto producto;
 
@@ -60,8 +56,8 @@ public class Detallefactura implements Serializable {
         this.detallefacturaPK = detallefacturaPK;
     }
 
-    public Detallefactura(int facturaidFactura, int productoidProducto, String productoCodProducto) {
-        this.detallefacturaPK = new DetallefacturaPK(facturaidFactura, productoidProducto, productoCodProducto);
+    public Detallefactura(int idFactura, int idProducto) {
+        this.detallefacturaPK = new DetallefacturaPK(idFactura, idProducto);
     }
 
     public DetallefacturaPK getDetallefacturaPK() {
