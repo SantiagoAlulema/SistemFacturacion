@@ -16,6 +16,7 @@ import DAO.Facturacion.Factura;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  *
@@ -23,8 +24,8 @@ import javax.persistence.EntityManagerFactory;
  */
 public class FacturaJpaController implements Serializable {
 
-    public FacturaJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    public FacturaJpaController() {
+        this.emf = Persistence.createEntityManagerFactory("SistemaFacturacionPU");
     }
     private EntityManagerFactory emf = null;
 

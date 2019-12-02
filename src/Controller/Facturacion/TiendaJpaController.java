@@ -13,9 +13,8 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import DAO.Facturacion.Rol;
 import DAO.Facturacion.Documentopago;
-import DAO.Facturacion.Usuario;
+import DAO.Facturacion.Tienda;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -25,9 +24,9 @@ import javax.persistence.EntityManagerFactory;
  *
  * @author Santiago
  */
-public class UsuarioJpaController implements Serializable {
+public class TiendaJpaController implements Serializable {
 
-    public UsuarioJpaController(EntityManagerFactory emf) {
+    public TiendaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
@@ -36,43 +35,34 @@ public class UsuarioJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Usuario usuario) throws PreexistingEntityException, Exception {
-        if (usuario.getDocumentopagoList() == null) {
-            usuario.setDocumentopagoList(new ArrayList<Documentopago>());
+    public void create(Tienda tienda) throws PreexistingEntityException, Exception {
+        if (tienda.getDocumentopagoList() == null) {
+            tienda.setDocumentopagoList(new ArrayList<Documentopago>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Rol idRol = usuario.getIdRol();
-            if (idRol != null) {
-                idRol = em.getReference(idRol.getClass(), idRol.getIdRol());
-                usuario.setIdRol(idRol);
-            }
             List<Documentopago> attachedDocumentopagoList = new ArrayList<Documentopago>();
-            for (Documentopago documentopagoListDocumentopagoToAttach : usuario.getDocumentopagoList()) {
+            for (Documentopago documentopagoListDocumentopagoToAttach : tienda.getDocumentopagoList()) {
                 documentopagoListDocumentopagoToAttach = em.getReference(documentopagoListDocumentopagoToAttach.getClass(), documentopagoListDocumentopagoToAttach.getIdDocumento());
                 attachedDocumentopagoList.add(documentopagoListDocumentopagoToAttach);
             }
-            usuario.setDocumentopagoList(attachedDocumentopagoList);
-            em.persist(usuario);
-            if (idRol != null) {
-                idRol.getUsuarioList().add(usuario);
-                idRol = em.merge(idRol);
-            }
-            for (Documentopago documentopagoListDocumentopago : usuario.getDocumentopagoList()) {
-                Usuario oldUsuarioUsuarioOfDocumentopagoListDocumentopago = documentopagoListDocumentopago.getUsuarioUsuario();
-                documentopagoListDocumentopago.setUsuarioUsuario(usuario);
+            tienda.setDocumentopagoList(attachedDocumentopagoList);
+            em.persist(tienda);
+            for (Documentopago documentopagoListDocumentopago : tienda.getDocumentopagoList()) {
+                Tienda oldIdTiendaOfDocumentopagoListDocumentopago = documentopagoListDocumentopago.getIdTienda();
+                documentopagoListDocumentopago.setIdTienda(tienda);
                 documentopagoListDocumentopago = em.merge(documentopagoListDocumentopago);
-                if (oldUsuarioUsuarioOfDocumentopagoListDocumentopago != null) {
-                    oldUsuarioUsuarioOfDocumentopagoListDocumentopago.getDocumentopagoList().remove(documentopagoListDocumentopago);
-                    oldUsuarioUsuarioOfDocumentopagoListDocumentopago = em.merge(oldUsuarioUsuarioOfDocumentopagoListDocumentopago);
+                if (oldIdTiendaOfDocumentopagoListDocumentopago != null) {
+                    oldIdTiendaOfDocumentopagoListDocumentopago.getDocumentopagoList().remove(documentopagoListDocumentopago);
+                    oldIdTiendaOfDocumentopagoListDocumentopago = em.merge(oldIdTiendaOfDocumentopagoListDocumentopago);
                 }
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
-            if (findUsuario(usuario.getCedula()) != null) {
-                throw new PreexistingEntityException("Usuario " + usuario + " already exists.", ex);
+            if (findTienda(tienda.getIdTienda()) != null) {
+                throw new PreexistingEntityException("Tienda " + tienda + " already exists.", ex);
             }
             throw ex;
         } finally {
@@ -82,31 +72,25 @@ public class UsuarioJpaController implements Serializable {
         }
     }
 
-    public void edit(Usuario usuario) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(Tienda tienda) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Usuario persistentUsuario = em.find(Usuario.class, usuario.getCedula());
-            Rol idRolOld = persistentUsuario.getIdRol();
-            Rol idRolNew = usuario.getIdRol();
-            List<Documentopago> documentopagoListOld = persistentUsuario.getDocumentopagoList();
-            List<Documentopago> documentopagoListNew = usuario.getDocumentopagoList();
+            Tienda persistentTienda = em.find(Tienda.class, tienda.getIdTienda());
+            List<Documentopago> documentopagoListOld = persistentTienda.getDocumentopagoList();
+            List<Documentopago> documentopagoListNew = tienda.getDocumentopagoList();
             List<String> illegalOrphanMessages = null;
             for (Documentopago documentopagoListOldDocumentopago : documentopagoListOld) {
                 if (!documentopagoListNew.contains(documentopagoListOldDocumentopago)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Documentopago " + documentopagoListOldDocumentopago + " since its usuarioUsuario field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Documentopago " + documentopagoListOldDocumentopago + " since its idTienda field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            if (idRolNew != null) {
-                idRolNew = em.getReference(idRolNew.getClass(), idRolNew.getIdRol());
-                usuario.setIdRol(idRolNew);
             }
             List<Documentopago> attachedDocumentopagoListNew = new ArrayList<Documentopago>();
             for (Documentopago documentopagoListNewDocumentopagoToAttach : documentopagoListNew) {
@@ -114,24 +98,16 @@ public class UsuarioJpaController implements Serializable {
                 attachedDocumentopagoListNew.add(documentopagoListNewDocumentopagoToAttach);
             }
             documentopagoListNew = attachedDocumentopagoListNew;
-            usuario.setDocumentopagoList(documentopagoListNew);
-            usuario = em.merge(usuario);
-            if (idRolOld != null && !idRolOld.equals(idRolNew)) {
-                idRolOld.getUsuarioList().remove(usuario);
-                idRolOld = em.merge(idRolOld);
-            }
-            if (idRolNew != null && !idRolNew.equals(idRolOld)) {
-                idRolNew.getUsuarioList().add(usuario);
-                idRolNew = em.merge(idRolNew);
-            }
+            tienda.setDocumentopagoList(documentopagoListNew);
+            tienda = em.merge(tienda);
             for (Documentopago documentopagoListNewDocumentopago : documentopagoListNew) {
                 if (!documentopagoListOld.contains(documentopagoListNewDocumentopago)) {
-                    Usuario oldUsuarioUsuarioOfDocumentopagoListNewDocumentopago = documentopagoListNewDocumentopago.getUsuarioUsuario();
-                    documentopagoListNewDocumentopago.setUsuarioUsuario(usuario);
+                    Tienda oldIdTiendaOfDocumentopagoListNewDocumentopago = documentopagoListNewDocumentopago.getIdTienda();
+                    documentopagoListNewDocumentopago.setIdTienda(tienda);
                     documentopagoListNewDocumentopago = em.merge(documentopagoListNewDocumentopago);
-                    if (oldUsuarioUsuarioOfDocumentopagoListNewDocumentopago != null && !oldUsuarioUsuarioOfDocumentopagoListNewDocumentopago.equals(usuario)) {
-                        oldUsuarioUsuarioOfDocumentopagoListNewDocumentopago.getDocumentopagoList().remove(documentopagoListNewDocumentopago);
-                        oldUsuarioUsuarioOfDocumentopagoListNewDocumentopago = em.merge(oldUsuarioUsuarioOfDocumentopagoListNewDocumentopago);
+                    if (oldIdTiendaOfDocumentopagoListNewDocumentopago != null && !oldIdTiendaOfDocumentopagoListNewDocumentopago.equals(tienda)) {
+                        oldIdTiendaOfDocumentopagoListNewDocumentopago.getDocumentopagoList().remove(documentopagoListNewDocumentopago);
+                        oldIdTiendaOfDocumentopagoListNewDocumentopago = em.merge(oldIdTiendaOfDocumentopagoListNewDocumentopago);
                     }
                 }
             }
@@ -139,9 +115,9 @@ public class UsuarioJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                String id = usuario.getCedula();
-                if (findUsuario(id) == null) {
-                    throw new NonexistentEntityException("The usuario with id " + id + " no longer exists.");
+                Integer id = tienda.getIdTienda();
+                if (findTienda(id) == null) {
+                    throw new NonexistentEntityException("The tienda with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -152,35 +128,30 @@ public class UsuarioJpaController implements Serializable {
         }
     }
 
-    public void destroy(String id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Usuario usuario;
+            Tienda tienda;
             try {
-                usuario = em.getReference(Usuario.class, id);
-                usuario.getCedula();
+                tienda = em.getReference(Tienda.class, id);
+                tienda.getIdTienda();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The usuario with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The tienda with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            List<Documentopago> documentopagoListOrphanCheck = usuario.getDocumentopagoList();
+            List<Documentopago> documentopagoListOrphanCheck = tienda.getDocumentopagoList();
             for (Documentopago documentopagoListOrphanCheckDocumentopago : documentopagoListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Usuario (" + usuario + ") cannot be destroyed since the Documentopago " + documentopagoListOrphanCheckDocumentopago + " in its documentopagoList field has a non-nullable usuarioUsuario field.");
+                illegalOrphanMessages.add("This Tienda (" + tienda + ") cannot be destroyed since the Documentopago " + documentopagoListOrphanCheckDocumentopago + " in its documentopagoList field has a non-nullable idTienda field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Rol idRol = usuario.getIdRol();
-            if (idRol != null) {
-                idRol.getUsuarioList().remove(usuario);
-                idRol = em.merge(idRol);
-            }
-            em.remove(usuario);
+            em.remove(tienda);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -189,19 +160,19 @@ public class UsuarioJpaController implements Serializable {
         }
     }
 
-    public List<Usuario> findUsuarioEntities() {
-        return findUsuarioEntities(true, -1, -1);
+    public List<Tienda> findTiendaEntities() {
+        return findTiendaEntities(true, -1, -1);
     }
 
-    public List<Usuario> findUsuarioEntities(int maxResults, int firstResult) {
-        return findUsuarioEntities(false, maxResults, firstResult);
+    public List<Tienda> findTiendaEntities(int maxResults, int firstResult) {
+        return findTiendaEntities(false, maxResults, firstResult);
     }
 
-    private List<Usuario> findUsuarioEntities(boolean all, int maxResults, int firstResult) {
+    private List<Tienda> findTiendaEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Usuario.class));
+            cq.select(cq.from(Tienda.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -213,20 +184,20 @@ public class UsuarioJpaController implements Serializable {
         }
     }
 
-    public Usuario findUsuario(String id) {
+    public Tienda findTienda(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Usuario.class, id);
+            return em.find(Tienda.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getUsuarioCount() {
+    public int getTiendaCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Usuario> rt = cq.from(Usuario.class);
+            Root<Tienda> rt = cq.from(Tienda.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

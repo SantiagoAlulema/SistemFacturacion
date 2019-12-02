@@ -13,6 +13,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import DAO.Facturacion.Cliente;
+import DAO.Facturacion.Tienda;
 import DAO.Facturacion.Usuario;
 import DAO.Facturacion.Devolucion;
 import java.util.ArrayList;
@@ -56,15 +57,20 @@ public class DocumentopagoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Cliente cedula = documentopago.getCedula();
-            if (cedula != null) {
-                cedula = em.getReference(cedula.getClass(), cedula.getCedula());
-                documentopago.setCedula(cedula);
+            Cliente idCliente = documentopago.getIdCliente();
+            if (idCliente != null) {
+                idCliente = em.getReference(idCliente.getClass(), idCliente.getIdCliente());
+                documentopago.setIdCliente(idCliente);
             }
-            Usuario usuarioCedula = documentopago.getUsuarioCedula();
-            if (usuarioCedula != null) {
-                usuarioCedula = em.getReference(usuarioCedula.getClass(), usuarioCedula.getCedula());
-                documentopago.setUsuarioCedula(usuarioCedula);
+            Tienda idTienda = documentopago.getIdTienda();
+            if (idTienda != null) {
+                idTienda = em.getReference(idTienda.getClass(), idTienda.getIdTienda());
+                documentopago.setIdTienda(idTienda);
+            }
+            Usuario usuarioUsuario = documentopago.getUsuarioUsuario();
+            if (usuarioUsuario != null) {
+                usuarioUsuario = em.getReference(usuarioUsuario.getClass(), usuarioUsuario.getCedula());
+                documentopago.setUsuarioUsuario(usuarioUsuario);
             }
             List<Devolucion> attachedDevolucionList = new ArrayList<Devolucion>();
             for (Devolucion devolucionListDevolucionToAttach : documentopago.getDevolucionList()) {
@@ -91,13 +97,17 @@ public class DocumentopagoJpaController implements Serializable {
             }
             documentopago.setDetallefacturaList(attachedDetallefacturaList);
             em.persist(documentopago);
-            if (cedula != null) {
-                cedula.getDocumentopagoList().add(documentopago);
-                cedula = em.merge(cedula);
+            if (idCliente != null) {
+                idCliente.getDocumentopagoList().add(documentopago);
+                idCliente = em.merge(idCliente);
             }
-            if (usuarioCedula != null) {
-                usuarioCedula.getDocumentopagoList().add(documentopago);
-                usuarioCedula = em.merge(usuarioCedula);
+            if (idTienda != null) {
+                idTienda.getDocumentopagoList().add(documentopago);
+                idTienda = em.merge(idTienda);
+            }
+            if (usuarioUsuario != null) {
+                usuarioUsuario.getDocumentopagoList().add(documentopago);
+                usuarioUsuario = em.merge(usuarioUsuario);
             }
             for (Devolucion devolucionListDevolucion : documentopago.getDevolucionList()) {
                 Documentopago oldIdFacturaOfDevolucionListDevolucion = devolucionListDevolucion.getIdFactura();
@@ -149,10 +159,12 @@ public class DocumentopagoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Documentopago persistentDocumentopago = em.find(Documentopago.class, documentopago.getIdDocumento());
-            Cliente cedulaOld = persistentDocumentopago.getCedula();
-            Cliente cedulaNew = documentopago.getCedula();
-            Usuario usuarioCedulaOld = persistentDocumentopago.getUsuarioCedula();
-            Usuario usuarioCedulaNew = documentopago.getUsuarioCedula();
+            Cliente idClienteOld = persistentDocumentopago.getIdCliente();
+            Cliente idClienteNew = documentopago.getIdCliente();
+            Tienda idTiendaOld = persistentDocumentopago.getIdTienda();
+            Tienda idTiendaNew = documentopago.getIdTienda();
+            Usuario usuarioUsuarioOld = persistentDocumentopago.getUsuarioUsuario();
+            Usuario usuarioUsuarioNew = documentopago.getUsuarioUsuario();
             List<Devolucion> devolucionListOld = persistentDocumentopago.getDevolucionList();
             List<Devolucion> devolucionListNew = documentopago.getDevolucionList();
             List<Factura> facturaListOld = persistentDocumentopago.getFacturaList();
@@ -197,13 +209,17 @@ public class DocumentopagoJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            if (cedulaNew != null) {
-                cedulaNew = em.getReference(cedulaNew.getClass(), cedulaNew.getCedula());
-                documentopago.setCedula(cedulaNew);
+            if (idClienteNew != null) {
+                idClienteNew = em.getReference(idClienteNew.getClass(), idClienteNew.getIdCliente());
+                documentopago.setIdCliente(idClienteNew);
             }
-            if (usuarioCedulaNew != null) {
-                usuarioCedulaNew = em.getReference(usuarioCedulaNew.getClass(), usuarioCedulaNew.getCedula());
-                documentopago.setUsuarioCedula(usuarioCedulaNew);
+            if (idTiendaNew != null) {
+                idTiendaNew = em.getReference(idTiendaNew.getClass(), idTiendaNew.getIdTienda());
+                documentopago.setIdTienda(idTiendaNew);
+            }
+            if (usuarioUsuarioNew != null) {
+                usuarioUsuarioNew = em.getReference(usuarioUsuarioNew.getClass(), usuarioUsuarioNew.getCedula());
+                documentopago.setUsuarioUsuario(usuarioUsuarioNew);
             }
             List<Devolucion> attachedDevolucionListNew = new ArrayList<Devolucion>();
             for (Devolucion devolucionListNewDevolucionToAttach : devolucionListNew) {
@@ -234,21 +250,29 @@ public class DocumentopagoJpaController implements Serializable {
             detallefacturaListNew = attachedDetallefacturaListNew;
             documentopago.setDetallefacturaList(detallefacturaListNew);
             documentopago = em.merge(documentopago);
-            if (cedulaOld != null && !cedulaOld.equals(cedulaNew)) {
-                cedulaOld.getDocumentopagoList().remove(documentopago);
-                cedulaOld = em.merge(cedulaOld);
+            if (idClienteOld != null && !idClienteOld.equals(idClienteNew)) {
+                idClienteOld.getDocumentopagoList().remove(documentopago);
+                idClienteOld = em.merge(idClienteOld);
             }
-            if (cedulaNew != null && !cedulaNew.equals(cedulaOld)) {
-                cedulaNew.getDocumentopagoList().add(documentopago);
-                cedulaNew = em.merge(cedulaNew);
+            if (idClienteNew != null && !idClienteNew.equals(idClienteOld)) {
+                idClienteNew.getDocumentopagoList().add(documentopago);
+                idClienteNew = em.merge(idClienteNew);
             }
-            if (usuarioCedulaOld != null && !usuarioCedulaOld.equals(usuarioCedulaNew)) {
-                usuarioCedulaOld.getDocumentopagoList().remove(documentopago);
-                usuarioCedulaOld = em.merge(usuarioCedulaOld);
+            if (idTiendaOld != null && !idTiendaOld.equals(idTiendaNew)) {
+                idTiendaOld.getDocumentopagoList().remove(documentopago);
+                idTiendaOld = em.merge(idTiendaOld);
             }
-            if (usuarioCedulaNew != null && !usuarioCedulaNew.equals(usuarioCedulaOld)) {
-                usuarioCedulaNew.getDocumentopagoList().add(documentopago);
-                usuarioCedulaNew = em.merge(usuarioCedulaNew);
+            if (idTiendaNew != null && !idTiendaNew.equals(idTiendaOld)) {
+                idTiendaNew.getDocumentopagoList().add(documentopago);
+                idTiendaNew = em.merge(idTiendaNew);
+            }
+            if (usuarioUsuarioOld != null && !usuarioUsuarioOld.equals(usuarioUsuarioNew)) {
+                usuarioUsuarioOld.getDocumentopagoList().remove(documentopago);
+                usuarioUsuarioOld = em.merge(usuarioUsuarioOld);
+            }
+            if (usuarioUsuarioNew != null && !usuarioUsuarioNew.equals(usuarioUsuarioOld)) {
+                usuarioUsuarioNew.getDocumentopagoList().add(documentopago);
+                usuarioUsuarioNew = em.merge(usuarioUsuarioNew);
             }
             for (Devolucion devolucionListNewDevolucion : devolucionListNew) {
                 if (!devolucionListOld.contains(devolucionListNewDevolucion)) {
@@ -355,15 +379,20 @@ public class DocumentopagoJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Cliente cedula = documentopago.getCedula();
-            if (cedula != null) {
-                cedula.getDocumentopagoList().remove(documentopago);
-                cedula = em.merge(cedula);
+            Cliente idCliente = documentopago.getIdCliente();
+            if (idCliente != null) {
+                idCliente.getDocumentopagoList().remove(documentopago);
+                idCliente = em.merge(idCliente);
             }
-            Usuario usuarioCedula = documentopago.getUsuarioCedula();
-            if (usuarioCedula != null) {
-                usuarioCedula.getDocumentopagoList().remove(documentopago);
-                usuarioCedula = em.merge(usuarioCedula);
+            Tienda idTienda = documentopago.getIdTienda();
+            if (idTienda != null) {
+                idTienda.getDocumentopagoList().remove(documentopago);
+                idTienda = em.merge(idTienda);
+            }
+            Usuario usuarioUsuario = documentopago.getUsuarioUsuario();
+            if (usuarioUsuario != null) {
+                usuarioUsuario.getDocumentopagoList().remove(documentopago);
+                usuarioUsuario = em.merge(usuarioUsuario);
             }
             em.remove(documentopago);
             em.getTransaction().commit();

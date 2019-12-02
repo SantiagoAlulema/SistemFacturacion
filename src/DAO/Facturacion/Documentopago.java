@@ -62,6 +62,15 @@ public class Documentopago implements Serializable {
     private BigDecimal iva;
     @Column(name = "Estado")
     private Integer estado;
+    @JoinColumn(name = "idCliente", referencedColumnName = "idCliente")
+    @ManyToOne(optional = false)
+    private Cliente idCliente;
+    @JoinColumn(name = "idTienda", referencedColumnName = "idTienda")
+    @ManyToOne(optional = false)
+    private Tienda idTienda;
+    @JoinColumn(name = "UsuarioUsuario", referencedColumnName = "Cedula")
+    @ManyToOne(optional = false)
+    private Usuario usuarioUsuario;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idFactura")
     private List<Devolucion> devolucionList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDocumento")
@@ -70,12 +79,6 @@ public class Documentopago implements Serializable {
     private List<Consumidorfinal> consumidorfinalList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "documentopago")
     private List<Detallefactura> detallefacturaList;
-    @JoinColumn(name = "Cedula", referencedColumnName = "Cedula")
-    @ManyToOne(optional = false)
-    private Cliente cedula;
-    @JoinColumn(name = "UsuarioCedula", referencedColumnName = "Cedula")
-    @ManyToOne(optional = false)
-    private Usuario usuarioCedula;
 
     public Documentopago() {
     }
@@ -132,6 +135,30 @@ public class Documentopago implements Serializable {
         this.estado = estado;
     }
 
+    public Cliente getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(Cliente idCliente) {
+        this.idCliente = idCliente;
+    }
+
+    public Tienda getIdTienda() {
+        return idTienda;
+    }
+
+    public void setIdTienda(Tienda idTienda) {
+        this.idTienda = idTienda;
+    }
+
+    public Usuario getUsuarioUsuario() {
+        return usuarioUsuario;
+    }
+
+    public void setUsuarioUsuario(Usuario usuarioUsuario) {
+        this.usuarioUsuario = usuarioUsuario;
+    }
+
     @XmlTransient
     public List<Devolucion> getDevolucionList() {
         return devolucionList;
@@ -166,22 +193,6 @@ public class Documentopago implements Serializable {
 
     public void setDetallefacturaList(List<Detallefactura> detallefacturaList) {
         this.detallefacturaList = detallefacturaList;
-    }
-
-    public Cliente getCedula() {
-        return cedula;
-    }
-
-    public void setCedula(Cliente cedula) {
-        this.cedula = cedula;
-    }
-
-    public Usuario getUsuarioCedula() {
-        return usuarioCedula;
-    }
-
-    public void setUsuarioCedula(Usuario usuarioCedula) {
-        this.usuarioCedula = usuarioCedula;
     }
 
     @Override
