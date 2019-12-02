@@ -23,16 +23,15 @@ import DAO.Facturacion.Detallefactura;
 import DAO.Facturacion.Documentopago;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 /**
  *
- * @author sanch
+ * @author Santiago
  */
 public class DocumentopagoJpaController implements Serializable {
 
-    public DocumentopagoJpaController() {
-        this.emf = Persistence.createEntityManagerFactory("SistemaFacturacionPU");
+    public DocumentopagoJpaController(EntityManagerFactory emf) {
+        this.emf = emf;
     }
     private EntityManagerFactory emf = null;
 

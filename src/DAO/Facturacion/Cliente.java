@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author sanch
+ * @author Santiago
  */
 @Entity
 @Table(name = "cliente")
@@ -39,7 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Cliente.findByTelefono", query = "SELECT c FROM Cliente c WHERE c.telefono = :telefono")
     , @NamedQuery(name = "Cliente.findByEmail", query = "SELECT c FROM Cliente c WHERE c.email = :email")
     , @NamedQuery(name = "Cliente.findByEstado", query = "SELECT c FROM Cliente c WHERE c.estado = :estado")
-    , @NamedQuery(name = "Cliente.findByClientecol", query = "SELECT c FROM Cliente c WHERE c.clientecol = :clientecol")
+    , @NamedQuery(name = "Cliente.findByDireccion", query = "SELECT c FROM Cliente c WHERE c.direccion = :direccion")
     , @NamedQuery(name = "Cliente.findByFechaIngreso", query = "SELECT c FROM Cliente c WHERE c.fechaIngreso = :fechaIngreso")})
 public class Cliente implements Serializable {
 
@@ -62,8 +62,8 @@ public class Cliente implements Serializable {
     private String email;
     @Column(name = "Estado")
     private String estado;
-    @Column(name = "Clientecol")
-    private String clientecol;
+    @Column(name = "Direccion")
+    private String direccion;
     @Column(name = "FechaIngreso")
     @Temporal(TemporalType.DATE)
     private Date fechaIngreso;
@@ -141,12 +141,12 @@ public class Cliente implements Serializable {
         this.estado = estado;
     }
 
-    public String getClientecol() {
-        return clientecol;
+    public String getDireccion() {
+        return direccion;
     }
 
-    public void setClientecol(String clientecol) {
-        this.clientecol = clientecol;
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
     public Date getFechaIngreso() {

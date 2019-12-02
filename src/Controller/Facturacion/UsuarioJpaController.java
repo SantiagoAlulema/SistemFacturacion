@@ -24,7 +24,7 @@ import javax.persistence.Persistence;
 
 /**
  *
- * @author sanch
+ * @author Santiago
  */
 public class UsuarioJpaController implements Serializable {
 

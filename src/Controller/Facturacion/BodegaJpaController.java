@@ -23,7 +23,7 @@ import javax.persistence.Persistence;
 
 /**
  *
- * @author sanch
+ * @author Santiago
  */
 public class BodegaJpaController implements Serializable {
 
