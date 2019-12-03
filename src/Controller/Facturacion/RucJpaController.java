@@ -12,12 +12,13 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import DAO.Facturacion.Cliente;
+import DAO.Facturacion.Pcliente;
 import DAO.Facturacion.Ruc;
 import DAO.Facturacion.Tiporuc;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  *
@@ -25,8 +26,8 @@ import javax.persistence.EntityManagerFactory;
  */
 public class RucJpaController implements Serializable {
 
-    public RucJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    public RucJpaController( ) {
+        this.emf = Persistence.createEntityManagerFactory("SistemaFacturacionPU");
     }
     private EntityManagerFactory emf = null;
 
@@ -39,10 +40,10 @@ public class RucJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Cliente idCliente = ruc.getIdCliente();
-            if (idCliente != null) {
-                idCliente = em.getReference(idCliente.getClass(), idCliente.getIdCliente());
-                ruc.setIdCliente(idCliente);
+            Pcliente idPCliente = ruc.getIdPCliente();
+            if (idPCliente != null) {
+                idPCliente = em.getReference(idPCliente.getClass(), idPCliente.getIdPCliente());
+                ruc.setIdPCliente(idPCliente);
             }
             Tiporuc idTipoRuc = ruc.getIdTipoRuc();
             if (idTipoRuc != null) {
@@ -50,9 +51,9 @@ public class RucJpaController implements Serializable {
                 ruc.setIdTipoRuc(idTipoRuc);
             }
             em.persist(ruc);
-            if (idCliente != null) {
-                idCliente.getRucList().add(ruc);
-                idCliente = em.merge(idCliente);
+            if (idPCliente != null) {
+                idPCliente.getRucList().add(ruc);
+                idPCliente = em.merge(idPCliente);
             }
             if (idTipoRuc != null) {
                 idTipoRuc.getRucList().add(ruc);
@@ -77,26 +78,26 @@ public class RucJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Ruc persistentRuc = em.find(Ruc.class, ruc.getRuc());
-            Cliente idClienteOld = persistentRuc.getIdCliente();
-            Cliente idClienteNew = ruc.getIdCliente();
+            Pcliente idPClienteOld = persistentRuc.getIdPCliente();
+            Pcliente idPClienteNew = ruc.getIdPCliente();
             Tiporuc idTipoRucOld = persistentRuc.getIdTipoRuc();
             Tiporuc idTipoRucNew = ruc.getIdTipoRuc();
-            if (idClienteNew != null) {
-                idClienteNew = em.getReference(idClienteNew.getClass(), idClienteNew.getIdCliente());
-                ruc.setIdCliente(idClienteNew);
+            if (idPClienteNew != null) {
+                idPClienteNew = em.getReference(idPClienteNew.getClass(), idPClienteNew.getIdPCliente());
+                ruc.setIdPCliente(idPClienteNew);
             }
             if (idTipoRucNew != null) {
                 idTipoRucNew = em.getReference(idTipoRucNew.getClass(), idTipoRucNew.getIdTipoRuc());
                 ruc.setIdTipoRuc(idTipoRucNew);
             }
             ruc = em.merge(ruc);
-            if (idClienteOld != null && !idClienteOld.equals(idClienteNew)) {
-                idClienteOld.getRucList().remove(ruc);
-                idClienteOld = em.merge(idClienteOld);
+            if (idPClienteOld != null && !idPClienteOld.equals(idPClienteNew)) {
+                idPClienteOld.getRucList().remove(ruc);
+                idPClienteOld = em.merge(idPClienteOld);
             }
-            if (idClienteNew != null && !idClienteNew.equals(idClienteOld)) {
-                idClienteNew.getRucList().add(ruc);
-                idClienteNew = em.merge(idClienteNew);
+            if (idPClienteNew != null && !idPClienteNew.equals(idPClienteOld)) {
+                idPClienteNew.getRucList().add(ruc);
+                idPClienteNew = em.merge(idPClienteNew);
             }
             if (idTipoRucOld != null && !idTipoRucOld.equals(idTipoRucNew)) {
                 idTipoRucOld.getRucList().remove(ruc);
@@ -135,10 +136,10 @@ public class RucJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The ruc with id " + id + " no longer exists.", enfe);
             }
-            Cliente idCliente = ruc.getIdCliente();
-            if (idCliente != null) {
-                idCliente.getRucList().remove(ruc);
-                idCliente = em.merge(idCliente);
+            Pcliente idPCliente = ruc.getIdPCliente();
+            if (idPCliente != null) {
+                idPCliente.getRucList().remove(ruc);
+                idPCliente = em.merge(idPCliente);
             }
             Tiporuc idTipoRuc = ruc.getIdTipoRuc();
             if (idTipoRuc != null) {

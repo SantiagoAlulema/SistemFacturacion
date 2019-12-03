@@ -34,9 +34,9 @@ public class Cedula implements Serializable {
     @Basic(optional = false)
     @Column(name = "Cedula")
     private String cedula;
-    @JoinColumn(name = "idCliente", referencedColumnName = "idCliente")
+    @JoinColumn(name = "idPCliente", referencedColumnName = "idPCliente")
     @ManyToOne(optional = false)
-    private Cliente idCliente;
+    private Pcliente idPCliente;
 
     public Cedula() {
     }
@@ -53,12 +53,12 @@ public class Cedula implements Serializable {
         this.cedula = cedula;
     }
 
-    public Cliente getIdCliente() {
-        return idCliente;
+    public Pcliente getIdPCliente() {
+        return idPCliente;
     }
 
-    public void setIdCliente(Cliente idCliente) {
-        this.idCliente = idCliente;
+    public void setIdPCliente(Pcliente idPCliente) {
+        this.idPCliente = idPCliente;
     }
 
     @Override

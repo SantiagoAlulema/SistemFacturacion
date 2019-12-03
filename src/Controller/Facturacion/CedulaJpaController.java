@@ -13,10 +13,11 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import DAO.Facturacion.Cliente;
+import DAO.Facturacion.Pcliente;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  *
@@ -24,8 +25,8 @@ import javax.persistence.EntityManagerFactory;
  */
 public class CedulaJpaController implements Serializable {
 
-    public CedulaJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    public CedulaJpaController( ) {
+        this.emf = Persistence.createEntityManagerFactory("SistemaFacturacionPU");
     }
     private EntityManagerFactory emf = null;
 
@@ -38,15 +39,15 @@ public class CedulaJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Cliente idCliente = cedula.getIdCliente();
-            if (idCliente != null) {
-                idCliente = em.getReference(idCliente.getClass(), idCliente.getIdCliente());
-                cedula.setIdCliente(idCliente);
+            Pcliente idPCliente = cedula.getIdPCliente();
+            if (idPCliente != null) {
+                idPCliente = em.getReference(idPCliente.getClass(), idPCliente.getIdPCliente());
+                cedula.setIdPCliente(idPCliente);
             }
             em.persist(cedula);
-            if (idCliente != null) {
-                idCliente.getCedulaList().add(cedula);
-                idCliente = em.merge(idCliente);
+            if (idPCliente != null) {
+                idPCliente.getCedulaList().add(cedula);
+                idPCliente = em.merge(idPCliente);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -67,20 +68,20 @@ public class CedulaJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Cedula persistentCedula = em.find(Cedula.class, cedula.getCedula());
-            Cliente idClienteOld = persistentCedula.getIdCliente();
-            Cliente idClienteNew = cedula.getIdCliente();
-            if (idClienteNew != null) {
-                idClienteNew = em.getReference(idClienteNew.getClass(), idClienteNew.getIdCliente());
-                cedula.setIdCliente(idClienteNew);
+            Pcliente idPClienteOld = persistentCedula.getIdPCliente();
+            Pcliente idPClienteNew = cedula.getIdPCliente();
+            if (idPClienteNew != null) {
+                idPClienteNew = em.getReference(idPClienteNew.getClass(), idPClienteNew.getIdPCliente());
+                cedula.setIdPCliente(idPClienteNew);
             }
             cedula = em.merge(cedula);
-            if (idClienteOld != null && !idClienteOld.equals(idClienteNew)) {
-                idClienteOld.getCedulaList().remove(cedula);
-                idClienteOld = em.merge(idClienteOld);
+            if (idPClienteOld != null && !idPClienteOld.equals(idPClienteNew)) {
+                idPClienteOld.getCedulaList().remove(cedula);
+                idPClienteOld = em.merge(idPClienteOld);
             }
-            if (idClienteNew != null && !idClienteNew.equals(idClienteOld)) {
-                idClienteNew.getCedulaList().add(cedula);
-                idClienteNew = em.merge(idClienteNew);
+            if (idPClienteNew != null && !idPClienteNew.equals(idPClienteOld)) {
+                idPClienteNew.getCedulaList().add(cedula);
+                idPClienteNew = em.merge(idPClienteNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -111,10 +112,10 @@ public class CedulaJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The cedula with id " + id + " no longer exists.", enfe);
             }
-            Cliente idCliente = cedula.getIdCliente();
-            if (idCliente != null) {
-                idCliente.getCedulaList().remove(cedula);
-                idCliente = em.merge(idCliente);
+            Pcliente idPCliente = cedula.getIdPCliente();
+            if (idPCliente != null) {
+                idPCliente.getCedulaList().remove(cedula);
+                idPCliente = em.merge(idPCliente);
             }
             em.remove(cedula);
             em.getTransaction().commit();

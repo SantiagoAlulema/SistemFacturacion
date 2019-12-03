@@ -12,7 +12,6 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import DAO.Facturacion.Cliente;
 import DAO.Facturacion.Tienda;
 import DAO.Facturacion.Usuario;
 import DAO.Facturacion.Devolucion;
@@ -57,11 +56,6 @@ public class DocumentopagoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Cliente idCliente = documentopago.getIdCliente();
-            if (idCliente != null) {
-                idCliente = em.getReference(idCliente.getClass(), idCliente.getIdCliente());
-                documentopago.setIdCliente(idCliente);
-            }
             Tienda idTienda = documentopago.getIdTienda();
             if (idTienda != null) {
                 idTienda = em.getReference(idTienda.getClass(), idTienda.getIdTienda());
@@ -97,10 +91,6 @@ public class DocumentopagoJpaController implements Serializable {
             }
             documentopago.setDetallefacturaList(attachedDetallefacturaList);
             em.persist(documentopago);
-            if (idCliente != null) {
-                idCliente.getDocumentopagoList().add(documentopago);
-                idCliente = em.merge(idCliente);
-            }
             if (idTienda != null) {
                 idTienda.getDocumentopagoList().add(documentopago);
                 idTienda = em.merge(idTienda);
@@ -159,8 +149,6 @@ public class DocumentopagoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Documentopago persistentDocumentopago = em.find(Documentopago.class, documentopago.getIdDocumento());
-            Cliente idClienteOld = persistentDocumentopago.getIdCliente();
-            Cliente idClienteNew = documentopago.getIdCliente();
             Tienda idTiendaOld = persistentDocumentopago.getIdTienda();
             Tienda idTiendaNew = documentopago.getIdTienda();
             Usuario usuarioUsuarioOld = persistentDocumentopago.getUsuarioUsuario();
@@ -209,10 +197,6 @@ public class DocumentopagoJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            if (idClienteNew != null) {
-                idClienteNew = em.getReference(idClienteNew.getClass(), idClienteNew.getIdCliente());
-                documentopago.setIdCliente(idClienteNew);
-            }
             if (idTiendaNew != null) {
                 idTiendaNew = em.getReference(idTiendaNew.getClass(), idTiendaNew.getIdTienda());
                 documentopago.setIdTienda(idTiendaNew);
@@ -250,14 +234,6 @@ public class DocumentopagoJpaController implements Serializable {
             detallefacturaListNew = attachedDetallefacturaListNew;
             documentopago.setDetallefacturaList(detallefacturaListNew);
             documentopago = em.merge(documentopago);
-            if (idClienteOld != null && !idClienteOld.equals(idClienteNew)) {
-                idClienteOld.getDocumentopagoList().remove(documentopago);
-                idClienteOld = em.merge(idClienteOld);
-            }
-            if (idClienteNew != null && !idClienteNew.equals(idClienteOld)) {
-                idClienteNew.getDocumentopagoList().add(documentopago);
-                idClienteNew = em.merge(idClienteNew);
-            }
             if (idTiendaOld != null && !idTiendaOld.equals(idTiendaNew)) {
                 idTiendaOld.getDocumentopagoList().remove(documentopago);
                 idTiendaOld = em.merge(idTiendaOld);
@@ -378,11 +354,6 @@ public class DocumentopagoJpaController implements Serializable {
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            Cliente idCliente = documentopago.getIdCliente();
-            if (idCliente != null) {
-                idCliente.getDocumentopagoList().remove(documentopago);
-                idCliente = em.merge(idCliente);
             }
             Tienda idTienda = documentopago.getIdTienda();
             if (idTienda != null) {

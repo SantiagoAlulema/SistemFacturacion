@@ -34,9 +34,9 @@ public class Ruc implements Serializable {
     @Basic(optional = false)
     @Column(name = "Ruc")
     private String ruc;
-    @JoinColumn(name = "idCliente", referencedColumnName = "idCliente")
+    @JoinColumn(name = "idPCliente", referencedColumnName = "idPCliente")
     @ManyToOne(optional = false)
-    private Cliente idCliente;
+    private Pcliente idPCliente;
     @JoinColumn(name = "idTipoRuc", referencedColumnName = "idTipoRuc")
     @ManyToOne(optional = false)
     private Tiporuc idTipoRuc;
@@ -56,12 +56,12 @@ public class Ruc implements Serializable {
         this.ruc = ruc;
     }
 
-    public Cliente getIdCliente() {
-        return idCliente;
+    public Pcliente getIdPCliente() {
+        return idPCliente;
     }
 
-    public void setIdCliente(Cliente idCliente) {
-        this.idCliente = idCliente;
+    public void setIdPCliente(Pcliente idPCliente) {
+        this.idPCliente = idPCliente;
     }
 
     public Tiporuc getIdTipoRuc() {

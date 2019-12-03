@@ -39,7 +39,7 @@
                   <Component id="jPanel7" max="32767" attributes="0"/>
                   <Component id="jPanel8" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace pref="19" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -138,48 +138,6 @@
                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
-                      <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="TextField_NombreCliente" alignment="0" min="-2" pref="188" max="-2" attributes="0"/>
-                                      <Component id="Label_ApellidoCliente" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="Label_NombreCliente" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="Label_NombreCliente16" min="-2" max="-2" attributes="0"/>
-                                      <Component id="Label_ApellidoCliente16" min="-2" max="-2" attributes="0"/>
-                                      <Component id="TextField_NombreCliente16" min="-2" pref="188" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <Component id="Label_NombreCliente17" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="TextField_NombreCliente17" min="-2" pref="188" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="Comb_TipDocu" max="32767" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="TextField_ApellidioCliente" alignment="0" min="-2" pref="188" max="-2" attributes="0"/>
-                                      <Component id="Label_DireccionCliente" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="TextField_DireccioCliente" alignment="0" min="-2" pref="188" max="-2" attributes="0"/>
-                                      <Component id="Label_Pago" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="TextField_PagosCliente" alignment="0" min="-2" pref="188" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="Label_Pago31" min="-2" max="-2" attributes="0"/>
-                                      <Component id="Label_TelefonoCliente" min="-2" max="-2" attributes="0"/>
-                                      <Component id="TextField_ApellidioCliente1" min="-2" pref="188" max="-2" attributes="0"/>
-                                      <Component id="TextField_TelefonoCliente" alignment="0" min="-2" pref="188" max="-2" attributes="0"/>
-                                      <Component id="TextField_PagosCliente1" min="-2" pref="188" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="0" pref="36" max="32767" attributes="0"/>
-                      </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="Button_GuardarCliente" min="-2" pref="85" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
@@ -187,6 +145,51 @@
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="Button_CancelarCLT" min="-2" pref="85" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="txtDocumentoNumer" min="-2" pref="188" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="comb_TipoRuc" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="txt_PrimerApellido" alignment="0" min="-2" pref="188" max="-2" attributes="0"/>
+                                          <Component id="Label_DireccionCliente" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="txt_Direccion" alignment="0" min="-2" pref="188" max="-2" attributes="0"/>
+                                          <Component id="Label_Pago" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="txt_Email" alignment="0" min="-2" pref="188" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="Label_Pago31" min="-2" max="-2" attributes="0"/>
+                                          <Component id="Label_TelefonoCliente" min="-2" max="-2" attributes="0"/>
+                                          <Component id="txt_SegundoApellido" min="-2" pref="188" max="-2" attributes="0"/>
+                                          <Component id="txt_telefono" alignment="0" min="-2" pref="188" max="-2" attributes="0"/>
+                                          <Component id="txt_FechaIngreso" min="-2" pref="188" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="txt_PrimerNombre" alignment="0" min="-2" pref="188" max="-2" attributes="0"/>
+                                          <Component id="Label_ApellidoCliente" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="Label_NombreCliente" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="Label_NombreCliente17" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="Label_NombreCliente16" min="-2" max="-2" attributes="0"/>
+                                          <Component id="Label_ApellidoCliente16" min="-2" max="-2" attributes="0"/>
+                                          <Component id="txt_SegundoNombre" min="-2" pref="188" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                              <Component id="Comb_TipoDocu" alignment="0" min="-2" pref="188" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="0" pref="36" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -199,12 +202,14 @@
                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="Comb_TipoDocu" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                   <Component id="Label_NombreCliente17" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="TextField_NombreCliente17" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="Comb_TipDocu" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtDocumentoNumer" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="comb_TipoRuc" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -213,8 +218,8 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="TextField_NombreCliente" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="TextField_NombreCliente16" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txt_PrimerNombre" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txt_SegundoNombre" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -223,8 +228,8 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="TextField_ApellidioCliente" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="TextField_ApellidioCliente1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txt_PrimerApellido" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txt_SegundoApellido" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -233,8 +238,8 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="TextField_TelefonoCliente" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="TextField_DireccioCliente" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txt_telefono" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txt_Direccion" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -243,8 +248,8 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="TextField_PagosCliente" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="TextField_PagosCliente1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txt_Email" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txt_FechaIngreso" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -288,14 +293,14 @@
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="TextField_NombreCliente">
+        <Component class="javax.swing.JTextField" name="txt_PrimerNombre">
         </Component>
         <Component class="javax.swing.JLabel" name="Label_ApellidoCliente">
           <Properties>
             <Property name="text" type="java.lang.String" value="Primer Apellido *"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="TextField_ApellidioCliente">
+        <Component class="javax.swing.JTextField" name="txt_PrimerApellido">
         </Component>
         <Component class="javax.swing.JLabel" name="Label_DireccionCliente">
           <Properties>
@@ -303,14 +308,14 @@
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="TextField_DireccioCliente">
+        <Component class="javax.swing.JTextField" name="txt_Direccion">
         </Component>
         <Component class="javax.swing.JLabel" name="Label_TelefonoCliente">
           <Properties>
             <Property name="text" type="java.lang.String" value="Telefono"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="TextField_TelefonoCliente">
+        <Component class="javax.swing.JTextField" name="txt_telefono">
         </Component>
         <Component class="javax.swing.JLabel" name="Label_Pago">
           <Properties>
@@ -320,7 +325,7 @@
             <Property name="text" type="java.lang.String" value="Email"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="TextField_PagosCliente">
+        <Component class="javax.swing.JTextField" name="txt_Email">
         </Component>
         <Component class="javax.swing.JButton" name="Button_GuardarCliente">
           <Properties>
@@ -329,6 +334,9 @@
               <Border info="null"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Button_GuardarClienteActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="Button_EliminarCLT">
           <Properties>
@@ -352,14 +360,14 @@
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="TextField_NombreCliente16">
+        <Component class="javax.swing.JTextField" name="txt_SegundoNombre">
         </Component>
         <Component class="javax.swing.JLabel" name="Label_ApellidoCliente16">
           <Properties>
             <Property name="text" type="java.lang.String" value="Segundo Apellido *"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="TextField_ApellidioCliente1">
+        <Component class="javax.swing.JTextField" name="txt_SegundoApellido">
         </Component>
         <Component class="javax.swing.JLabel" name="Label_NombreCliente17">
           <Properties>
@@ -367,7 +375,7 @@
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="TextField_NombreCliente17">
+        <Component class="javax.swing.JTextField" name="txtDocumentoNumer">
         </Component>
         <Component class="javax.swing.JLabel" name="Label_Pago31">
           <Properties>
@@ -377,12 +385,12 @@
             <Property name="text" type="java.lang.String" value="Fecha Ingreso (yy/mm/dd)"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="TextField_PagosCliente1">
+        <Component class="javax.swing.JTextField" name="txt_FechaIngreso">
           <Properties>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="Comb_TipDocu">
+        <Component class="javax.swing.JComboBox" name="Comb_TipoDocu">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="2">
@@ -390,6 +398,23 @@
                 <StringItem index="1" value="RUC"/>
               </StringArray>
             </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="Comb_TipoDocuItemStateChanged"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="comb_TipoRuc">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="2">
+                <StringItem index="0" value="Ruc Natural"/>
+                <StringItem index="1" value="Ruc Empresarial"/>
+              </StringArray>
+            </Property>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>

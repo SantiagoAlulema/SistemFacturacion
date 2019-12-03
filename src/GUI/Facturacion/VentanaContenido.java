@@ -7,6 +7,9 @@ package GUI.Facturacion;
 
 import Iconos.AWTUtilities;
 import java.awt.Image;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
@@ -23,8 +26,7 @@ public class VentanaContenido extends javax.swing.JFrame {
         initComponents();
       this.setExtendedState(MAXIMIZED_BOTH);
       
-      
-    
+     
       //  AWTUtilities.setOpaque(this, false);
     //    this.setLocationRelativeTo(null);
     }
@@ -246,7 +248,8 @@ public class VentanaContenido extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
+        this.setExtendedState(ICONIFIED);
+        this.setExtendedState(1);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

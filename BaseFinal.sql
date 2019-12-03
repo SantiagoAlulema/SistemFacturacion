@@ -15,25 +15,6 @@ CREATE SCHEMA IF NOT EXISTS `facturacion` DEFAULT CHARACTER SET utf8 ;
 USE `facturacion` ;
 
 -- -----------------------------------------------------
--- Table `facturacion`.`Cliente`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `facturacion`.`Cliente` (
-  `idCliente` INT NOT NULL AUTO_INCREMENT,
-  `Primer Nombre` VARCHAR(45) NULL,
-  `SegudoNombre` VARCHAR(45) NULL,
-  `PrimerApellido` VARCHAR(45) NULL,
-  `SegudoApellido` VARCHAR(45) NULL,
-  `Telefono` VARCHAR(45) NULL,
-  `Email` VARCHAR(45) NULL,
-  `Estado` VARCHAR(2) NULL,
-  `Direccion` VARCHAR(120) NULL,
-  `FechaIngreso` DATE NULL,
-  PRIMARY KEY (`idCliente`),
-  UNIQUE INDEX `Cedula_UNIQUE` (`idCliente` ASC) )
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `facturacion`.`Rol`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `facturacion`.`Rol` (
@@ -108,7 +89,6 @@ CREATE TABLE IF NOT EXISTS `facturacion`.`DocumentoPago` (
   PRIMARY KEY (`idDocumento`),
   INDEX `fk_Factura_Usuario1_idx` (`UsuarioUsuario` ASC) ,
   INDEX `fk_DocumentoPago_Tienda1_idx` (`idTienda` ASC) ,
-  INDEX `fk_DocumentoPago_Cliente1_idx` (`idCliente` ASC) ,
   CONSTRAINT `fk_Factura_Usuario1`
     FOREIGN KEY (`UsuarioUsuario`)
     REFERENCES `facturacion`.`Usuario` (`Cedula`)
@@ -117,11 +97,6 @@ CREATE TABLE IF NOT EXISTS `facturacion`.`DocumentoPago` (
   CONSTRAINT `fk_DocumentoPago_Tienda1`
     FOREIGN KEY (`idTienda`)
     REFERENCES `facturacion`.`Tienda` (`idTienda`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_DocumentoPago_Cliente1`
-    FOREIGN KEY (`idCliente`)
-    REFERENCES `facturacion`.`Cliente` (`idCliente`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -277,23 +252,41 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `facturacion`.`PCliente`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `facturacion`.`PCliente` (
+  `idPCliente` INT NOT NULL AUTO_INCREMENT,
+  `PrimerNombre` VARCHAR(45) NULL,
+  `SegundoNombre` VARCHAR(45) NULL,
+  `PrimerApellido` VARCHAR(45) NULL,
+  `SegundoApellido` VARCHAR(45) NULL,
+  `Telefono` VARCHAR(15) NULL,
+  `Direccion` VARCHAR(100) NULL,
+  `Estado` VARCHAR(2) NULL,
+  `FechaIngreso` DATE NULL,
+  `Email` VARCHAR(100) NULL,
+  PRIMARY KEY (`idPCliente`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `facturacion`.`Ruc`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `facturacion`.`Ruc` (
   `Ruc` VARCHAR(13) NOT NULL,
-  `idCliente` INT NOT NULL,
   `idTipoRuc` INT NOT NULL,
+  `idPCliente` INT NOT NULL,
   PRIMARY KEY (`Ruc`),
-  INDEX `fk_RucJuridica_Cliente1_idx` (`idCliente` ASC) ,
   INDEX `fk_Ruc_TipoRuc1_idx` (`idTipoRuc` ASC) ,
-  CONSTRAINT `fk_RucJuridica_Cliente1`
-    FOREIGN KEY (`idCliente`)
-    REFERENCES `facturacion`.`Cliente` (`idCliente`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+  INDEX `fk_Ruc_PCliente1_idx` (`idPCliente` ASC) ,
   CONSTRAINT `fk_Ruc_TipoRuc1`
     FOREIGN KEY (`idTipoRuc`)
     REFERENCES `facturacion`.`TipoRuc` (`idTipoRuc`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Ruc_PCliente1`
+    FOREIGN KEY (`idPCliente`)
+    REFERENCES `facturacion`.`PCliente` (`idPCliente`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -304,12 +297,12 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `facturacion`.`Cedula` (
   `Cedula` VARCHAR(10) NOT NULL,
-  `idCliente` INT NOT NULL,
+  `idPCliente` INT NOT NULL,
   PRIMARY KEY (`Cedula`),
-  INDEX `fk_Cedula/RucNatu_Cliente1_idx` (`idCliente` ASC) ,
-  CONSTRAINT `fk_Cedula/RucNatu_Cliente1`
-    FOREIGN KEY (`idCliente`)
-    REFERENCES `facturacion`.`Cliente` (`idCliente`)
+  INDEX `fk_Cedula_PCliente1_idx` (`idPCliente` ASC) ,
+  CONSTRAINT `fk_Cedula_PCliente1`
+    FOREIGN KEY (`idPCliente`)
+    REFERENCES `facturacion`.`PCliente` (`idPCliente`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

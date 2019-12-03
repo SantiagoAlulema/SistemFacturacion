@@ -41,7 +41,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Documentopago.findBySubtotal", query = "SELECT d FROM Documentopago d WHERE d.subtotal = :subtotal")
     , @NamedQuery(name = "Documentopago.findByTotal", query = "SELECT d FROM Documentopago d WHERE d.total = :total")
     , @NamedQuery(name = "Documentopago.findByIva", query = "SELECT d FROM Documentopago d WHERE d.iva = :iva")
-    , @NamedQuery(name = "Documentopago.findByEstado", query = "SELECT d FROM Documentopago d WHERE d.estado = :estado")})
+    , @NamedQuery(name = "Documentopago.findByEstado", query = "SELECT d FROM Documentopago d WHERE d.estado = :estado")
+    , @NamedQuery(name = "Documentopago.findByIdCliente", query = "SELECT d FROM Documentopago d WHERE d.idCliente = :idCliente")})
 public class Documentopago implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -62,9 +63,9 @@ public class Documentopago implements Serializable {
     private BigDecimal iva;
     @Column(name = "Estado")
     private Integer estado;
-    @JoinColumn(name = "idCliente", referencedColumnName = "idCliente")
-    @ManyToOne(optional = false)
-    private Cliente idCliente;
+    @Basic(optional = false)
+    @Column(name = "idCliente")
+    private int idCliente;
     @JoinColumn(name = "idTienda", referencedColumnName = "idTienda")
     @ManyToOne(optional = false)
     private Tienda idTienda;
@@ -85,6 +86,11 @@ public class Documentopago implements Serializable {
 
     public Documentopago(Integer idDocumento) {
         this.idDocumento = idDocumento;
+    }
+
+    public Documentopago(Integer idDocumento, int idCliente) {
+        this.idDocumento = idDocumento;
+        this.idCliente = idCliente;
     }
 
     public Integer getIdDocumento() {
@@ -135,11 +141,11 @@ public class Documentopago implements Serializable {
         this.estado = estado;
     }
 
-    public Cliente getIdCliente() {
+    public int getIdCliente() {
         return idCliente;
     }
 
-    public void setIdCliente(Cliente idCliente) {
+    public void setIdCliente(int idCliente) {
         this.idCliente = idCliente;
     }
 
