@@ -285,7 +285,20 @@ public class VentanaContenido extends javax.swing.JFrame {
     }//GEN-LAST:event_Button_ClienteActionPerformed
 
     private void Button_PoductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_PoductosActionPerformed
-        // TODO add your handling code here:
+        PanelProductos panelpro= new PanelProductos();
+    //   System.gc();
+       
+      
+       panelpro.setSize(Contenedor.getHeight()+800, Contenedor.getWidth());
+ 
+        panelpro.setLocation(0,0);
+        this.getContentPane().add(panelpro); 
+       Contenedor.setFocusable(true);
+        Contenedor.requestFocusInWindow();
+       Contenedor.removeAll();
+        Contenedor.add(panelpro);
+        Contenedor.revalidate();
+        Contenedor.repaint();
     }//GEN-LAST:event_Button_PoductosActionPerformed
 
     /**
