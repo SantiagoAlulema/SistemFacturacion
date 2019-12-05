@@ -19,16 +19,15 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 /**
  *
- * @author sanch
+ * @author Santiago
  */
 public class BodegaJpaController implements Serializable {
 
-    public BodegaJpaController() {
-        this.emf = Persistence.createEntityManagerFactory("SistemaFacturacionPU");
+    public BodegaJpaController(EntityManagerFactory emf) {
+        this.emf = emf;
     }
     private EntityManagerFactory emf = null;
 

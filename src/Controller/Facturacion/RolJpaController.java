@@ -22,11 +22,11 @@ import javax.persistence.Persistence;
 
 /**
  *
- * @author sanch
+ * @author Santiago
  */
 public class RolJpaController implements Serializable {
 
-    public RolJpaController() {
+    public RolJpaController( ) {
         this.emf = Persistence.createEntityManagerFactory("SistemaFacturacionPU");
     }
     private EntityManagerFactory emf = null;

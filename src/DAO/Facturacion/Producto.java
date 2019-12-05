@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author sanch
+ * @author Santiago
  */
 @Entity
 @Table(name = "producto")
@@ -73,8 +73,6 @@ public class Producto implements Serializable {
     @Basic(optional = false)
     @Column(name = "Precio_Venta")
     private double precioVenta;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "producto")
-    private List<Detallefactura> detallefacturaList;
     @JoinColumn(name = "idBodega", referencedColumnName = "idBodega")
     @ManyToOne(optional = false)
     private Bodega idBodega;
@@ -84,6 +82,8 @@ public class Producto implements Serializable {
     @JoinColumn(name = "idProvedor", referencedColumnName = "idProvedor")
     @ManyToOne(optional = false)
     private Provedor idProvedor;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "producto")
+    private List<Detallefactura> detallefacturaList;
 
     public Producto() {
     }
@@ -176,15 +176,6 @@ public class Producto implements Serializable {
         this.precioVenta = precioVenta;
     }
 
-    @XmlTransient
-    public List<Detallefactura> getDetallefacturaList() {
-        return detallefacturaList;
-    }
-
-    public void setDetallefacturaList(List<Detallefactura> detallefacturaList) {
-        this.detallefacturaList = detallefacturaList;
-    }
-
     public Bodega getIdBodega() {
         return idBodega;
     }
@@ -207,6 +198,15 @@ public class Producto implements Serializable {
 
     public void setIdProvedor(Provedor idProvedor) {
         this.idProvedor = idProvedor;
+    }
+
+    @XmlTransient
+    public List<Detallefactura> getDetallefacturaList() {
+        return detallefacturaList;
+    }
+
+    public void setDetallefacturaList(List<Detallefactura> detallefacturaList) {
+        this.detallefacturaList = detallefacturaList;
     }
 
     @Override

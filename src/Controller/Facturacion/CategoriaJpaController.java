@@ -23,12 +23,12 @@ import javax.persistence.Persistence;
 
 /**
  *
- * @author sanch
+ * @author Santiago
  */
 public class CategoriaJpaController implements Serializable {
 
     public CategoriaJpaController() {
-        this.emf = Persistence.createEntityManagerFactory("SistemaFacturacionPU");
+        this.emf = Persistence.createEntityManagerFactory("examenfinalPU");
     }
     private EntityManagerFactory emf = null;
 

@@ -14,6 +14,11 @@
     <class>DAO.Facturacion.Cliente</class>
     <class>DAO.Facturacion.Rol</class>
     <class>DAO.Facturacion.Provedor</class>
+    <class>DAO.Facturacion.Tiporuc</class>
+    <class>DAO.Facturacion.Ruc</class>
+    <class>DAO.Facturacion.Tienda</class>
+    <class>DAO.Facturacion.Cedula</class>
+    <class>DAO.Facturacion.Pcliente</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/facturacion?useTimezone=true&amp;serverTimezone=UTC"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

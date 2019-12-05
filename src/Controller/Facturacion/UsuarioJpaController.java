@@ -24,11 +24,11 @@ import javax.persistence.Persistence;
 
 /**
  *
- * @author sanch
+ * @author Santiago
  */
 public class UsuarioJpaController implements Serializable {
 
-    public UsuarioJpaController() {
+    public UsuarioJpaController( ) {
         this.emf = Persistence.createEntityManagerFactory("SistemaFacturacionPU");
     }
     private EntityManagerFactory emf = null;
@@ -62,12 +62,12 @@ public class UsuarioJpaController implements Serializable {
                 idRol = em.merge(idRol);
             }
             for (Documentopago documentopagoListDocumentopago : usuario.getDocumentopagoList()) {
-                Usuario oldUsuarioCedulaOfDocumentopagoListDocumentopago = documentopagoListDocumentopago.getUsuarioCedula();
-                documentopagoListDocumentopago.setUsuarioCedula(usuario);
+                Usuario oldUsuarioUsuarioOfDocumentopagoListDocumentopago = documentopagoListDocumentopago.getUsuarioUsuario();
+                documentopagoListDocumentopago.setUsuarioUsuario(usuario);
                 documentopagoListDocumentopago = em.merge(documentopagoListDocumentopago);
-                if (oldUsuarioCedulaOfDocumentopagoListDocumentopago != null) {
-                    oldUsuarioCedulaOfDocumentopagoListDocumentopago.getDocumentopagoList().remove(documentopagoListDocumentopago);
-                    oldUsuarioCedulaOfDocumentopagoListDocumentopago = em.merge(oldUsuarioCedulaOfDocumentopagoListDocumentopago);
+                if (oldUsuarioUsuarioOfDocumentopagoListDocumentopago != null) {
+                    oldUsuarioUsuarioOfDocumentopagoListDocumentopago.getDocumentopagoList().remove(documentopagoListDocumentopago);
+                    oldUsuarioUsuarioOfDocumentopagoListDocumentopago = em.merge(oldUsuarioUsuarioOfDocumentopagoListDocumentopago);
                 }
             }
             em.getTransaction().commit();
@@ -99,7 +99,7 @@ public class UsuarioJpaController implements Serializable {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Documentopago " + documentopagoListOldDocumentopago + " since its usuarioCedula field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Documentopago " + documentopagoListOldDocumentopago + " since its usuarioUsuario field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -127,12 +127,12 @@ public class UsuarioJpaController implements Serializable {
             }
             for (Documentopago documentopagoListNewDocumentopago : documentopagoListNew) {
                 if (!documentopagoListOld.contains(documentopagoListNewDocumentopago)) {
-                    Usuario oldUsuarioCedulaOfDocumentopagoListNewDocumentopago = documentopagoListNewDocumentopago.getUsuarioCedula();
-                    documentopagoListNewDocumentopago.setUsuarioCedula(usuario);
+                    Usuario oldUsuarioUsuarioOfDocumentopagoListNewDocumentopago = documentopagoListNewDocumentopago.getUsuarioUsuario();
+                    documentopagoListNewDocumentopago.setUsuarioUsuario(usuario);
                     documentopagoListNewDocumentopago = em.merge(documentopagoListNewDocumentopago);
-                    if (oldUsuarioCedulaOfDocumentopagoListNewDocumentopago != null && !oldUsuarioCedulaOfDocumentopagoListNewDocumentopago.equals(usuario)) {
-                        oldUsuarioCedulaOfDocumentopagoListNewDocumentopago.getDocumentopagoList().remove(documentopagoListNewDocumentopago);
-                        oldUsuarioCedulaOfDocumentopagoListNewDocumentopago = em.merge(oldUsuarioCedulaOfDocumentopagoListNewDocumentopago);
+                    if (oldUsuarioUsuarioOfDocumentopagoListNewDocumentopago != null && !oldUsuarioUsuarioOfDocumentopagoListNewDocumentopago.equals(usuario)) {
+                        oldUsuarioUsuarioOfDocumentopagoListNewDocumentopago.getDocumentopagoList().remove(documentopagoListNewDocumentopago);
+                        oldUsuarioUsuarioOfDocumentopagoListNewDocumentopago = em.merge(oldUsuarioUsuarioOfDocumentopagoListNewDocumentopago);
                     }
                 }
             }
@@ -171,7 +171,7 @@ public class UsuarioJpaController implements Serializable {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Usuario (" + usuario + ") cannot be destroyed since the Documentopago " + documentopagoListOrphanCheckDocumentopago + " in its documentopagoList field has a non-nullable usuarioCedula field.");
+                illegalOrphanMessages.add("This Usuario (" + usuario + ") cannot be destroyed since the Documentopago " + documentopagoListOrphanCheckDocumentopago + " in its documentopagoList field has a non-nullable usuarioUsuario field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);

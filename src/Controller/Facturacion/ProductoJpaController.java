@@ -21,16 +21,15 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 /**
  *
- * @author sanch
+ * @author Santiago
  */
 public class ProductoJpaController implements Serializable {
 
-    public ProductoJpaController() {
-        this.emf = Persistence.createEntityManagerFactory("SistemaFacturacionPU");
+    public ProductoJpaController(EntityManagerFactory emf) {
+        this.emf = emf;
     }
     private EntityManagerFactory emf = null;
 

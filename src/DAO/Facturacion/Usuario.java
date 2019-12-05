@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author sanch
+ * @author Santiago
  */
 @Entity
 @Table(name = "usuario")
@@ -75,11 +75,11 @@ public class Usuario implements Serializable {
     @Lob
     @Column(name = "password")
     private byte[] password;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioUsuario")
+    private List<Documentopago> documentopagoList;
     @JoinColumn(name = "idRol", referencedColumnName = "idRol")
     @ManyToOne(optional = false)
     private Rol idRol;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioCedula")
-    private List<Documentopago> documentopagoList;
 
     public Usuario() {
     }
@@ -172,14 +172,6 @@ public class Usuario implements Serializable {
         this.password = password;
     }
 
-    public Rol getIdRol() {
-        return idRol;
-    }
-
-    public void setIdRol(Rol idRol) {
-        this.idRol = idRol;
-    }
-
     @XmlTransient
     public List<Documentopago> getDocumentopagoList() {
         return documentopagoList;
@@ -187,6 +179,14 @@ public class Usuario implements Serializable {
 
     public void setDocumentopagoList(List<Documentopago> documentopagoList) {
         this.documentopagoList = documentopagoList;
+    }
+
+    public Rol getIdRol() {
+        return idRol;
+    }
+
+    public void setIdRol(Rol idRol) {
+        this.idRol = idRol;
     }
 
     @Override
