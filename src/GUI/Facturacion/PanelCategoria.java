@@ -18,8 +18,8 @@ public class PanelCategoria extends javax.swing.JPanel {
    
     public PanelCategoria() {
         initComponents();
+        LLenarTablaAuto();
     }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -245,8 +245,6 @@ public void LLenarTablaAuto(){
     public boolean isCellEditable(int rowIndex, int colIndex){
         return canEdit [colIndex];
     }
-    
-
     });
     tabla1.setModel(modelo);
     
