@@ -29,13 +29,14 @@ public class PanelCategoria extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         txtidcategoria = new javax.swing.JTextField();
         txtnombre = new javax.swing.JTextField();
-        txtdetalle = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         btnguardar = new javax.swing.JButton();
         btnactualizar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla1 = new javax.swing.JTable();
         btneliminar = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtdetalle = new javax.swing.JTextArea();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -91,6 +92,10 @@ public class PanelCategoria extends javax.swing.JPanel {
             }
         });
 
+        txtdetalle.setColumns(20);
+        txtdetalle.setRows(5);
+        jScrollPane2.setViewportView(txtdetalle);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -104,21 +109,18 @@ public class PanelCategoria extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(4, 4, 4)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                            .addComponent(btnguardar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(btnactualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(txtdetalle, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(txtidcategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2)
-                                    .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addGap(4, 4, 4)
+                                    .addComponent(btnguardar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnactualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(124, 124, 124)
                         .addComponent(btneliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -142,11 +144,11 @@ public class PanelCategoria extends javax.swing.JPanel {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(52, 52, 52)
+                .addGap(27, 27, 27)
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
-                .addComponent(txtdetalle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnactualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnguardar, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -163,28 +165,32 @@ public class PanelCategoria extends javax.swing.JPanel {
 
     private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
         try {
-            controlador.create(new Categoria(1, txtnombre.getText(), txtdetalle.getText()));
-
-            LLenarTablaAuto();
+            Categoria obj = new Categoria();
+            controlador.create(obj);
+            obj.setNombre(txtnombre.getText());
+            obj.setDetalle(txtdetalle.getText());
             limpiar();
+            LLenarTablaAuto();
         } catch (Exception ex) {
-            //Logger.getLogger(frm_categoria.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PanelCategoria.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnguardarActionPerformed
 
     private void btnactualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnactualizarActionPerformed
-       
-            Categoria obj = new Categoria(Integer.valueOf(txtidcategoria.getText()), txtnombre.getText(), txtdetalle.getText());
         try {
+            Categoria obj = new Categoria();
             controlador.edit(obj);
-        } catch (Exception ex) {
-            Logger.getLogger(PanelCategoria.class.getName()).log(Level.SEVERE, null, ex);
-        
+            obj.setNombre(txtnombre.getText());
+            obj.setDetalle(txtdetalle.getText());
             enableboton();
             limpiar();
-       
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(PanelCategoria.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(PanelCategoria.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnactualizarActionPerformed
-    }
+
     private void tabla1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla1MouseClicked
         btnguardar.setEnabled(false);
         btnactualizar.setEnabled(true);
@@ -277,8 +283,9 @@ public void LLenarTablaAuto(){
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tabla1;
-    private javax.swing.JTextField txtdetalle;
+    private javax.swing.JTextArea txtdetalle;
     private javax.swing.JTextField txtidcategoria;
     private javax.swing.JTextField txtnombre;
     // End of variables declaration//GEN-END:variables
