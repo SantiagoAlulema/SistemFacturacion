@@ -15,14 +15,12 @@ import javax.swing.ImageIcon;
 
 
 public class VentanaContenido extends javax.swing.JFrame {
-<<<<<<< HEAD
+    
  public static Facturacion panelcli;
     /**
      * Creates new form VentanaContenido
      */
-=======
 
->>>>>>> master
     public VentanaContenido() {
         initComponents();
       this.setExtendedState(MAXIMIZED_BOTH);

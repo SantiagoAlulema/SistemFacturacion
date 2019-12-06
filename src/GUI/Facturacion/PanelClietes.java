@@ -41,29 +41,25 @@ public class PanelClietes extends javax.swing.JPanel {
     TiporucJpaController controlador_TipoRuc =  new TiporucJpaController();
     RucJpaController controlador_Ruc = new RucJpaController();
     CedulaJpaController controlador_cedula = new CedulaJpaController();
-<<<<<<< HEAD
+
     FucionLlenarTablas tt = new FucionLlenarTablas();
     ValidaciondeTipado tipos = new ValidaciondeTipado();
     /**
      * Creates new form PanelClietes
      */
-=======
 
->>>>>>> master
     public PanelClietes() {
         initComponents();
         
          fecha= fecha + c1.get(Calendar.YEAR)+"/"  +  (c1.get(Calendar.MONTH)+1)+"/" +c1.get(Calendar.DATE);
          txt_FechaIngreso.setText(fecha);
-<<<<<<< HEAD
+
          tt.llenarTabla(Table_Clientes);
          
        // System.err.println(c1.get(Calendar.DATE));      
       //  System.err.println(c1.get(Calendar.MONTH));  
       //  System.err.println(c1.get(Calendar.YEAR));  
-=======
 
->>>>>>> master
     }
 
 
