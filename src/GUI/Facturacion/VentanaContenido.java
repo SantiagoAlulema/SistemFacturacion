@@ -18,7 +18,7 @@ import javax.swing.ImageIcon;
  * @author Santiago
  */
 public class VentanaContenido extends javax.swing.JFrame {
-
+ public static Facturacion panelcli;
     /**
      * Creates new form VentanaContenido
      */
@@ -259,7 +259,7 @@ public class VentanaContenido extends javax.swing.JFrame {
     private void Button_VentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_VentasActionPerformed
        //verificar();
       // respustaHuesosComidos=0;
-       PanelClietes panelcli= new PanelClietes();
+        panelcli= new Facturacion();
     //   System.gc();
        
       
@@ -276,7 +276,20 @@ public class VentanaContenido extends javax.swing.JFrame {
     }//GEN-LAST:event_Button_VentasActionPerformed
 
     private void Button_ClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_ClienteActionPerformed
-        // TODO add your handling code here:
+       PanelClietes panelcli= new PanelClietes();
+    //   System.gc();
+       
+      
+       panelcli.setSize(Contenedor.getHeight()+800, Contenedor.getWidth());
+ 
+        panelcli.setLocation(0,0);
+        this.getContentPane().add(panelcli); 
+       Contenedor.setFocusable(true);
+        Contenedor.requestFocusInWindow();
+       Contenedor.removeAll();
+        Contenedor.add(panelcli);
+        Contenedor.revalidate();
+        Contenedor.repaint();
     }//GEN-LAST:event_Button_ClienteActionPerformed
 
     /**

@@ -42,7 +42,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Pcliente.findByDireccion", query = "SELECT p FROM Pcliente p WHERE p.direccion = :direccion")
     , @NamedQuery(name = "Pcliente.findByEstado", query = "SELECT p FROM Pcliente p WHERE p.estado = :estado")
     , @NamedQuery(name = "Pcliente.findByFechaIngreso", query = "SELECT p FROM Pcliente p WHERE p.fechaIngreso = :fechaIngreso")
-    , @NamedQuery(name = "Pcliente.findByEmail", query = "SELECT p FROM Pcliente p WHERE p.email = :email")})
+    , @NamedQuery(name = "Pcliente.findByEmail", query = "SELECT p FROM Pcliente p WHERE p.email = :email")
+    , @NamedQuery(name = "Pcliente.Apellidos", query = "SELECT p FROM Pcliente p where p.primerApellido LIKE :apellido")})
 public class Pcliente implements Serializable {
 
     private static final long serialVersionUID = 1L;

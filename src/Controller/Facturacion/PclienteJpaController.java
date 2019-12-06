@@ -217,6 +217,14 @@ public class PclienteJpaController implements Serializable {
         return findPclienteEntities(false, maxResults, firstResult);
     }
 
+    public List<Pcliente> buscarApellidos(String apellido){
+        EntityManager em = getEntityManager();
+        Query query = em.createNamedQuery("Pcliente.Apellidos");
+        query.setParameter("apellido", "%"+apellido+"%");
+        List<Pcliente> listsClien = query.getResultList();
+      
+        return listsClien;
+    }
     private List<Pcliente> findPclienteEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {

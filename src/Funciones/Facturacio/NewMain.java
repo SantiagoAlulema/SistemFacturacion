@@ -91,9 +91,9 @@ public class NewMain {
             conrol.create(rol);
        
             UsuarioJpaController controlador =  new UsuarioJpaController();
-            byte[] contrase = Encriptar("alulema");
+            byte[] contrase = Encriptar("admin");
             Usuario usuario = new Usuario();
-            usuario.setCedula("0105784847");
+            usuario.setCedula("admin");
             usuario.setPrimerNombre("Santiago");
             usuario.setSegundoNombre("Alberto");
             usuario.setPrimerApellido("Alulema");

@@ -158,6 +158,15 @@ public class CedulaJpaController implements Serializable {
             em.close();
         }
     }
+    
+    public Cedula findCedulaPersona(Pcliente id) {
+        EntityManager em = getEntityManager();
+        try {
+            return em.find(Cedula.class, id);
+        } finally {
+            em.close();
+        }
+    }
 
     public int getCedulaCount() {
         EntityManager em = getEntityManager();
