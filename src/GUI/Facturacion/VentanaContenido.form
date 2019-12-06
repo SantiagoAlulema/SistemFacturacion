@@ -272,6 +272,9 @@
             </Property>
             <Property name="borderPainted" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Button_PoductosActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="Button_Cat_Dpt">
           <Properties>
@@ -285,6 +288,9 @@
             </Property>
             <Property name="borderPainted" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Button_Cat_DptActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="Button_Compras">
           <Properties>
