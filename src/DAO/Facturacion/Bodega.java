@@ -107,7 +107,7 @@ public class Bodega implements Serializable {
 
     @Override
     public String toString() {
-        return "DAO.Facturacion.Bodega[ idBodega=" + idBodega + " ]";
+        return  detalle ;
     }
     
 }

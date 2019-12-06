@@ -118,7 +118,7 @@ public class Provedor implements Serializable {
 
     @Override
     public String toString() {
-        return "DAO.Facturacion.Provedor[ idProvedor=" + idProvedor + " ]";
+        return nombre ;
     }
     
 }

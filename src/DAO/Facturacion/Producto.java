@@ -92,8 +92,8 @@ public class Producto implements Serializable {
         this.idProducto = idProducto;
     }
 
-    public Producto(Integer idProducto, String codBarras, String codProducto, String nombre, String detalle, int stock, String estado, double precioCompra, double precioVenta) {
-        this.idProducto = idProducto;
+    public Producto( String codBarras, String codProducto, String nombre, String detalle, int stock, String estado, double precioCompra, double precioVenta) {
+        
         this.codBarras = codBarras;
         this.codProducto = codProducto;
         this.nombre = nombre;

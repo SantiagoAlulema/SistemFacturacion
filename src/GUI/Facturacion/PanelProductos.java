@@ -1,20 +1,70 @@
 
 package GUI.Facturacion;
 
+import Controller.Facturacion.BodegaJpaController;
+import Controller.Facturacion.CategoriaJpaController;
 import Controller.Facturacion.ProductoJpaController;
+import Controller.Facturacion.ProvedorJpaController;
+import DAO.Facturacion.Bodega;
+import DAO.Facturacion.Categoria;
 import DAO.Facturacion.Producto;
+import DAO.Facturacion.Provedor;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
+
 public class PanelProductos extends javax.swing.JPanel {
-    ProductoJpaController controlador = new ProductoJpaController();
+    ProductoJpaController controladorProducto = new ProductoJpaController();
+    ProvedorJpaController controladorProvedores = new  ProvedorJpaController();
+    CategoriaJpaController controladorCategoria = new CategoriaJpaController();
+    BodegaJpaController controladorBodega = new BodegaJpaController();
+    Producto productouevo ;
     DefaultTableModel modelo;
+     DefaultComboBoxModel value;
     public PanelProductos() {
         initComponents();
         LLenarTablaAuto();
+        Llenarcombo();
+        LlenarcomboCategoria();
+        LlenarcomboBodega();
+        
+        System.out.println(((Bodega)Combo_Bodega.getSelectedItem()).getIdBodega());
+        
+    }
+    
+    public void Llenarcombo(){
+       List<Provedor> listaProvedores = controladorProvedores.findProvedorEntities();
+       value =new DefaultComboBoxModel();
+       Combo_Provedor.setModel(value);
+       
+        for (int i = 0; i < listaProvedores.size(); i++) {
+            value.addElement(listaProvedores.get(i));
+        }
+      
     }
 
+    public void LlenarcomboCategoria(){
+       List<Categoria> listaCategoria = controladorCategoria.findCategoriaEntities();
+       value =new DefaultComboBoxModel();
+       ComboCategoria.setModel(value);
+       
+        for (int i = 0; i < listaCategoria.size(); i++) {
+            value.addElement(listaCategoria.get(i));
+        }
+      
+    }
+    public void LlenarcomboBodega(){
+       List<Bodega> ListaBodega = controladorBodega.findBodegaEntities();
+       value =new DefaultComboBoxModel();
+       Combo_Bodega.setModel(value);
+       
+        for (int i = 0; i < ListaBodega.size(); i++) {
+            value.addElement(ListaBodega.get(i));
+        }
+      
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -30,9 +80,6 @@ public class PanelProductos extends javax.swing.JPanel {
         txtestado = new javax.swing.JTextField();
         txtpreciocompra = new javax.swing.JTextField();
         txtprecioventa = new javax.swing.JTextField();
-        txtidbodega = new javax.swing.JTextField();
-        txtidproveedor = new javax.swing.JTextField();
-        txtidcategoria = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -49,6 +96,9 @@ public class PanelProductos extends javax.swing.JPanel {
         btnguardar = new javax.swing.JButton();
         btnactualizar = new javax.swing.JButton();
         btneliminar = new javax.swing.JButton();
+        Combo_Provedor = new javax.swing.JComboBox<>();
+        ComboCategoria = new javax.swing.JComboBox<>();
+        Combo_Bodega = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -86,12 +136,6 @@ public class PanelProductos extends javax.swing.JPanel {
 
         Nombre.setText("Nombre");
 
-        txtidbodega.setEnabled(false);
-
-        txtidproveedor.setEnabled(false);
-
-        txtidcategoria.setEnabled(false);
-
         jLabel2.setText("ID Productos");
 
         jLabel3.setText("Codigo de barras");
@@ -108,11 +152,11 @@ public class PanelProductos extends javax.swing.JPanel {
 
         jLabel10.setText("Precio de venta");
 
-        jLabel11.setText("ID Bodega");
+        jLabel11.setText("Bodega");
 
-        jLabel12.setText("ID Proveedor");
+        jLabel12.setText("Provedoor");
 
-        jLabel13.setText("ID Categoria");
+        jLabel13.setText("Categoria");
 
         btnguardar.setText("GUARDAR");
         btnguardar.addActionListener(new java.awt.event.ActionListener() {
@@ -156,7 +200,7 @@ public class PanelProductos extends javax.swing.JPanel {
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
                             .addComponent(txtcodigoproducto, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(Nombre)
                             .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -180,31 +224,38 @@ public class PanelProductos extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(txtpreciocompra, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(43, 43, 43))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10)
-                            .addComponent(txtprecioventa, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(btnguardar, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(btnactualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel11)
-                            .addComponent(txtidbodega, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(43, 43, 43))
+                        .addComponent(btneliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(57, 57, 57))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addComponent(btnguardar, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(82, 82, 82)
-                                .addComponent(btnactualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btneliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel7Layout.createSequentialGroup()
                                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel12)
-                                    .addComponent(txtidproveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(Combo_Provedor, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel13)
-                                    .addComponent(txtidcategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(ComboCategoria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(jPanel7Layout.createSequentialGroup()
+                                        .addComponent(jLabel13)
+                                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel10)
+                                    .addComponent(txtprecioventa, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel7Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(Combo_Bodega, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(jPanel7Layout.createSequentialGroup()
+                                        .addGap(19, 19, 19)
+                                        .addComponent(jLabel11)
+                                        .addGap(0, 0, Short.MAX_VALUE)))))
                         .addGap(43, 43, 43))))
         );
         jPanel7Layout.setVerticalGroup(
@@ -249,15 +300,15 @@ public class PanelProductos extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtprecioventa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtidbodega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Combo_Bodega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
                     .addComponent(jLabel13))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtidproveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtidcategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Combo_Provedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ComboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnguardar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -305,8 +356,8 @@ public class PanelProductos extends javax.swing.JPanel {
             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGap(2, 2, 2)
-                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
@@ -321,8 +372,26 @@ public class PanelProductos extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
-     //   Producto obj = new Producto(11, txtcodigodebarras.getText(), txtcodigoproducto.getText(), txtnombre.getText(), txtdetalle.getText(), Integer.parseInt(txtstock.getText(), txtestado.getText(), txtpreciocompra.getText(), txtprecioventa.getText(),12,13,14));
-      //  controlador.create(obj);
+       productouevo = new Producto();
+       productouevo.setIdProducto(1);
+       productouevo.setCodBarras(txtcodigodebarras.getText());
+       productouevo.setCodProducto(txtcodigoproducto.getText());
+       productouevo.setNombre(txtnombre.getText());
+       productouevo.setDetalle(txtdetalle.getText());
+       productouevo.setStock(Integer.parseInt(txtstock.getText()));
+       productouevo.setEstado(txtestado.getText());
+       productouevo.setPrecioCompra(Double.parseDouble(txtpreciocompra.getText()));
+       productouevo.setPrecioVenta(Double.parseDouble(txtprecioventa.getText()));
+       Bodega bb = new Bodega();
+       bb.setIdBodega(0);
+       bb.setDetalle("Aqui otra bodega");
+       productouevo.setIdBodega(bb);
+       productouevo.setIdCategoria((Categoria) ComboCategoria.getSelectedItem());
+       productouevo.setIdProvedor((Provedor) Combo_Provedor.getSelectedItem());
+       
+       controladorProducto.create(productouevo);
+       
+       
     }//GEN-LAST:event_btnguardarActionPerformed
 
     private void btnactualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnactualizarActionPerformed
@@ -382,7 +451,7 @@ public void LLenarTablaAuto(){
       try{
           Object O[]= null;
           System.out.println("formularios.Producto.LLenarTablaAuto()");
-          List<DAO.Facturacion.Producto> lista = controlador.findProductoEntities();
+          List<DAO.Facturacion.Producto> lista = controladorProducto.findProductoEntities();
           System.err.println(lista.toString());
           for (int i = 0; i < lista.size(); i++) {
               modelo.addRow(O);
@@ -405,6 +474,9 @@ public void LLenarTablaAuto(){
 }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> ComboCategoria;
+    private javax.swing.JComboBox<String> Combo_Bodega;
+    private javax.swing.JComboBox<String> Combo_Provedor;
     private javax.swing.JLabel Nombre;
     private javax.swing.JButton btnactualizar;
     private javax.swing.JButton btneliminar;
@@ -430,10 +502,7 @@ public void LLenarTablaAuto(){
     private javax.swing.JTextField txtcodigoproducto;
     private javax.swing.JTextField txtdetalle;
     private javax.swing.JTextField txtestado;
-    private javax.swing.JTextField txtidbodega;
-    private javax.swing.JTextField txtidcategoria;
     private javax.swing.JTextField txtidproductos;
-    private javax.swing.JTextField txtidproveedor;
     private javax.swing.JTextField txtnombre;
     private javax.swing.JTextField txtpreciocompra;
     private javax.swing.JTextField txtprecioventa;

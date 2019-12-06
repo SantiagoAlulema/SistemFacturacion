@@ -115,7 +115,7 @@ public class Categoria implements Serializable {
 
     @Override
     public String toString() {
-        return "DAO.Facturacion.Categoria[ idCategoria=" + idCategoria + " ]";
+        return nombre ;
     }
     
 }
