@@ -2,7 +2,13 @@
 package GUI.Facturacion;
 
 import Controller.Facturacion.ProductoJpaController;
+import DAO.Facturacion.Bodega;
+import static DAO.Facturacion.Bodega_.idBodega;
+import DAO.Facturacion.Categoria;
+import static DAO.Facturacion.Categoria_.idCategoria;
 import DAO.Facturacion.Producto;
+import static DAO.Facturacion.Producto_.idProvedor;
+import DAO.Facturacion.Provedor;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -321,8 +327,7 @@ public class PanelProductos extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
-     //   Producto obj = new Producto(11, txtcodigodebarras.getText(), txtcodigoproducto.getText(), txtnombre.getText(), txtdetalle.getText(), Integer.parseInt(txtstock.getText(), txtestado.getText(), txtpreciocompra.getText(), txtprecioventa.getText(),12,13,14));
-      //  controlador.create(obj);
+
     }//GEN-LAST:event_btnguardarActionPerformed
 
     private void btnactualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnactualizarActionPerformed

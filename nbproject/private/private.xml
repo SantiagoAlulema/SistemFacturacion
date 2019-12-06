@@ -1,38 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
+        <file>
+            <url>src/DAO/Facturacion/Producto.java</url>
+            <bookmark id="1">
+                <name/>
+                <line>0</line>
+                <key/>
+            </bookmark>
+        </file>
+    </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/shant/Documents/NetBeansProjects/SistemaFacturacion/src/GUI/Facturacion/PanelClietes.java</file>
-            <file>file:/C:/Users/shant/Documents/NetBeansProjects/SistemaFacturacion/src/Controller/Facturacion/DocumentopagoJpaController.java</file>
-            <file>file:/C:/Users/shant/Documents/NetBeansProjects/SistemaFacturacion/src/META-INF/persistence.xml</file>
-            <file>file:/C:/Users/shant/Documents/NetBeansProjects/SistemaFacturacion/src/Funciones/Facturacio/StringEncrypt.java</file>
-            <file>file:/C:/Users/shant/Documents/NetBeansProjects/SistemaFacturacion/src/Controller/Facturacion/TiporucJpaController.java</file>
-            <file>file:/C:/Users/shant/Documents/NetBeansProjects/SistemaFacturacion/src/GUI/Facturacion/VentanaContenido.java</file>
-            <file>file:/C:/Users/shant/Documents/NetBeansProjects/SistemaFacturacion/src/Controller/Facturacion/BodegaJpaController.java</file>
-            <file>file:/C:/Users/shant/Documents/NetBeansProjects/SistemaFacturacion/src/Controller/Facturacion/PclienteJpaController.java</file>
-            <file>file:/C:/Users/shant/Documents/NetBeansProjects/SistemaFacturacion/src/GUI/Facturacion/NewMain.java</file>
-            <file>file:/C:/Users/shant/Documents/NetBeansProjects/SistemaFacturacion/src/DAO/Facturacion/Ruc.java</file>
-            <file>file:/C:/Users/shant/Documents/NetBeansProjects/SistemaFacturacion/src/Iconos/AWTUtilities.java</file>
-            <file>file:/C:/Users/shant/Documents/NetBeansProjects/SistemaFacturacion/src/DAO/Facturacion/Pcliente.java</file>
-            <file>file:/C:/Users/shant/Documents/NetBeansProjects/SistemaFacturacion/src/Funciones/Facturacio/ValidarIdentificacion.java</file>
-            <file>file:/C:/Users/shant/Documents/NetBeansProjects/SistemaFacturacion/src/Funciones/Facturacio/TipoDocumento.java</file>
-            <file>file:/C:/Users/shant/Documents/NetBeansProjects/SistemaFacturacion/src/GUI/Facturacion/Facturacion.java</file>
-            <file>file:/C:/Users/shant/Documents/NetBeansProjects/SistemaFacturacion/src/PantallasEmergentes/Facturacion/PantallaBuscarClienteDialog.java</file>
-            <file>file:/C:/Users/shant/Documents/NetBeansProjects/SistemaFacturacion/src/Funciones/Facturacio/Encriptacion.java</file>
-            <file>file:/C:/Users/shant/Documents/NetBeansProjects/SistemaFacturacion/src/DAO/Facturacion/Detallefactura.java</file>
-            <file>file:/C:/Users/shant/Documents/NetBeansProjects/SistemaFacturacion/src/Controller/Facturacion/UsuarioJpaController.java</file>
-            <file>file:/C:/Users/shant/Documents/NetBeansProjects/SistemaFacturacion/src/Funciones/Facturacio/NewMain.java</file>
-            <file>file:/C:/Users/shant/Documents/NetBeansProjects/SistemaFacturacion/src/Funciones/Facturacio/ValidaciondeTipado.java</file>
-            <file>file:/C:/Users/shant/Documents/NetBeansProjects/SistemaFacturacion/src/Funciones/Facturacio/FucionLlenarTablas.java</file>
-            <file>file:/C:/Users/shant/Documents/NetBeansProjects/SistemaFacturacion/src/GUI/Facturacion/Principal.java</file>
-            <file>file:/C:/Users/shant/Documents/NetBeansProjects/SistemaFacturacion/src/Controller/Facturacion/CedulaJpaController.java</file>
-            <file>file:/C:/Users/shant/Documents/NetBeansProjects/SistemaFacturacion/src/Controller/Facturacion/CategoriaJpaController.java</file>
-            <file>file:/C:/Users/shant/Documents/NetBeansProjects/SistemaFacturacion/src/Controller/Facturacion/TiendaJpaController.java</file>
-            <file>file:/C:/Users/shant/Documents/NetBeansProjects/SistemaFacturacion/src/Controller/Facturacion/RolJpaController.java</file>
-            <file>file:/C:/Users/shant/Documents/NetBeansProjects/SistemaFacturacion/src/Controller/Facturacion/RucJpaController.java</file>
-            <file>file:/C:/Users/shant/Documents/NetBeansProjects/SistemaFacturacion/src/Controller/Facturacion/ProvedorJpaController.java</file>
-            <file>file:/C:/Users/shant/Documents/NetBeansProjects/SistemaFacturacion/src/Funciones/Facturacio/ValidarCedula.java</file>
+            <file>file:/C:/Users/sanch/OneDrive/Documentos/.clone/SistemFacturacion/src/Controller/Facturacion/CedulaJpaController.java</file>
+            <file>file:/C:/Users/sanch/OneDrive/Documentos/.clone/SistemFacturacion/src/GUI/Facturacion/PanelProductos.java</file>
+            <file>file:/C:/Users/sanch/OneDrive/Documentos/.clone/SistemFacturacion/src/Controller/Facturacion/CategoriaJpaController.java</file>
         </group>
     </open-files>
 </project-private>
