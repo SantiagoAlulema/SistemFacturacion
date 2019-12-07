@@ -241,6 +241,25 @@ public class ProductoJpaController implements Serializable {
             }
         }
     }
+    
+    public List<Producto> BuscaXCodigoProducto(String CodigoProducto){
+        EntityManager em = getEntityManager();
+        Query query = em.createNamedQuery("Producto.findByCodProducto");
+        query.setParameter("codProducto", CodigoProducto);
+        List<Producto> listsClien = query.getResultList();
+        System.out.println("codigo producto distancia lista codig produ " + listsClien.size());
+      
+        return listsClien;
+    }
+    
+    public List<Producto> BuscaXNombre(String nombreprodu){
+        EntityManager em = getEntityManager();
+        Query query = em.createNamedQuery("Producto.findByNombre");
+        query.setParameter("nombre", "%"+nombreprodu+"%");
+        List<Producto> listsClien = query.getResultList();
+      System.out.println("codigo producto distancia lista X nombre " + listsClien.size());
+        return listsClien;
+    }
 
     public List<Producto> findProductoEntities() {
         return findProductoEntities(true, -1, -1);
