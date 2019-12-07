@@ -4,12 +4,22 @@ package GUI.Facturacion;
 import Controller.Facturacion.BodegaJpaController;
 import Controller.Facturacion.CategoriaJpaController;
 import Controller.Facturacion.ProductoJpaController;
+<<<<<<< HEAD
+import DAO.Facturacion.Bodega;
+import static DAO.Facturacion.Bodega_.idBodega;
+import DAO.Facturacion.Categoria;
+import static DAO.Facturacion.Categoria_.idCategoria;
+import DAO.Facturacion.Producto;
+import static DAO.Facturacion.Producto_.idProvedor;
+import DAO.Facturacion.Provedor;
+=======
 import Controller.Facturacion.ProvedorJpaController;
 import DAO.Facturacion.Bodega;
 import DAO.Facturacion.Categoria;
 import DAO.Facturacion.Producto;
 import DAO.Facturacion.Provedor;
 import Funciones.Facturacio.FucionLlenarTablas;
+>>>>>>> 8d1ea0bcd6fc300b50d37c33e1cde42c9ee17754
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -431,6 +441,9 @@ public class PanelProductos extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
+<<<<<<< HEAD
+
+=======
        productouevo = new Producto();
        productouevo.setIdProducto(1);
        productouevo.setCodBarras(txtcodigodebarras.getText());
@@ -449,6 +462,7 @@ public class PanelProductos extends javax.swing.JPanel {
        tt.LLenarTablaProductos(jTable1);
        
        
+>>>>>>> 8d1ea0bcd6fc300b50d37c33e1cde42c9ee17754
     }//GEN-LAST:event_btnguardarActionPerformed
 
     private void btneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarActionPerformed
