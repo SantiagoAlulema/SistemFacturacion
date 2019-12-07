@@ -315,4 +315,148 @@ public class FucionLlenarTablas {
                   System.out.println("Error  " +ex);
               }
 }
+    
+    public void LLenarTablaProductosXNombre(JTable tabla, String Nombreprod){
+      try {
+                modelo1 = (new DefaultTableModel(null, new String [] {"Id Producto","Cod Barras","Cod Produc", "Nombre","Detalle","Stock","Estado", "Precio Compra","Precio Venta","Bodega","Provedor","Categoria"}){
+                Class[] types = new Class [] {
+                java.lang.String.class,
+                java.lang.String.class,
+                java.lang.String.class,
+                java.lang.String.class,
+                java.lang.String.class,
+                java.lang.String.class,
+                java.lang.String.class,
+                java.lang.String.class,
+                java.lang.String.class,
+                java.lang.String.class,
+                java.lang.String.class,
+                java.lang.String.class,
+                    
+                };
+                boolean[] canEdit = new boolean [] {false,false,false,false,false,false,false,false,false,false,false,false};
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+            @Override
+            public boolean isCellEditable(int rowIndex, int colIndex){
+                return canEdit [colIndex];
+            }
+
+
+            });
+            tabla.setModel(modelo1);
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null,e.toString()+"error2");
+
+            }        
+             try{
+                  Object O[]= null;
+                  List<Producto> lista =controladorProductor.BuscaXNombre(Nombreprod);
+               //   System.out.println("email " + lista.size());
+
+                  for (int i = 0; i < lista.size(); i++) {
+                      modelo1.addRow(O);
+                                     
+                      modelo1.setValueAt(lista.get(i).getIdProducto(), i, 0);
+                      modelo1.setValueAt(lista.get(i).getCodBarras(), i, 1);
+                      modelo1.setValueAt(lista.get(i).getCodProducto(), i, 2);
+                      modelo1.setValueAt(lista.get(i).getNombre(), i, 3);
+                      modelo1.setValueAt(lista.get(i).getDetalle(), i, 4);
+                      modelo1.setValueAt(lista.get(i).getStock(), i, 5);
+                      modelo1.setValueAt(lista.get(i).getEstado(), i, 6);
+                      modelo1.setValueAt(lista.get(i).getPrecioCompra()+"", i, 7);
+                      modelo1.setValueAt(lista.get(i).getPrecioVenta()+"", i, 8);
+                      modelo1.setValueAt(lista.get(i).getIdBodega().getDetalle(), i, 9);
+                      modelo1.setValueAt(lista.get(i).getIdProvedor().getNombre(), i, 10);
+                      modelo1.setValueAt(lista.get(i).getIdCategoria().getNombre(), i, 11);
+                      
+               //       modelo1.setValueAt(lista.get(i).getPrimerApellido() + " " +lista.get(i).getSegundoApellido() , i, 3);
+               //       modelo1.setValueAt(lista.get(i).getTelefono() , i, 4);
+               //       modelo1.setValueAt(lista.get(i).getDireccion() , i, 5);
+               //       modelo1.setValueAt(lista.get(i).getFechaIngreso(), i, 6);
+               //       modelo1.setValueAt(lista.get(i).getEmail(), i, 7);
+                  
+
+                  }
+                  tabla.setPreferredScrollableViewportSize(tabla.getPreferredSize());
+              }catch(Exception ex){
+                //  JOptionPane.showMessageDialog(/*this*/, ex);
+                  System.out.println("Error  " +ex);
+              }
+}
+    
+     public void LLenarTablaProductosXCodProducto(JTable tabla, String idproducto){
+      try {
+                modelo1 = (new DefaultTableModel(null, new String [] {"Id Producto","Cod Barras","Cod Produc", "Nombre","Detalle","Stock","Estado", "Precio Compra","Precio Venta","Bodega","Provedor","Categoria"}){
+                Class[] types = new Class [] {
+                java.lang.String.class,
+                java.lang.String.class,
+                java.lang.String.class,
+                java.lang.String.class,
+                java.lang.String.class,
+                java.lang.String.class,
+                java.lang.String.class,
+                java.lang.String.class,
+                java.lang.String.class,
+                java.lang.String.class,
+                java.lang.String.class,
+                java.lang.String.class,
+                    
+                };
+                boolean[] canEdit = new boolean [] {false,false,false,false,false,false,false,false,false,false,false,false};
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+            @Override
+            public boolean isCellEditable(int rowIndex, int colIndex){
+                return canEdit [colIndex];
+            }
+
+
+            });
+            tabla.setModel(modelo1);
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null,e.toString()+"error2");
+
+            }        
+             try{
+                  Object O[]= null;
+                  List<Producto> lista =controladorProductor.BuscaXCodigoProducto(idproducto);
+               //   System.out.println("email " + lista.size());
+
+                  for (int i = 0; i < lista.size(); i++) {
+                      modelo1.addRow(O);
+                                     
+                      modelo1.setValueAt(lista.get(i).getIdProducto(), i, 0);
+                      modelo1.setValueAt(lista.get(i).getCodBarras(), i, 1);
+                      modelo1.setValueAt(lista.get(i).getCodProducto(), i, 2);
+                      modelo1.setValueAt(lista.get(i).getNombre(), i, 3);
+                      modelo1.setValueAt(lista.get(i).getDetalle(), i, 4);
+                      modelo1.setValueAt(lista.get(i).getStock(), i, 5);
+                      modelo1.setValueAt(lista.get(i).getEstado(), i, 6);
+                      modelo1.setValueAt(lista.get(i).getPrecioCompra()+"", i, 7);
+                      modelo1.setValueAt(lista.get(i).getPrecioVenta()+"", i, 8);
+                      modelo1.setValueAt(lista.get(i).getIdBodega().getDetalle(), i, 9);
+                      modelo1.setValueAt(lista.get(i).getIdProvedor().getNombre(), i, 10);
+                      modelo1.setValueAt(lista.get(i).getIdCategoria().getNombre(), i, 11);
+                      
+               //       modelo1.setValueAt(lista.get(i).getPrimerApellido() + " " +lista.get(i).getSegundoApellido() , i, 3);
+               //       modelo1.setValueAt(lista.get(i).getTelefono() , i, 4);
+               //       modelo1.setValueAt(lista.get(i).getDireccion() , i, 5);
+               //       modelo1.setValueAt(lista.get(i).getFechaIngreso(), i, 6);
+               //       modelo1.setValueAt(lista.get(i).getEmail(), i, 7);
+                  
+
+                  }
+                  tabla.setPreferredScrollableViewportSize(tabla.getPreferredSize());
+              }catch(Exception ex){
+                //  JOptionPane.showMessageDialog(/*this*/, ex);
+                  System.out.println("Error  " +ex);
+              }
+}
 }
