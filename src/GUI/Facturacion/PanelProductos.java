@@ -4,7 +4,6 @@ package GUI.Facturacion;
 import Controller.Facturacion.BodegaJpaController;
 import Controller.Facturacion.CategoriaJpaController;
 import Controller.Facturacion.ProductoJpaController;
-<<<<<<< HEAD
 import DAO.Facturacion.Bodega;
 import static DAO.Facturacion.Bodega_.idBodega;
 import DAO.Facturacion.Categoria;
@@ -12,14 +11,12 @@ import static DAO.Facturacion.Categoria_.idCategoria;
 import DAO.Facturacion.Producto;
 import static DAO.Facturacion.Producto_.idProvedor;
 import DAO.Facturacion.Provedor;
-=======
 import Controller.Facturacion.ProvedorJpaController;
 import DAO.Facturacion.Bodega;
 import DAO.Facturacion.Categoria;
 import DAO.Facturacion.Producto;
 import DAO.Facturacion.Provedor;
 import Funciones.Facturacio.FucionLlenarTablas;
->>>>>>> 8d1ea0bcd6fc300b50d37c33e1cde42c9ee17754
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -156,7 +153,7 @@ public class PanelProductos extends javax.swing.JPanel {
                     .addComponent(jLabel5)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addComponent(TextField_BuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(465, Short.MAX_VALUE)))
+                    .addContainerGap(475, Short.MAX_VALUE)))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -414,7 +411,7 @@ public class PanelProductos extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(Label_Paginas3)
                         .addGap(208, 208, 208)))
-                .addContainerGap(96, Short.MAX_VALUE))
+                .addContainerGap(257, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -439,11 +436,8 @@ public class PanelProductos extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(144, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -458,9 +452,7 @@ public class PanelProductos extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
-<<<<<<< HEAD
 
-=======
        productouevo = new Producto();
        productouevo.setIdProducto(1);
        productouevo.setCodBarras(txtcodigodebarras.getText());
@@ -479,7 +471,7 @@ public class PanelProductos extends javax.swing.JPanel {
        tt.LLenarTablaProductos(jTable1);
        
        
->>>>>>> 8d1ea0bcd6fc300b50d37c33e1cde42c9ee17754
+
     }//GEN-LAST:event_btnguardarActionPerformed
 
     private void btnactualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnactualizarActionPerformed
