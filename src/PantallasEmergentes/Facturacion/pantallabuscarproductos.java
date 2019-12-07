@@ -118,7 +118,7 @@ public class pantallabuscarproductos extends javax.swing.JDialog {
         Label_Paginas.setText("Page");
 
         Button_UltimoCLT1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Agregar.png"))); // NOI18N
-        Button_UltimoCLT1.setText("ACEPTAR");
+        Button_UltimoCLT1.setText("AGREGAR");
         Button_UltimoCLT1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Button_UltimoCLT1ActionPerformed(evt);
@@ -138,8 +138,7 @@ public class pantallabuscarproductos extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(212, 212, 212)
-                        .addComponent(Label_Paginas)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(Label_Paginas))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(Button_PrimeroCLT, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
