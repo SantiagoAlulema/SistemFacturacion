@@ -237,13 +237,7 @@ public class PantallaBuscarClienteDialog extends javax.swing.JDialog {
             clic_tabla = this.Table_Clientes.rowAtPoint(evt.getPoint());
 
             String string1 = ""+Table_Clientes.getValueAt(clic_tabla, 0);
-            // String string2 = ""+Table_Clientes.getValueAt(clic_tabla, 1);
-            //   String string3 =""+ Table_Clientes.getValueAt(clic_tabla, 2);
-            //   String string4 = ""+Table_Clientes.getValueAt(clic_tabla, 3);
-            //   String string5 = ""+Table_Clientes.getValueAt(clic_tabla, 4);
-            //    String string6 = ""+Table_Clientes.getValueAt(clic_tabla, 5);
-            //    String string7 = ""+Table_Clientes.getValueAt(clic_tabla, 6);
-            //    String string8 = ""+Table_Clientes.getValueAt(clic_tabla, 7);
+    
 
             idClienteRecuperado = string1;
 

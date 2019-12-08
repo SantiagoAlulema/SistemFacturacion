@@ -29,6 +29,8 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import GUI.Facturacion.VentanaContenido;
+import PantallasEmergentes.Facturacion.pantallabuscarproductos;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Santiago
@@ -45,6 +47,7 @@ public class Facturacion extends javax.swing.JPanel {
     CedulaJpaController controlador_cedula = new CedulaJpaController();
     FucionLlenarTablas tt = new FucionLlenarTablas();
     private JTable Table_ReportesCLT;
+    Double valorTotal=0.00;
     
     ValidaciondeTipado tipos = new ValidaciondeTipado();
     /**
@@ -89,7 +92,6 @@ public class Facturacion extends javax.swing.JPanel {
         jPanel17 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        TextField_BuscarCliente1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jPanel25 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
@@ -152,6 +154,11 @@ public class Facturacion extends javax.swing.JPanel {
         jLabel15.setText("Buscar Producto");
 
         jButton1.setText("Buscar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
         jPanel17.setLayout(jPanel17Layout);
@@ -162,11 +169,9 @@ public class Facturacion extends javax.swing.JPanel {
                 .addComponent(jLabel12)
                 .addGap(425, 425, 425)
                 .addComponent(jLabel15)
-                .addGap(18, 18, 18)
-                .addComponent(TextField_BuscarCliente1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
-                .addContainerGap(416, Short.MAX_VALUE))
+                .addContainerGap(630, Short.MAX_VALUE))
         );
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -175,7 +180,6 @@ public class Facturacion extends javax.swing.JPanel {
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
                     .addComponent(jLabel15)
-                    .addComponent(TextField_BuscarCliente1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
                 .addContainerGap())
         );
@@ -292,13 +296,10 @@ public class Facturacion extends javax.swing.JPanel {
         Table_Clientes.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         Table_Clientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {},
-                {},
-                {},
-                {}
+
             },
             new String [] {
-
+                "IdProducto", "Codigo Producto", "Nombre", "Precio Unitario", "Catidad", "Total"
             }
         ));
         Table_Clientes.setRowHeight(20);
@@ -422,11 +423,9 @@ public class Facturacion extends javax.swing.JPanel {
                     .addGroup(jPanel26Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel26Layout.createSequentialGroup()
-                        .addGroup(jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel20)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGroup(jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel20)
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
@@ -521,9 +520,47 @@ public class Facturacion extends javax.swing.JPanel {
            
            
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        pantallabuscarproductos PantallaBuscar = new pantallabuscarproductos(null, true);
+           PantallaBuscar.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
     
     public void vaciarTexfield(){
        
+    }
+    
+    public void llenartablaProductos(String[] producto){
+        
+        
+         DefaultTableModel modelo=(DefaultTableModel) Table_Clientes.getModel(); 
+         
+         
+ 
+        //Sección 2
+        Object [] fila=new Object[6]; 
+ 
+        //Sección 3
+        fila[0]=producto[0]; 
+        fila[1]=producto[1]; 
+        fila[2]=producto[2]; 
+        fila[3]=producto[3]; 
+        fila[4]=producto[4]; 
+        fila[5]=Double.parseDouble(producto[3])*Double.parseDouble(producto[4]);
+         //Sección 4
+         modelo.addRow(fila); 
+         
+         llenarLabelTotal(Double.parseDouble(producto[3])*Double.parseDouble(producto[4]));
+  
+        //Sección 5
+        Table_Clientes.setModel(modelo); 
+        
+    }
+    
+    public void llenarLabelTotal(double valor){
+        valorTotal = valorTotal+valor;
+        Label_DireccionCliente1.setText(valorTotal.toString());
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -544,7 +581,6 @@ public class Facturacion extends javax.swing.JPanel {
     private javax.swing.JLabel Label_TelefonoCliente2;
     private javax.swing.JTable TablaBuscarClientes;
     private javax.swing.JTable Table_Clientes;
-    private javax.swing.JTextField TextField_BuscarCliente1;
     private javax.swing.JTextField TextField_NombreCliente1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

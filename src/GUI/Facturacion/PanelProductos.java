@@ -477,18 +477,7 @@ public class PanelProductos extends javax.swing.JPanel {
                 System.out.println("aqui entra Xnombre");
                 tt.LLenarTablaProductosXNombre(jTable1,TextField_BuscarCliente.getText());
             }
-            
-     //       if (tipos.isNumeric(TextField_BuscarCliente.getText()) == true){
-    //            if(controlador_cedula.findCedula(TextField_BuscarCliente.getText()) != null){
-     //               Cedula cedu =controlador_cedula.findCedula(TextField_BuscarCliente.getText()) ;
-     //               tt.llenarTablaDocumento(Table_Clientes, cedu.getIdPCliente().getIdPCliente());
-     //           }if(controlador_Ruc.findRuc(TextField_BuscarCliente.getText()) != null){
-    //                Ruc idRuc =controlador_Ruc.findRuc(TextField_BuscarCliente.getText()) ;
-    //                tt.llenarTablaDocumento(Table_Clientes, idRuc.getIdPCliente().getIdPCliente());
-    //            }
-    //        }else{
-     //           tt.llenarTablaApellido(Table_Clientes, TextField_BuscarCliente.getText());
-     //       }
+ 
        }
     }//GEN-LAST:event_TextField_BuscarClienteKeyPressed
 public void enableboton(){

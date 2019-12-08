@@ -12,12 +12,16 @@ public class pantallabuscarproductos extends javax.swing.JDialog {
     Producto productomostrar = new Producto();
     FucionLlenarTablas tt = new FucionLlenarTablas();
     String idProductoRecuperado = "";
+     String[] productoFactura;
+      int clic_tabla = 0;
+    // ProductoJpaController controladorProducto = new ProductoJpaController();
     
     public pantallabuscarproductos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
          tt.LLenarTablaProductos(Table_Productos);
          setLocationRelativeTo(null);
+         CatidadSpinner.setValue(1);
     }
 
     @SuppressWarnings("unchecked")
@@ -27,7 +31,9 @@ public class pantallabuscarproductos extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        txtbuscarproducto = new javax.swing.JTextField();
+        TextField_BuscarCliente = new javax.swing.JTextField();
+        CatidadSpinner = new javax.swing.JSpinner();
+        jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         Table_Productos =   Table_Productos = new javax.swing.JTable(){
@@ -54,6 +60,17 @@ public class pantallabuscarproductos extends javax.swing.JDialog {
         jLabel5.setForeground(new java.awt.Color(0, 153, 153));
         jLabel5.setText("Buscar Producto");
 
+        TextField_BuscarCliente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                TextField_BuscarClienteKeyPressed(evt);
+            }
+        });
+
+        CatidadSpinner.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel2.setText("Cantidad");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -64,7 +81,11 @@ public class pantallabuscarproductos extends javax.swing.JDialog {
                 .addGap(197, 197, 197)
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
-                .addComponent(txtbuscarproducto, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(TextField_BuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(CatidadSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -74,8 +95,10 @@ public class pantallabuscarproductos extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel5)
-                    .addComponent(txtbuscarproducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(43, Short.MAX_VALUE))
+                    .addComponent(TextField_BuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(CatidadSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -131,10 +154,10 @@ public class pantallabuscarproductos extends javax.swing.JDialog {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 868, Short.MAX_VALUE)
+                .addComponent(jScrollPane2)
                 .addGap(14, 14, 14))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(257, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(212, 212, 212)
@@ -147,15 +170,15 @@ public class pantallabuscarproductos extends javax.swing.JDialog {
                         .addComponent(Button_SiguienteCLT, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Button_UltimoCLT, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(87, 87, 87)
-                .addComponent(Button_UltimoCLT1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(66, 66, 66)
+                .addComponent(Button_UltimoCLT1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(Button_UltimoCLT1, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -174,20 +197,20 @@ public class pantallabuscarproductos extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(66, 66, 66))
         );
 
         pack();
@@ -195,11 +218,18 @@ public class pantallabuscarproductos extends javax.swing.JDialog {
 
     private void Table_ProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table_ProductosMouseClicked
         try {
-            int clic_tabla = 0;
+           
+           productoFactura = new String[6];
+            
 
             clic_tabla = this.Table_Productos.rowAtPoint(evt.getPoint());
 
-            String string1 = ""+Table_Productos.getValueAt(clic_tabla, 0);
+            productoFactura[0] = ""+Table_Productos.getValueAt(clic_tabla, 0);
+            productoFactura[1] = ""+Table_Productos.getValueAt(clic_tabla, 2);
+            productoFactura[2] = ""+Table_Productos.getValueAt(clic_tabla, 4);
+            productoFactura[3] = ""+Table_Productos.getValueAt(clic_tabla, 8);
+          
+         
             // String string2 = ""+Table_Clientes.getValueAt(clic_tabla, 1);
             //   String string3 =""+ Table_Clientes.getValueAt(clic_tabla, 2);
             //   String string4 = ""+Table_Clientes.getValueAt(clic_tabla, 3);
@@ -208,7 +238,7 @@ public class pantallabuscarproductos extends javax.swing.JDialog {
             //    String string7 = ""+Table_Clientes.getValueAt(clic_tabla, 6);
             //    String string8 = ""+Table_Clientes.getValueAt(clic_tabla, 7);
 
-            idProductoRecuperado = string1;
+          //  idProductoRecuperado = string1;
 
         } catch (Exception ex) {
             //Logger.getLogger(.class.getName()).log(Level.SEVERE, null, ex);
@@ -216,9 +246,25 @@ public class pantallabuscarproductos extends javax.swing.JDialog {
     }//GEN-LAST:event_Table_ProductosMouseClicked
 
     private void Button_UltimoCLT1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_UltimoCLT1ActionPerformed
-        panelcli.llenarDatos(idProductoRecuperado);
-        this.processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+        productoFactura[4] = CatidadSpinner.getValue().toString();
+        panelcli.llenartablaProductos(productoFactura);
+        CatidadSpinner.setValue(1);
+       // this.processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }//GEN-LAST:event_Button_UltimoCLT1ActionPerformed
+
+    private void TextField_BuscarClienteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextField_BuscarClienteKeyPressed
+         if (evt.getKeyCode() == 10) {
+            if(controlador_producto.BuscaXCodigoProducto(TextField_BuscarCliente.getText()).size() > 0){
+                System.out.println("aqui entra a codigo producto");
+                tt.LLenarTablaProductosXCodProducto(Table_Productos,TextField_BuscarCliente.getText());
+            }
+            if(controlador_producto.BuscaXNombre(TextField_BuscarCliente.getText()).size() > 0){
+                System.out.println("aqui entra Xnombre");
+                tt.LLenarTablaProductosXNombre(Table_Productos,TextField_BuscarCliente.getText());
+            }
+ 
+       }
+    }//GEN-LAST:event_TextField_BuscarClienteKeyPressed
 
     /**
      * @param args the command line arguments
@@ -268,13 +314,15 @@ public class pantallabuscarproductos extends javax.swing.JDialog {
     private javax.swing.JButton Button_SiguienteCLT;
     private javax.swing.JButton Button_UltimoCLT;
     private javax.swing.JButton Button_UltimoCLT1;
+    private javax.swing.JSpinner CatidadSpinner;
     private javax.swing.JLabel Label_Paginas;
     private javax.swing.JTable Table_Productos;
+    private javax.swing.JTextField TextField_BuscarCliente;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField txtbuscarproducto;
     // End of variables declaration//GEN-END:variables
 }
